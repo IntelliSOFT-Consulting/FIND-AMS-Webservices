@@ -1,6 +1,7 @@
-package com.intellisoft.findams.config;
+package com.intellisoft.findams.configuration;
 
 
+import com.intellisoft.findams.constants.Constants;
 import com.intellisoft.findams.service.FileParsingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,17 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
 public class DynamicSchedulingConfig implements SchedulingConfigurer {
-
-    private static final String WHO_NET_FILE_PATH = "whonet/WHONET.txt";
-
     @Autowired
     FileParsingService fileParsingService;
 
@@ -36,15 +39,35 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(poolScheduler());
 
-        // Schedule the request to read the file every 2 minutes
+        // Schedule the request to read and parse files in the directory every 2 minutes // or x hours
         taskRegistrar.addTriggerTask(
                 () -> {
-                    String filePath = WHO_NET_FILE_PATH;
-                    fileParsingService.parseFile(filePath);
+                    // Get a list of files in the directory
+                    File directory = new File(Constants.WHONET_FILE_PATH);
+                    File[] files = directory.listFiles();
+
+                    if (files != null) {
+                        for (File file : files) {
+                            if (file.isFile()) {
+                                try {
+                                    // Read the content of each file
+                                    String filePath = file.getAbsolutePath();
+                                    String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
+
+                                    // process file content
+                                    fileParsingService.parseFile(filePath, fileContent);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                    log.error("File not found: " + file.getAbsolutePath());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
                 },
                 triggerContext -> {
                     // Calculate the next execution time based on the current time and a 2-minute interval
-                    // interval to be changed >>>>
                     Date lastExecutionTime = triggerContext.lastActualExecutionTime();
                     if (lastExecutionTime == null) {
                         lastExecutionTime = new Date();

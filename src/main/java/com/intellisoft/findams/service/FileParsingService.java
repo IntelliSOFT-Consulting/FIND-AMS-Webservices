@@ -3,27 +3,52 @@ package com.intellisoft.findams.service;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.Disposable;
+import reactor.core.publisher.Mono;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Service
 public class FileParsingService {
-    public String parseFile(String filePath) {
+
+    private final HttpClientService httpClientService;
+
+    @Autowired
+    public FileParsingService(HttpClientService httpClientService) {
+        this.httpClientService = httpClientService;
+    }
+
+    public Disposable parseFile(String filePath, String fileContent) {
+        List<JSONObject> records = parseFileContent(fileContent);
+
+        JSONArray jsonArray = new JSONArray(records);
+
+        // Call the service method from HttpClientService to post jsonArray to the dhis2 API
+        Mono<String> responseMono = httpClientService.postToDhis(jsonArray);
+
+        return responseMono.subscribe(
+                this::handleResponse,
+                this::handleError
+        );
+    }
+
+    private List<JSONObject> parseFileContent(String fileContent) {
         List<JSONObject> records = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new StringReader(fileContent))) {
             String line;
             boolean headerSkipped = false;
             String[] headers = null;
 
             while ((line = br.readLine()) != null) {
                 if (!headerSkipped) {
-                    // Skip the header line
                     headerSkipped = true;
                     headers = line.split("\\|");
                     continue;
@@ -43,14 +68,19 @@ public class FileParsingService {
                 records.add(record);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error while parsing file content", e);
         }
 
-        // Convert the list of JSON objects to a JSON array
-        JSONArray jsonArray = new JSONArray(records);
+        return records;
+    }
 
-        log.info("Parse file in JSON -> {}", jsonArray);
+    private void handleResponse(String response) {
+        // Handle the response here
+        log.info("Response received from DHIS2: {}", response);
+    }
 
-        return jsonArray.toString();
+    private void handleError(Throwable error) {
+        // Handle any errors that occurred during the request
+        log.error("Error occurred at DHIS2: {}", error.getMessage());
     }
 }

@@ -12,5 +12,4 @@ public class FindamsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FindamsApplication.class, args);
 	}
-
 }
