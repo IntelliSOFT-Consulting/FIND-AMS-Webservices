@@ -61,7 +61,7 @@ public class FileParsingService {
                     if (i < fields.length) {
                         record.put(headers[i], fields[i]);
                     } else {
-                        record.put(headers[i], ""); // Handle missing fields
+                        record.put(headers[i], "");
                     }
                 }
 
@@ -75,12 +75,10 @@ public class FileParsingService {
     }
 
     private void handleResponse(String response) {
-        // Handle the response here
         log.info("Response received from DHIS2: {}", response);
     }
 
     private void handleError(Throwable error) {
-        // Handle any errors that occurred during the request
         log.error("Error occurred at DHIS2: {}", error.getMessage());
     }
 }
