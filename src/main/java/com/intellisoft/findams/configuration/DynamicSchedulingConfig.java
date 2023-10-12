@@ -96,10 +96,34 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                     if (lastExecutionTime == null) {
                         lastExecutionTime = new Date();
                     }
-                    long twoMinutesInMillis = TimeUnit.MINUTES.toMillis(1);
-                    Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
+
+                    long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
+                    Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
 
                     log.info("Next Prescription Data fetch scheduled time -> {}", nextExecutionTime);
+
+                    // Return the next execution time
+                    return nextExecutionTime.toInstant();
+                }
+        );
+
+        // cron task 3:
+        // Schedule the request to fetch admissions data from an FUNSOFT HMIS
+        taskRegistrar.addTriggerTask(
+                () -> {
+                    // Your logic to fetch data from the external API
+                    funsoftService.getDailyAdmissions();
+                },
+                triggerContext -> {
+                    // Calculate the next execution time for the external API task
+                    Date lastExecutionTime = triggerContext.lastActualExecutionTime();
+                    if (lastExecutionTime == null) {
+                        lastExecutionTime = new Date();
+                    }
+
+                    long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
+                    Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
+                    log.info("Next Daily Admissions Data fetch scheduled time -> {}", nextExecutionTime);
 
                     // Return the next execution time
                     return nextExecutionTime.toInstant();

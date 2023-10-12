@@ -117,4 +117,23 @@ public class FunsoftService {
         }
     }
 
+    public void getDailyAdmissions() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String patientId = "";
+        //        String startDate = today.format(formatter);
+        //        String endDate = today.format(formatter);
+
+        String startDate = "2022-04-28";
+        String endDate = "2023-09-28";
+
+        httpClientService.fetchDailyAdmissions(patientId, startDate, endDate)
+                .subscribe(
+                        response -> {
+
+                        },
+                        Throwable::printStackTrace
+                );
+    }
 }

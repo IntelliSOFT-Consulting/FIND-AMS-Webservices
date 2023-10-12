@@ -9,12 +9,17 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.concurrent.Flow;
+
 @Service
 public class HttpClientService {
     private final WebClient webClient;
 
     @Value("${ams.funsoft.antibiotic-prescriptions-url}")
     private String funsoftApiUrl;
+
+    @Value("${ams.funsoft.daily-admissions-url}")
+    private String dailyAdmissionsUrl;
 
     public HttpClientService(WebClient.Builder webClientBuilder,
                              @Value("${ams.whonet-data-upload-url}") String whonetDataUploadUrl) {
@@ -32,14 +37,19 @@ public class HttpClientService {
 
     public Mono<String> getPatientsAntibioticPrescriptions(String patientId, String startDate, String endDate) {
         String apiUrl = funsoftApiUrl +"patient_id=" +patientId + "&startDate=" + startDate + "&endDate=" + endDate;
-        System.out.println("apiUrl" +apiUrl);
-
         return webClient.get()
                 .uri(apiUrl)
                 .retrieve()
                 .bodyToMono(String.class);
     }
 
+    public Mono<String>  fetchDailyAdmissions(String patientId, String startDate, String endDate) {
+        String apiUrl = dailyAdmissionsUrl +"patient_id=" +patientId + "&startDate=" + startDate + "&endDate=" + endDate;
+        return webClient.get()
+                .uri(apiUrl)
+                .retrieve()
+                .bodyToMono(String.class);
+    }
 }
 
 
