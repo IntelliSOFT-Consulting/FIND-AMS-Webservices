@@ -3,6 +3,7 @@ package com.intellisoft.findams.configuration;
 
 import com.intellisoft.findams.constants.Constants;
 import com.intellisoft.findams.service.FileParsingService;
+import com.intellisoft.findams.service.FunsoftService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,8 @@ import java.util.concurrent.TimeUnit;
 public class DynamicSchedulingConfig implements SchedulingConfigurer {
     @Autowired
     FileParsingService fileParsingService;
+    @Autowired
+    FunsoftService funsoftService;
 
     @Bean
     public TaskScheduler poolScheduler() {
@@ -39,7 +42,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(poolScheduler());
 
-        // Schedule the request to read and parse files in the directory every 2 minutes // or x hours
+        // Schedule the request to read and parse WHONET files in the directory every 2 minutes // or x hours
         taskRegistrar.addTriggerTask(
                 () -> {
                     // Get a list of files in the directory
@@ -76,6 +79,29 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                     Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
 
                     log.info("Next File Parse scheduled time -> {}", nextExecutionTime);
+                    return nextExecutionTime.toInstant();
+                }
+        );
+
+        // cron task 2:
+        // Schedule the request to fetch Prescriptions data from an FUNSOFT HMIS
+        taskRegistrar.addTriggerTask(
+                () -> {
+                    // Your logic to fetch data from the external API
+                    funsoftService.getPatientsAntibioticPrescriptions();
+                },
+                triggerContext -> {
+                    // Calculate the next execution time for the external API task
+                    Date lastExecutionTime = triggerContext.lastActualExecutionTime();
+                    if (lastExecutionTime == null) {
+                        lastExecutionTime = new Date();
+                    }
+                    long twoMinutesInMillis = TimeUnit.MINUTES.toMillis(1);
+                    Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
+
+                    log.info("Next Prescription Data fetch scheduled time -> {}", nextExecutionTime);
+
+                    // Return the next execution time
                     return nextExecutionTime.toInstant();
                 }
         );
