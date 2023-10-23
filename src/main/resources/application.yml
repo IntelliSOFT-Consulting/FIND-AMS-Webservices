@@ -11,7 +11,10 @@ spring:
       connection-timeout: '60000'
 
 ams:
-  whonet-data-upload-url: https://findams.intellisoftkenya.com/
+  whonet-data-upload-url: https://findams.intellisoftkenya.com/api/29/trackedEntityTypes?
+  dhis:
+    username: admin
+    password: district
   funsoft:
     antibiotic-prescriptions-url: https://funsoft.systempartners.biz:17933/FunsoftWebServices/funsoft/ArraysService/getpatientsantibioticprescriptions?
     atc-ddd-index-url: https://www.whocc.no/atc_ddd_index/?code=
