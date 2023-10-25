@@ -1,0 +1,34 @@
+ROW_IDX|DATE_DATA|ORGANISM|ORG_TYPE|PATIENT_ID|FIRST_NAME|LAST_NAME|X_MIDDLE_N|SEX|AGE|X_COUNTY|X_S_COUNTY|X_VILLAGE|X_DIAGN|WARD|INSTITUT|DEPARTMENT|WARD_TYPE|DATE_ADMIS|SPEC_NUM|ISOL_NUM|SPEC_DATE|SPEC_TYPE|SPEC_CODE|X_SOURCE|X_METHOD|X_AMT|PIP_ND100|CRO_ND30|MEM_ND10|GEN_ND10|IPM_ND10|CIP_ND5|MTR_ND5|AMK_ND30|NOR_ND10|NIT_ND300|CHL_ND30|OFX_ND5|SXT_ND1_2|ERY_ND15|STR_ND10|AZM_ND15|NAL_ND30|X_1_ND|VAN_NE|AMC_ND20|AMP_ND10|ATM_ND30|FEP_ND30|CTX_ND30|CAZ_ND30|CXM_ND30|VAN_ND30|COL_ND10|X_2_ND|ETP_ND10|LVX_ND5|MNO_ND30|TZP_ND100|TGC_ND15|TOB_ND10|FOX_ND30|CLI_ND2|OXA_ND1|CZX_ND30|PEN_ND10|PNV_ND10|TCY_ND30|DOX_ND30|RIF_ND5|CEP_ND30|CRB_ND100|MAN_ND30|MEZ_ND75|NOV_ND5|SSS_ND200|TEC_ND30|TIC_ND75|TCC_ND75|CTX_NM|PEN_NM|VAN_NM|PEN_NE
+0|20/9/2022 12:00:00 AM|eco|-|2624|JAY|WANYA||f|74|Makueni|Makueni|||opd|124|opd|out||2624||14/9/2022 12:00:00 AM|ur|11||DDA|||||S||R||||S||||||||||||||||R|||||||||||||||||||R||||||||||||
+1|20/9/2022 12:00:00 AM|nor|o||SUSAN|MUMOKI||f|38|Makueni|Makueni|||opd|124|opd|out||31316||19/9/2022 12:00:00 AM|hvs|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+2|20/9/2022 12:00:00 AM|xxx|o|3536|DAISY|OBURA||f|57|Makueni|Makueni|||opd|124|opd|out|||||urine|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+3|21/2/2023 12:00:00 AM|xxx|o|2544|JAYLENE|MUOKI||f|5|Makueni|Makueni|||opd|124|opd|out||31316||19/9/2022 12:00:00 AM|urine|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+4|20/9/2022 12:00:00 AM|sau|+|40312|KUSITE|MWUOKI||f|32|Makueni|Makueni|||w2s|124|sur|in||30522||15/9/2022 12:00:00 AM|ps|24|PUS SWAB|DDA|||||S||S|||||||||||||||||||||||||||||||R|R||R|||||||||||||||||
+5|21/2/2023 12:00:00 AM|pae|-|41234|GABRIEL|KIIKO||m|63|Makueni|Makueni|||opd|124|opd|out||28020||1/9/2022 12:00:00 AM|tissue|90||DDA|||R||S|S|R||||||R||||||||||||||R|||||||||||||||||||R||||||||||||
+6|21/2/2023 12:00:00 AM|xxx|o|5555|ONESMUS|KITHEKA||m|47|Makueni|Makueni|||opd|124|opd|out||28822||2/9/2022 12:00:00 AM|urine|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+7|21/2/2023 12:00:00 AM|kpn|-|62179|TABITHA|WETU||f|42|Makueni|Makueni|||opd|124|opd|out||28914||6/9/2022 12:00:00 AM|tissue|90||DDA|||R|||S|S||||||S||||||||||||||R|||||||||||||||||||||||||||||||
+8|21/2/2023 12:00:00 AM|ent|+|4444|GABRIEL|SYOKI||m|62|Makueni|Makueni|||opd|124|opd|out||29154||2/9/2022 12:00:00 AM|urine|90||DDA|||||||R|||||||R||||||||||||||I|||||||||||S|||||||R||||||||||||
+9|21/2/2023 12:00:00 AM|sau|+|65473|JANET|SYOKIMUA||m|73|Makueni|Makueni|||opd|124|opd|out||29113||2/9/2022 12:00:00 AM|urine|90||DDA|||||S||S|||||||||||||||||||||||||||||||R|R||R|||||||||||||||||
+10|21/2/2023 12:00:00 AM|nor|o|33256|COMFORT|WETU||f|79|Makueni|Makueni|||opd|124|opd|out||33255||8/9/2022 12:00:00 AM|hvs|90||DDA||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+11|21/2/2023 12:00:00 AM|nor|o|46630|DANIEL|MWANZIKISA||m||||||opd|124|opd|out||29784||23/9/2022 12:00:00 AM|stool|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+12|21/2/2023 12:00:00 AM|xxx|o|29953|MWAJUMA|KIDETE||f|44|Makueni|Makueni|||opd|124|opd|out||29122||8/9/2022 12:00:00 AM|urine|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+13|21/2/2023 12:00:00 AM|157|-|19836|ANDREW|ANDREA||m||||||opd|124|opd|out||19836||22/9/2022 12:00:00 AM|st|41||DDA|||||||||S|||||||||||||R|||R||R|||||||||||||||||||||||||||||||
+14|21/2/2023 12:00:00 AM|157|-|19837|JOLLY|SANGO||m|3|Makueni|Makueni|||opd|124|opd|out||30947||22/9/2022 12:00:00 AM|st|41|||||R||||||S||||||||||||R|||||R||||||||||||||||||||||||||||||||
+15|21/2/2023 12:00:00 AM|sau|+|65579|JOAN|MWUOKI||f|25|Makueni|Makueni|||w2s|124|sur|in||30795|||sb|28||DDA|||||R||S|||||S|S||||||||||||||||||||||||||R||R|||||||||||||||||
+16|21/2/2023 12:00:00 AM|sau|+|26825|SIMON|MUSYOKI||m|27|Makueni|Makueni|||opd|124|opd|out||31021||22/9/2022 12:00:00 AM|urin|90||DDA|||||R||R||||S||||||||||||||||||||||||||||R||R|||||||||||||||||
+17|21/2/2023 12:00:00 AM|xxx|o|65002|RECHO|MUTINDWA||f|49|Makueni|Makueni|||opd|124|opd|out||31021||22/9/2022 12:00:00 AM|csf|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+18|21/2/2023 12:00:00 AM|xxx|o|3536|PATIENCE|MUENI||f|57|Makueni|Makueni|||opd|124|opd|out||31868||22/9/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+19|21/2/2023 12:00:00 AM|xxx|o|65231|LINALY|MBEKA||f|7|Makueni|Makueni|||opd|124|opd|out||31777||22/9/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+20|21/2/2023 12:00:00 AM|xxx|o|25876|DAISY|WAVINYA||f|21|Makueni|Makueni|||opd|124|opd|out||30382||22/9/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+21|21/2/2023 12:00:00 AM|xxx|o|52365|BETTY|MUOKI||f||||||opd|124|opd|out||31955||22/9/2022 12:00:00 AM|csf|90||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+22|21/2/2023 12:00:00 AM|sau|+|57151|JACKSON|KYALO||m|33|Makueni|Makueni|||opd|124|opd|out||31819||27/9/2022 12:00:00 AM|tissue|90|||||||||S|||||||||||||||||||||||||||||||S|S|||||||||||||||||||
+23|21/2/2023 12:00:00 AM|sau|+|2566|LINATA|KAMUKIA||f|31|Makueni|Makueni|||opd|124|opd|out||30897||27/9/2022 12:00:00 AM|urine|90||DDA|||||||S||||S||||||||||||||||||||||||||||R||R|||||||||||||||||
+24|21/2/2023 12:00:00 AM|157|-|66802|TITAN|MUENDO||f|7|Makueni|Makueni|||opd|124|opd|out||31943||22/9/2022 12:00:00 AM|st|41|||||S||||||||||||||S|||||R|||||S|||||||||||||||||||||||||||||||
+25|21/2/2023 12:00:00 AM|nor|o|12541|JOHN|KITILI||m|31|Makueni|Makueni|||opd|124|opd|out||35053|||st|41||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+26|21/2/2023 12:00:00 AM|sh||12232|ELECTINE|KOBILI||f|6|Makueni|Makueni|||opd|124|opd|out||440||22/9/2022 12:00:00 AM|st|41||DDA|||||||S||S|||||I|||S||||||||||||||||||||||||||R|||||||||||||||
+27|21/2/2023 12:00:00 AM|xxx|o|1111|VYONNE|KENDIKI||f|6|Makueni|Makueni|||opd|124|opd|out||35061||22/9/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+28|21/2/2023 12:00:00 AM|sau|+|454545|BLESSING|NDINDA||f|40|Makueni|Makueni|||opd|124|opd|out||31597||22/9/2022 12:00:00 AM|ur|11||DDA|||||R||R||||S||||||||||||||||||||||||||||R|||||||||||||||||||
+29|21/2/2023 12:00:00 AM|kpn|-|66119|BRUNO|MBITHUKA||m|63|Makueni|Makueni|||w1s|124|sur|in||0146||29/9/2022 12:00:00 AM|ti|36||DDA|||R|S|R|S|R||||||S||||||||||||||R|||||||||||||||||||||||||||||||
+30|21/2/2023 12:00:00 AM|xxx|o|66998|WADIA|BORANA||f|28|Makueni|Makueni|||er|124|eme|out||33952||30/9/2022 12:00:00 AM|pf|64||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+31|21/2/2023 12:00:00 AM|sau|+|66661|SILAS|MUSYOKA||m|45|Makueni|Makueni|||w1s|124|sur|in||33705||29/9/2022 12:00:00 AM|ti|36||DDA|||||S||S|||||||||||||||||||||||||||||||S|S||S|||||||||||||||||
+32|21/2/2023 12:00:00 AM|sau|+|66396|AHMED|KENYA||m|46|Makueni|Makueni|||w1s|124|sur|in||33705||29/9/2022 12:00:00 AM|ps|24||DDA|||||S||S|||||||||||||||||||||||||||||||S|S||S|||||||||||||||||
