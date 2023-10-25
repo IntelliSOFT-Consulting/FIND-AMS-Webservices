@@ -1,5 +1,8 @@
 package com.intellisoft.findams.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellisoft.findams.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
@@ -7,13 +10,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.Disposable;
-import reactor.core.publisher.Mono;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
@@ -21,12 +23,39 @@ import java.util.*;
 @Slf4j
 @Service
 public class FileParsingService {
+    private static final List<String> processedFilePaths = new ArrayList<>();
     private final HttpClientService httpClientService;
-    private final List<String> processedFilePaths = new ArrayList<>();
+    private Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
 
     @Autowired
     public FileParsingService(HttpClientService httpClientService) {
         this.httpClientService = httpClientService;
+    }
+
+    private static Map<String, String> initializeAttributeToColumnMapping() {
+        Map<String, String> mapping = new HashMap<>();
+        mapping.put("Organism", "ORGANISM");
+        mapping.put("Organism Type", "ORG_TYPE");
+        mapping.put("Patient unique ID", "PATIENT_ID");
+        mapping.put("First Name", "FIRST_NAME");
+        mapping.put("Last Name", "LAST_NAME");
+        mapping.put("Middle Name", "X_MIDDLE_N");
+        mapping.put("sex", "SEX");
+        mapping.put("Age with Age Unit(Years,Months,Days)", "AGE");
+        mapping.put("County", "X_COUNTY");
+        mapping.put("Sub-county", "X_S_COUNTY");
+        mapping.put("Diagnosis", "X_DIAGN");
+        mapping.put("Ward", "WARD");
+        mapping.put("Department", "DEPARTMENT");
+        mapping.put("Ward Type", "WARD_TYPE");
+        mapping.put("Date of admission", "DATE_ADMIS");
+        mapping.put("Specimen/sample Number", "SPEC_NUM");
+        mapping.put("Isolate Number/Test", "ISOL_NUM");
+        mapping.put("Specimen collection date", "SPEC_DATE");
+        mapping.put("Specimen Type", "SPEC_TYPE");
+        mapping.put("Specimen Source", "X_SOURCE");
+        mapping.put("Method", "X_METHOD");
+        return mapping;
     }
 
     public Disposable parseFile(String filePath, String fileContent) throws IOException {
@@ -50,72 +79,133 @@ public class FileParsingService {
         // Process the Excel file to identify duplicates and assign new unique codes
         processExcelFile(sheet);
 
-        // Convert Excel data to a JSON array
-        List<JSONObject> jsonData = convertExcelToJsonArray(workbook);
+        // Fetch tracked entity attributes from DHIS2 API:
+        Disposable subscription = httpClientService.fetchTrackedEntityAttributes()
+                .subscribe(
+                        attributesResponse -> {
+                            // Create a list to hold the main payload
+                            List<Map<String, Object>> bulkPayload = new ArrayList<>();
 
-        Mono<String> responseMono;
+                            // Initialize attribute to columns mapping
+                            Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
 
-        try {
-            // Post jsonArray to the DHIS2 API
-            responseMono = httpClientService.postToDhis(jsonData);
-        } finally {
-            // Save the processed Excel file to a specific location
-            try {
-                FileOutputStream outputStream = new FileOutputStream("whonet/processed_output.xlsx");
-                workbook.write(outputStream);
-                outputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+                            Map<String, String> attributeIdMapping = createAttributeIdMapping(attributesResponse);
 
-        return responseMono.subscribe(
-                this::handleResponse,
-                this::handleError,
-                () -> {
-                    processedFilePaths.add(filePath);
-                    // Implement batching logic
-                    batchProcessedFiles(processedFilePaths);
-                }
-        );
+                            // Iterate over the Excel data
+                            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                                Row excelRow = sheet.getRow(i);
+
+                                // Create a payload for the tracked entity instance
+                                Map<String, Object> trackedEntityInstance = new HashMap<>();
+                                trackedEntityInstance.put("trackedEntityType", "sf54V4IRUD8"); // tracked entity ID
+                                trackedEntityInstance.put("orgUnit", "YgHyNJOU8hs"); // org unit ID
+
+                                // Create a list to hold attributes for this instance
+                                List<Map<String, Object>> attributesList = new ArrayList<>();
+
+                                // Iterate over the tracked entity attributes and Excel columns
+                                for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
+                                    String attributeDisplayName = entry.getKey();
+                                    String columnMapping = entry.getValue();
+                                    int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
+
+                                    if (columnIndex >= 0) {
+                                        String cellValue = getCellValue(excelRow, columnIndex);
+                                        String attributeId = attributeIdMapping.get(attributeDisplayName);
+                                        Map<String, Object> attributeEntry = new HashMap<>();
+                                        attributeEntry.put("attribute", attributeId);
+                                        attributeEntry.put("id", cellValue);
+
+                                        attributesList.add(attributeEntry);
+                                    }
+                                }
+
+                                trackedEntityInstance.put("attributes", attributesList);
+
+                                // Add the tracked entity instance to the bulk payload
+                                bulkPayload.add(trackedEntityInstance);
+                            }
+
+                            // Create the final bulk payload map
+                            Map<String, Object> finalBulkPayload = new HashMap<>();
+                            finalBulkPayload.put("trackedEntityInstances", bulkPayload);
+
+                            // Convert the finalBulkPayload to a JSON string
+                            String jsonString = null;
+                            try {
+                                jsonString = new ObjectMapper().writeValueAsString(finalBulkPayload);
+                            } catch (JsonProcessingException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            System.out.println("finalBulkPayload: " + jsonString);
+
+                            httpClientService.postTrackedEntityInstances(finalBulkPayload)
+                                    .doOnError(error -> {
+                                        System.err.println("Error occurred: " + error);
+                                    })
+                                    .subscribe(response -> {
+
+                                        System.out.println("Response: " + response);
+//                                        processedFilePaths.add(filePath);
+//                                        // Implement batching logic
+//                                        batchProcessedFiles(processedFilePaths);
+                                    });
+                        },
+                        error -> {
+                            System.err.println("Error occurred while fetching attributes: " + error.getMessage());
+                        }
+                );
+
+        return subscription;
     }
 
-    private List<JSONObject> convertExcelToJsonArray(Workbook workbook) {
-        List<JSONObject> jsonData = new ArrayList<>();
 
-        int columnIndex = -1;
-        Row headerRow = workbook.getSheetAt(0).getRow(0);
-        for (Cell cell : headerRow) {
-            if (cell.getStringCellValue().equals("SPEC_NUM")) {
-                columnIndex = cell.getColumnIndex();
-                break;
-            }
+    private Map<String, String> createAttributeIdMapping(JsonNode trackedEntityAttributesResponse) {
+        Map<String, String> attributeIdMapping = new HashMap<>();
+        for (JsonNode attribute : trackedEntityAttributesResponse.get("trackedEntityAttributes")) {
+            String displayName = attribute.get("displayName").asText();
+            String id = attribute.get("id").asText();
+            attributeIdMapping.put(displayName, id);
         }
 
-        for (int i = 1; i <= workbook.getSheetAt(0).getLastRowNum(); i++) {
-            Row row = workbook.getSheetAt(0).getRow(i);
-            Cell specNumCell = row.getCell(columnIndex);
+        return attributeIdMapping;
+    }
 
-            if (specNumCell != null) {
-                String specNum = specNumCell.getStringCellValue();
-                if (specNum != null && !specNum.isEmpty()) {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("SPEC_NUM", specNum);
-                    jsonData.add(jsonObject);
-                }
+
+    private int getColumnIndex(Row headerRow, String columnName) {
+        for (int j = 0; j < headerRow.getLastCellNum(); j++) {
+            Cell cell = headerRow.getCell(j);
+            if (cell.getStringCellValue().equalsIgnoreCase(columnName)) {
+                return cell.getColumnIndex();
             }
         }
+        return -1;
+    }
 
-        return jsonData;
+    private String getCellValue(Row row, int columnIndex) {
+        if (row != null) {
+            Cell cell = row.getCell(columnIndex);
+            if (cell != null) {
+                return cell.getStringCellValue();
+            }
+        }
+        return null;
     }
 
     private void processExcelFile(Sheet sheet) {
         Set<String> uniqueValues = new HashSet<>();
 
-        int columnIndex = -1;
         Row headerRow = sheet.getRow(0);
 
-        // Search for the SPEC_NUM column
+        Map<String, String> columnToAttributeMapping = new HashMap<>();
+        for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
+            columnToAttributeMapping.put(entry.getValue(), entry.getKey());
+        }
+
+        int columnIndex = -1;
+
+        // looking for the SPEC_NUM column
         for (Cell cell : headerRow) {
             if (cell.getStringCellValue().equals("SPEC_NUM")) {
                 columnIndex = cell.getColumnIndex();
@@ -126,8 +216,8 @@ public class FileParsingService {
         // Get the current year
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
+        // Process the Excel sheet using the mapping
         if (columnIndex >= 0) {
-
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
 
@@ -146,6 +236,9 @@ public class FileParsingService {
                                 // Update the "SPEC_NUM" cell with the new code
                                 specNumCell.setCellValue(newCode);
                             } else {
+                                // Map the column name to an attribute
+                                String column = headerRow.getCell(specNumCell.getColumnIndex()).getStringCellValue();
+                                String attribute = columnToAttributeMapping.get(column);
                                 // Append the current year to the "SPEC_NUM" value
                                 specNumCell.setCellValue(specNum + currentYear);
                                 uniqueValues.add(specNum);
@@ -160,19 +253,10 @@ public class FileParsingService {
                 }
             }
         }
-
     }
 
     private String generateUniqueCode() {
         return UUID.randomUUID().toString();
-    }
-
-    private void handleResponse(String response) {
-        log.info("Response received from DHIS2: {}", response);
-    }
-
-    private void handleError(Throwable error) {
-        log.error("Error occurred at DHIS2: {}", error.getMessage());
     }
 
     private void batchProcessedFiles(List<String> processedFilePaths) {

@@ -1,6 +1,8 @@
 package com.intellisoft.findams.service;
 
-import org.json.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,11 +12,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.Base64;
-import java.util.List;
+import java.util.Map;
 
 @Service
 public class HttpClientService {
     private final WebClient webClient;
+    private final ObjectMapper objectMapper;
 
     @Value("${ams.funsoft.antibiotic-prescriptions-url}")
     private String funsoftApiUrl;
@@ -28,20 +31,23 @@ public class HttpClientService {
     @Value("${ams.dhis.password}")
     private String password;
 
-    public HttpClientService(WebClient.Builder webClientBuilder, @Value("${ams.whonet-data-upload-url}") String whonetDataUploadUrl) {
+    @Value("${ams.trackedEntityAttributes-url}")
+    private String trackedEntityAttributes;
+
+    @Value("${ams.whonet-data-upload-url}")
+    private String whonetUploadUrl;
+
+    public HttpClientService(WebClient.Builder webClientBuilder,
+                             @Value("${ams.whonet-data-upload-url}") String whonetDataUploadUrl,
+                             @Value("${ams.dhis.username}") String username,
+                             @Value("${ams.dhis.password}") String password, ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
         this.webClient = webClientBuilder.baseUrl(whonetDataUploadUrl)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString((
-                        username + ":" + password).getBytes()))
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes()))
                 .build();
     }
 
-    public Mono<String> postToDhis(List<JSONObject> jsonArray) {
-        return webClient.post()
-                .body(BodyInserters.fromValue(jsonArray.toString()))
-                .retrieve()
-                .bodyToMono(String.class);
-    }
 
     public Mono<String> getPatientsAntibioticPrescriptions(String patientId, String startDate, String endDate) {
         String apiUrl = funsoftApiUrl + "patient_id=" + patientId + "&startDate=" + startDate + "&endDate=" + endDate;
@@ -58,7 +64,36 @@ public class HttpClientService {
                 .retrieve()
                 .bodyToMono(String.class);
     }
+
+
+    public Mono<JsonNode> fetchTrackedEntityAttributes() {
+        String apiUrl = trackedEntityAttributes;
+        return webClient.get()
+                .uri(apiUrl)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .doOnNext(response -> {
+                    System.out.println("Response: " + response);
+                });
+    }
+
+    public Mono<String> postTrackedEntityInstances(Map<String, Object> payload) {
+        String apiUrl = whonetUploadUrl;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String payloadJson;
+
+        try {
+            payloadJson = objectMapper.writeValueAsString(payload);
+        } catch (JsonProcessingException e) {
+            return Mono.error(e);
+        }
+
+        return webClient.post()
+                .uri(apiUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(payloadJson))
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
 }
-
-
-
