@@ -3,17 +3,21 @@ package com.intellisoft.findams.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.intellisoft.findams.dto.FileParseSummaryDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import java.util.Base64;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class HttpClientService {
     private final WebClient webClient;
@@ -36,6 +40,9 @@ public class HttpClientService {
 
     @Value("${ams.whonet-data-upload-url}")
     private String whonetUploadUrl;
+
+    @Value("${ams.datastore-url}")
+    private String datastoreUrl;
 
     public HttpClientService(WebClient.Builder webClientBuilder,
                              @Value("${ams.whonet-data-upload-url}") String whonetDataUploadUrl,
@@ -96,4 +103,29 @@ public class HttpClientService {
                 .bodyToMono(String.class);
     }
 
+    public Disposable postToDhis2DataStore(FileParseSummaryDto fileParseSummaryDto) {
+        String apiUrl = datastoreUrl;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String payloadJson;
+
+        try {
+            payloadJson = objectMapper.writeValueAsString(fileParseSummaryDto);
+        } catch (JsonProcessingException e) {
+            log.error("Error while converting FileParseSummaryDto to JSON: {}", e.getMessage());
+            return Mono.error(e).subscribe();
+        }
+
+        return webClient.post()
+                .uri(apiUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(payloadJson))
+                .retrieve()
+                .bodyToMono(String.class)
+                .doOnError(error -> {
+                    log.error("Error occurred while posting to DHIS2 DataStore: {}", error.getMessage());
+                })
+                .subscribe(response -> {
+                    log.info("Response from DHIS2 DataStore: {}", response);
+                });
+    }
 }

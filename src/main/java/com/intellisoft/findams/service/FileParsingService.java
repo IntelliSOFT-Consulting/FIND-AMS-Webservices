@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellisoft.findams.constants.Constants;
+import com.intellisoft.findams.dto.FileParseSummaryDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,7 +26,7 @@ import java.util.*;
 public class FileParsingService {
     private static final List<String> processedFilePaths = new ArrayList<>();
     private final HttpClientService httpClientService;
-    private Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
+    private final Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
 
     @Autowired
     public FileParsingService(HttpClientService httpClientService) {
@@ -84,7 +85,7 @@ public class FileParsingService {
                 .subscribe(
                         attributesResponse -> {
                             // Create a list to hold the main payload
-                            List<Map<String, Object>> bulkPayload = new ArrayList<>();
+                            List<Map<String, Object>> trackedEntityInstancesPayload = new ArrayList<>();
 
                             // Initialize attribute to columns mapping
                             Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
@@ -97,8 +98,8 @@ public class FileParsingService {
 
                                 // Create a payload for the tracked entity instance
                                 Map<String, Object> trackedEntityInstance = new HashMap<>();
-                                trackedEntityInstance.put("trackedEntityType", "sf54V4IRUD8"); // tracked entity ID
-                                trackedEntityInstance.put("orgUnit", "YgHyNJOU8hs"); // org unit ID
+                                trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
+                                trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
 
                                 // Create a list to hold attributes for this instance
                                 List<Map<String, Object>> attributesList = new ArrayList<>();
@@ -122,15 +123,13 @@ public class FileParsingService {
 
                                 trackedEntityInstance.put("attributes", attributesList);
 
-                                // Add the tracked entity instance to the bulk payload
-                                bulkPayload.add(trackedEntityInstance);
+                                trackedEntityInstancesPayload.add(trackedEntityInstance);
                             }
 
-                            // Create the final bulk payload map
                             Map<String, Object> finalBulkPayload = new HashMap<>();
-                            finalBulkPayload.put("trackedEntityInstances", bulkPayload);
+                            finalBulkPayload.put("trackedEntityInstances", trackedEntityInstancesPayload);
 
-                            // Convert the finalBulkPayload to a JSON string
+                            // Convert trackedEntityInstancesPayload to JSON string
                             String jsonString = null;
                             try {
                                 jsonString = new ObjectMapper().writeValueAsString(finalBulkPayload);
@@ -138,28 +137,26 @@ public class FileParsingService {
                                 throw new RuntimeException(e);
                             }
 
-                            System.out.println("finalBulkPayload: " + jsonString);
-
                             httpClientService.postTrackedEntityInstances(finalBulkPayload)
                                     .doOnError(error -> {
-                                        System.err.println("Error occurred: " + error);
+                                        log.error("Error occurred {}", error.getMessage());
                                     })
                                     .subscribe(response -> {
+                                        log.info("Response {}", response);
 
-                                        System.out.println("Response: " + response);
-//                                        processedFilePaths.add(filePath);
-//                                        // Implement batching logic
-//                                        batchProcessedFiles(processedFilePaths);
+                                        // Implement batching logic for processed files
+                                        // send API response to send later to datastore
+                                        processedFilePaths.add(filePath);
+                                        batchProcessedFiles(processedFilePaths, response);
                                     });
                         },
                         error -> {
-                            System.err.println("Error occurred while fetching attributes: " + error.getMessage());
+                            log.error("Error occurred while fetching attributes:", error.getMessage());
                         }
                 );
 
         return subscription;
     }
-
 
     private Map<String, String> createAttributeIdMapping(JsonNode trackedEntityAttributesResponse) {
         Map<String, String> attributeIdMapping = new HashMap<>();
@@ -171,7 +168,6 @@ public class FileParsingService {
 
         return attributeIdMapping;
     }
-
 
     private int getColumnIndex(Row headerRow, String columnName) {
         for (int j = 0; j < headerRow.getLastCellNum(); j++) {
@@ -259,38 +255,90 @@ public class FileParsingService {
         return UUID.randomUUID().toString();
     }
 
-    private void batchProcessedFiles(List<String> processedFilePaths) {
-        try {
-            String processedFilesFolderPath = Constants.PROCESSED_FILES_PATH;
-            File destinationFolder = new File(processedFilesFolderPath);
+    private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse) {
+        String processedFilesFolderPath = Constants.PROCESSED_FILES_PATH;
+        File destinationFolder = new File(processedFilesFolderPath);
 
+        try {
             if (destinationFolder.exists() && destinationFolder.isDirectory()) {
                 for (String filePath : processedFilePaths) {
-                    File sourceFile = new File(filePath);
-
-                    if (sourceFile.exists() && sourceFile.isFile()) {
-                        File destinationFile = new File(destinationFolder, sourceFile.getName());
-
-                        Files.move(sourceFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                        log.info("Parsed Files {} moved to {}", sourceFile.getName(), destinationFolder.getAbsolutePath());
-                    } else {
-                        log.error("Source file does not exist or is not a file: {}", filePath);
-                    }
+                    processFile(filePath, destinationFolder);
                 }
 
                 // Clear the files after batching
                 processedFilePaths.clear();
 
-                // formulate logging and post it to DHIS2 Datastore:
+                FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse);
 
-                // datastore end-points
-
+                if (fileParseSummaryDto != null) {
+                    httpClientService.postToDhis2DataStore(fileParseSummaryDto);
+                }
             } else {
                 log.error("Destination folder does not exist or is not a directory: {}", processedFilesFolderPath);
             }
         } catch (IOException e) {
             log.error("Error while moving files: {}", e.getMessage());
         }
+    }
+
+    private void processFile(String filePath, File destinationFolder) throws IOException {
+        File sourceFile = new File(filePath);
+
+        if (sourceFile.exists() && sourceFile.isFile()) {
+            File destinationFile = new File(destinationFolder, sourceFile.getName());
+            Files.move(sourceFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            log.info("Parsed Files {} moved to {}", sourceFile.getName(), destinationFolder.getAbsolutePath());
+        } else {
+            log.error("Source file does not exist or is not a file: {}", filePath);
+        }
+    }
+
+    private FileParseSummaryDto parseApiResponse(String apiResponse) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(apiResponse);
+            JsonNode responseNode = jsonNode.get("response");
+
+            if (responseNode != null && responseNode.isObject()) {
+                JsonNode responseTypeNode = responseNode.get("responseType");
+                JsonNode statusNode = responseNode.get("status");
+                JsonNode importedNode = responseNode.get("imported");
+                JsonNode updatedNode = responseNode.get("updated");
+                JsonNode deletedNode = responseNode.get("deleted");
+                JsonNode ignoredNode = responseNode.get("ignored");
+
+                FileParseSummaryDto fileParseSummaryDto = new FileParseSummaryDto();
+
+                if (responseTypeNode != null && responseTypeNode.isTextual()) {
+                    fileParseSummaryDto.setStatus(responseTypeNode.asText());
+                }
+
+                if (statusNode != null && statusNode.isTextual()) {
+                    fileParseSummaryDto.setStatus(statusNode.asText());
+                }
+
+                if (importedNode != null && importedNode.isInt()) {
+                    fileParseSummaryDto.setImported(String.valueOf(importedNode.asInt()));
+                }
+
+                if (updatedNode != null && updatedNode.isInt()) {
+                    fileParseSummaryDto.setUpdated(String.valueOf(updatedNode.asInt()));
+                }
+
+                if (deletedNode != null && deletedNode.isInt()) {
+                    fileParseSummaryDto.setDeleted(String.valueOf(deletedNode.asInt()));
+                }
+
+                if (ignoredNode != null && ignoredNode.isInt()) {
+                    fileParseSummaryDto.setIgnored(String.valueOf(ignoredNode.asInt()));
+                }
+
+                return fileParseSummaryDto;
+            }
+        } catch (Exception e) {
+            log.error("Error while parsing the response: {}", e.getMessage());
+        }
+
+        return null;
     }
 }
