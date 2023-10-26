@@ -11,7 +11,7 @@ spring:
       connection-timeout: '60000'
 
 ams:
-  base-url: https://findams.intellisoftkenya.com/api/29/
+  datastore-url: https://findams.intellisoftkenya.com/api/29/
   whonet-data-upload-url: https://findams.intellisoftkenya.com/api/trackedEntityInstances
   trackedEntityAttributes-url: https://findams.intellisoftkenya.com/api/29/trackedEntityAttributes
   dhis:
