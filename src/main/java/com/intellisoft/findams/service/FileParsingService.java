@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Slf4j
@@ -41,7 +43,7 @@ public class FileParsingService {
         mapping.put("First Name", "FIRST_NAME");
         mapping.put("Last Name", "LAST_NAME");
         mapping.put("Middle Name", "X_MIDDLE_N");
-        mapping.put("sex", "SEX");
+        mapping.put("Sex", "SEX");
         mapping.put("Age with Age Unit(Years,Months,Days)", "AGE");
         mapping.put("County", "X_COUNTY");
         mapping.put("Sub-county", "X_S_COUNTY");
@@ -85,7 +87,7 @@ public class FileParsingService {
                 .subscribe(
                         attributesResponse -> {
                             // Create a list to hold the main payload
-                            List<Map<String, Object>> trackedEntityInstancesPayload = new ArrayList<>();
+                            List<Map<String, Object>> trackedEntityInstances = new ArrayList<>();
 
                             // Initialize attribute to columns mapping
                             Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
@@ -115,7 +117,7 @@ public class FileParsingService {
                                         String attributeId = attributeIdMapping.get(attributeDisplayName);
                                         Map<String, Object> attributeEntry = new HashMap<>();
                                         attributeEntry.put("attribute", attributeId);
-                                        attributeEntry.put("id", cellValue);
+                                        attributeEntry.put("value", cellValue);
 
                                         attributesList.add(attributeEntry);
                                     }
@@ -123,27 +125,17 @@ public class FileParsingService {
 
                                 trackedEntityInstance.put("attributes", attributesList);
 
-                                trackedEntityInstancesPayload.add(trackedEntityInstance);
+                                trackedEntityInstances.add(trackedEntityInstance);
                             }
 
-                            Map<String, Object> finalBulkPayload = new HashMap<>();
-                            finalBulkPayload.put("trackedEntityInstances", trackedEntityInstancesPayload);
+                            Map<String, Object> trackedEntityInstancePayload = new HashMap<>();
+                            trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
 
-                            // Convert trackedEntityInstancesPayload to JSON string
-                            String jsonString = null;
-                            try {
-                                jsonString = new ObjectMapper().writeValueAsString(finalBulkPayload);
-                            } catch (JsonProcessingException e) {
-                                throw new RuntimeException(e);
-                            }
-
-                            httpClientService.postTrackedEntityInstances(finalBulkPayload)
+                            httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload)
                                     .doOnError(error -> {
                                         log.error("Error occurred {}", error.getMessage());
                                     })
                                     .subscribe(response -> {
-                                        log.info("Response {}", response);
-
                                         // Implement batching logic for processed files
                                         // send API response to send later to datastore
                                         processedFilePaths.add(filePath);
@@ -151,7 +143,7 @@ public class FileParsingService {
                                     });
                         },
                         error -> {
-                            log.error("Error occurred while fetching attributes:", error.getMessage());
+                            log.error("Error occurred while fetching attributes: {}", error.getMessage());
                         }
                 );
 
@@ -199,13 +191,16 @@ public class FileParsingService {
             columnToAttributeMapping.put(entry.getValue(), entry.getKey());
         }
 
-        int columnIndex = -1;
+        int specNumColumnIndex = -1;
+        int specDateColumnIndex = -1;
 
-        // looking for the SPEC_NUM column
+        // Find the columns for SPEC_NUM and SPEC_DATE
         for (Cell cell : headerRow) {
-            if (cell.getStringCellValue().equals("SPEC_NUM")) {
-                columnIndex = cell.getColumnIndex();
-                break;
+            String columnName = cell.getStringCellValue();
+            if (columnName.equals("SPEC_NUM")) {
+                specNumColumnIndex = cell.getColumnIndex();
+            } else if (columnName.equals("SPEC_DATE")) {
+                specDateColumnIndex = cell.getColumnIndex();
             }
         }
 
@@ -213,37 +208,49 @@ public class FileParsingService {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
         // Process the Excel sheet using the mapping
-        if (columnIndex >= 0) {
+        if (specNumColumnIndex >= 0 && specDateColumnIndex >= 0) {
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
 
                 if (row != null) {
-                    Cell specNumCell = row.getCell(columnIndex);
+                    // Process SPEC_NUM column
+                    Cell specNumCell = row.getCell(specNumColumnIndex);
+                    String specNum = specNumCell.getStringCellValue();
 
-                    // Check if the cell exists and is not null
-                    if (specNumCell != null) {
-                        String specNum = specNumCell.getStringCellValue();
+                    // Process SPEC_DATE column
+                    Cell specDateCell = row.getCell(specDateColumnIndex);
+                    String specDate = specDateCell.getStringCellValue();
 
-                        if (specNum != null && !specNum.isEmpty()) {
-                            // Check for duplicates
-                            if (uniqueValues.contains(specNum)) {
-                                // Assign a new unique code for duplicates
-                                String newCode = generateUniqueCode();
-                                // Update the "SPEC_NUM" cell with the new code
-                                specNumCell.setCellValue(newCode);
-                            } else {
-                                // Map the column name to an attribute
-                                String column = headerRow.getCell(specNumCell.getColumnIndex()).getStringCellValue();
-                                String attribute = columnToAttributeMapping.get(column);
-                                // Append the current year to the "SPEC_NUM" value
-                                specNumCell.setCellValue(specNum + currentYear);
-                                uniqueValues.add(specNum);
-                            }
-                        } else {
-                            // Handle blank cells, assign a new unique code with the current year appended
-                            String newCode = generateUniqueCode() + currentYear;
+                    if (specNum != null && !specNum.isEmpty()) {
+                        if (uniqueValues.contains(specNum)) {
+                            // Assign a new unique code for duplicates
+                            String newCode = generateUniqueCode();
                             // Update the "SPEC_NUM" cell with the new code
                             specNumCell.setCellValue(newCode);
+                        } else {
+                            // Map the column name to an attribute
+                            String column = headerRow.getCell(specNumColumnIndex).getStringCellValue();
+                            String attribute = columnToAttributeMapping.get(column);
+                            // Append the current year to the "SPEC_NUM" value
+                            specNumCell.setCellValue(specNum + currentYear);
+                            uniqueValues.add(specNum);
+                        }
+                    } else {
+                        // Handle blank cells, assign a new unique code with the current year appended
+                        String newCode = generateUniqueCode() + currentYear;
+                        // Update the "SPEC_NUM" cell with the new code
+                        specNumCell.setCellValue(newCode);
+                    }
+
+                    // Format the SPEC_DATE column to YYYY-MM-DD
+                    if (specDate != null && !specDate.isEmpty()) {
+                        try {
+                            SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/M/yyyy hh:mm:ss a", Locale.ENGLISH);
+                            SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date = inputDateFormat.parse(specDate);
+                            specDateCell.setCellValue(outputDateFormat.format(date));
+                        } catch (ParseException e) {
+                            // Handle the parsing error
                         }
                     }
                 }
@@ -251,11 +258,13 @@ public class FileParsingService {
         }
     }
 
+
     private String generateUniqueCode() {
         return UUID.randomUUID().toString();
     }
 
     private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse) {
+
         String processedFilesFolderPath = Constants.PROCESSED_FILES_PATH;
         File destinationFolder = new File(processedFilesFolderPath);
 

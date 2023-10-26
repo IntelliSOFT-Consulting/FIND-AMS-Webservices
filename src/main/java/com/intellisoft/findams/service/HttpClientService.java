@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.HttpStatus;
 import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
@@ -84,23 +85,31 @@ public class HttpClientService {
                 });
     }
 
-    public Mono<String> postTrackedEntityInstances(Map<String, Object> payload) {
+    public Mono<String> postTrackedEntityInstances(Map<String, Object> trackedEntityInstancePayload) {
         String apiUrl = whonetUploadUrl;
         ObjectMapper objectMapper = new ObjectMapper();
         String payloadJson;
 
         try {
-            payloadJson = objectMapper.writeValueAsString(payload);
+            payloadJson = objectMapper.writeValueAsString(trackedEntityInstancePayload);
         } catch (JsonProcessingException e) {
-            return Mono.error(e);
+            return Mono.just("{'error':'Failed to convert payload to JSON'}");
         }
 
         return webClient.post()
                 .uri(apiUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(payloadJson))
-                .retrieve()
-                .bodyToMono(String.class);
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is2xxSuccessful()) {
+                        return response.bodyToMono(String.class);
+                    } else {
+                        return response.bodyToMono(String.class).flatMap(body -> {
+                            log.error("Error occurred while posting TrackedEntityInstances to DHIS2: {}", body);
+                            return Mono.just(body);
+                        });
+                    }
+                });
     }
 
     public Disposable postToDhis2DataStore(FileParseSummaryDto fileParseSummaryDto) {
