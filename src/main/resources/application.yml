@@ -1,15 +1,6 @@
 server:
   port: 8008
 
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/find_hai
-    username: postgres
-    password: findhai
-    hikari:
-      maximum-pool-size: '10'
-      connection-timeout: '60000'
-
 ams:
   datastore-url: https://findams.intellisoftkenya.com/api/29/
   whonet-data-upload-url: https://findams.intellisoftkenya.com/api/trackedEntityInstances
