@@ -1,6 +1,5 @@
 package com.intellisoft.findams.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellisoft.findams.constants.Constants;
@@ -250,7 +249,7 @@ public class FileParsingService {
                             Date date = inputDateFormat.parse(specDate);
                             specDateCell.setCellValue(outputDateFormat.format(date));
                         } catch (ParseException e) {
-                            // Handle the parsing error
+                            log.error(e.getMessage());
                         }
                     }
                 }
