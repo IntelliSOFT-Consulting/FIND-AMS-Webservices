@@ -1,12 +1,9 @@
 FROM maven:3.8.3-openjdk-17-slim AS build
-FROM eclipse-temurin:17-jdk-alpine
-
-# Expose the port used by the application
+#FROM eclipse-temurin:17-jdk-alpine
+FROM openjdk:17-jdk-slim-buster
 EXPOSE 8090
-
-# Set the working directory in the container
-WORKDIR /findams
-COPY target/springboot-restful-webservices-0.0.1-SNAPSHOT.jar /Configurations/application.yml ./
-
-# Set the command to run when the container starts
-CMD ["java","-jar","./findams-0.0.1-SNAPSHOT.jar", "--spring.config.location=./application.properties"]
+WORKDIR /findams_javabackend
+COPY . /findams_javabackend
+#HEALTHCHECK --interval=25s --timeout=3s --retries=2 CMD wget --spider http://199.192.27.107:8085/actuator/health || exit 1
+ADD target/findams-0.0.1-SNAPSHOT.jar findams-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","target/findams-0.0.1-SNAPSHOT.jar"]
