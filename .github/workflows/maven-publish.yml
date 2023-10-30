@@ -55,7 +55,7 @@ jobs:
           host: ${{ env.SSH_HOST }}
           username: ${{ env.SSH_USER }}
           port: ${{ env.SSH_PORT }}
-          key: ${{ env.SSH_PASS }}
+          password: ${{ env.SSH_PASS }}
           script_stop: true
           script: |
             if docker ps -a --format '{{.Names}}' | grep -q ${{ env.CONTAINER_NAME }}; then
