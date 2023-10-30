@@ -13,7 +13,7 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   SSH_PORT: 22
 
-  SSH_PASS: ${{ secrets.SSH_PRIVATE_KEY }}
+  SSH_PASS: ${{ secrets.SSH_PASS }}
   SSH_HOST: ${{ secrets.SSH_HOST }}
   SSH_USER: ${{ secrets.SSH_USER }}
   CONTAINER_NAME: findams
