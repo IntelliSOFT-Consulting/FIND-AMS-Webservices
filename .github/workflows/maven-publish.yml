@@ -44,10 +44,10 @@ jobs:
           docker buildx build --platform=linux/amd64,linux/arm64 -t ${{ env.IMAGE_NAME }} --push .
           docker logout
 
-      - name: Setup SSH keys
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ env.SSH_PASS }}
+#      - name: Setup SSH keys
+#        uses: webfactory/ssh-agent@v0.7.0
+#        with:
+#          ssh-private-key: ${{ env.SSH_PASS }}
 
       - name: Remote ssh to server and update FIND-AMS API server
         uses: appleboy/ssh-action@master
