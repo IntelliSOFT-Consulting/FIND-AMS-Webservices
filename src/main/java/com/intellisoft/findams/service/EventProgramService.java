@@ -167,8 +167,6 @@ public class EventProgramService {
 
                                             httpClientService.fetchDailyAdmissions(patientId, startDate, endDate).subscribe(fetchedAdmissionsResponse -> {
 
-                                                // Step 2: Parse the JSON response to extract "department_admissions".
-
                                                 JsonNode admissionsData = null;
                                                 try {
                                                     admissionsData = objectMapper.readTree(fetchedAdmissionsResponse);
@@ -177,14 +175,10 @@ public class EventProgramService {
                                                 }
                                                 JsonNode departmentAdmissions = admissionsData.path("daily_admissions").get(0).path("department_admissions");
 
-                                                // Step 3: Compare "department" with the keys in "department_admissions."
+                                                String amcDepartment = department;
 
-                                                String amcDepartment = department;  // You have this value
+                                                int totalAdmissions = 0;
 
-                                                // Step 4: Extract "total_admissions" if there's a match.
-                                                int totalAdmissions = 0;  // Default value if no match is found
-
-                                                // Check if the "department" key exists in "department_admissions."
                                                 if (departmentAdmissions.has(amcDepartment)) {
                                                     totalAdmissions = departmentAdmissions.get(amcDepartment).asInt();
                                                 }

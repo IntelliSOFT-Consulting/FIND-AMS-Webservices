@@ -28,7 +28,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     FileParsingService fileParsingService;
     @Autowired
     EventProgramService eventProgramService;
-    
+
     @Bean
     public TaskScheduler poolScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
@@ -58,7 +58,6 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
                             // process file content
                             fileParsingService.parseFile(filePath, fileContent);
-                            System.out.println("fileParsingService working");
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                             log.error("File not found: " + file.getAbsolutePath());
@@ -84,7 +83,6 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
         // Schedule the request to fetch AMU/AMC data from an FUNSOFT HMIS
         taskRegistrar.addTriggerTask(() -> {
-            // Your logic to fetch data from the external API
             eventProgramService.fetchAMUData();
         }, triggerContext -> {
             // Calculate the next execution time for the external API task
@@ -93,7 +91,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 lastExecutionTime = new Date();
             }
 
-            long oneDayInMillis = TimeUnit.MINUTES.toMillis(1);
+            long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
             Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
 
             log.info("Next AMS Data fetch scheduled time -> {}", nextExecutionTime);

@@ -2,7 +2,7 @@ server:
   port: 8008
 
 ams:
-  datastore-url: https://findams.intellisoftkenya.com/api/29/
+  datastore-url: https://findams.intellisoftkenya.com/api/40/dataStore/tracker-capture
   whonet-data-upload-url: https://findams.intellisoftkenya.com/api/trackedEntityInstances
   trackedEntityAttributes-url: https://findams.intellisoftkenya.com/api/29/trackedEntityAttributes
   event-program-url: https://findams.intellisoftkenya.com/api/40/tracker?async=false
