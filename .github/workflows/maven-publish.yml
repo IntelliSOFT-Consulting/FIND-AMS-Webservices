@@ -1,4 +1,7 @@
-name: Build and Deploy FIND-AMS Back-end Services
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Build and Deploy Spring Boot Microservices
 
 on:
   pull_request:
@@ -9,9 +12,10 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   SSH_PORT: 22
-  SSH_USERNAME:  ${{ secrets.SSH_USER }}
-  SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+  SSH_PASS: ${{ secrets.SSH_PRIVATE_KEY }}
   SSH_HOST: ${{ secrets.SSH_HOST }}
+  SSH_USER: ${{ secrets.SSH_USER }}
   CONTAINER_NAME: findams
   IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/findams:latest
 
@@ -33,20 +37,25 @@ jobs:
       - name: Build with Maven
         run: mvn clean package
 
-      - name: Build & push FIND AMS Docker image
+      - name: Build & push Docker image
         run: |
           echo '${{ env.DOCKER_PASSWORD }}' | docker login -u ${{ env.DOCKER_USERNAME }} --password-stdin
           docker buildx create --use --name workflowBuilder
           docker buildx build --platform=linux/amd64,linux/arm64 -t ${{ env.IMAGE_NAME }} --push .
           docker logout
 
-      - name: Remote ssh to server and update FIND-AMS API server
+      - name: Setup SSH keys
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ env.SSH_PASS }}
+
+      - name: Remote ssh to server and update FIND/AMS API server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.SSH_HOST }}
-          username: ${{ env.SSH_USERNAME }}
+          username: ${{ env.SSH_USER }}
           port: ${{ env.SSH_PORT }}
-          password: ${{ env.SSH_PASSWORD }}
+          key: ${{ env.SSH_PASS }}
           script_stop: true
           script: |
             if docker ps -a --format '{{.Names}}' | grep -q ${{ env.CONTAINER_NAME }}; then
