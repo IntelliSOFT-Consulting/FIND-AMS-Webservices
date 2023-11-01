@@ -23,11 +23,11 @@ public class HttpClientService {
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
 
-    @Value("${ams.funsoft.antibiotic-prescriptions-url}")
-    private String funsoftApiUrl;
+    @Value("${ams.funsoft.amu-url}")
+    private String amuApiUrl;
 
-    @Value("${ams.funsoft.daily-admissions-url}")
-    private String dailyAdmissionsUrl;
+    @Value("${ams.funsoft.amc-url}")
+    private String amcUrl;
 
     @Value("${ams.dhis.username}")
     private String username;
@@ -44,6 +44,9 @@ public class HttpClientService {
     @Value("${ams.datastore-url}")
     private String datastoreUrl;
 
+    @Value("${ams.event-program-url}")
+    private String eventProgramUrl;
+
     public HttpClientService(WebClient.Builder webClientBuilder,
                              @Value("${ams.whonet-data-upload-url}") String whonetDataUploadUrl,
                              @Value("${ams.dhis.username}") String username,
@@ -57,7 +60,7 @@ public class HttpClientService {
 
 
     public Mono<String> getPatientsAntibioticPrescriptions(String patientId, String startDate, String endDate) {
-        String apiUrl = funsoftApiUrl + "patient_id=" + patientId + "&startDate=" + startDate + "&endDate=" + endDate;
+        String apiUrl = amuApiUrl + "patient_id=" + patientId + "&startDate=" + startDate + "&endDate=" + endDate;
         return webClient.get()
                 .uri(apiUrl)
                 .retrieve()
@@ -65,7 +68,7 @@ public class HttpClientService {
     }
 
     public Mono<String> fetchDailyAdmissions(String patientId, String startDate, String endDate) {
-        String apiUrl = dailyAdmissionsUrl + "patient_id=" + patientId + "&startDate=" + startDate + "&endDate=" + endDate;
+        String apiUrl = amcUrl + "patient_id=" + patientId + "&startDate=" + startDate + "&endDate=" + endDate;
         return webClient.get()
                 .uri(apiUrl)
                 .retrieve()
@@ -112,7 +115,7 @@ public class HttpClientService {
     }
 
     public Disposable postToDhis2DataStore(FileParseSummaryDto fileParseSummaryDto) {
-        String apiUrl = datastoreUrl;
+        String apiUrl = "";
         ObjectMapper objectMapper = new ObjectMapper();
         String payloadJson;
 
@@ -136,4 +139,24 @@ public class HttpClientService {
                     log.info("Response from DHIS2 DataStore: {}", response);
                 });
     }
+
+    public Mono<String> postEventProgram(String finalPayload) {
+        String apiUrl = eventProgramUrl;
+
+        return webClient.post()
+                .uri(apiUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(finalPayload))
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is2xxSuccessful()) {
+                        return response.bodyToMono(String.class);
+                    } else {
+                        return response.bodyToMono(String.class).flatMap(body -> {
+                            log.error("Error occurred while posting AMU Event Program to DHIS2: {}", body);
+                            return Mono.just(body);
+                        });
+                    }
+                });
+    }
+
 }
