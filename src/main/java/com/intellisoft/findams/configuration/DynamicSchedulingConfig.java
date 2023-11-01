@@ -3,7 +3,7 @@ package com.intellisoft.findams.configuration;
 
 import com.intellisoft.findams.constants.Constants;
 import com.intellisoft.findams.service.FileParsingService;
-import com.intellisoft.findams.service.FunsoftService;
+import com.intellisoft.findams.service.EventProgramService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,8 +27,8 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     @Autowired
     FileParsingService fileParsingService;
     @Autowired
-    FunsoftService funsoftService;
-
+    EventProgramService eventProgramService;
+    
     @Bean
     public TaskScheduler poolScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
@@ -43,91 +43,63 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
         taskRegistrar.setScheduler(poolScheduler());
 
         // Schedule the request to read and parse WHONET files in the directory every 2 minutes // or x hours
-        taskRegistrar.addTriggerTask(
-                () -> {
-                    // Get a list of files in the directory
-                    File directory = new File(Constants.WHONET_FILE_PATH);
-                    File[] files = directory.listFiles();
+        taskRegistrar.addTriggerTask(() -> {
+            // Get a list of files in the directory
+            File directory = new File(Constants.WHONET_FILE_PATH);
+            File[] files = directory.listFiles();
 
-                    if (files != null) {
-                        for (File file : files) {
-                            if (file.isFile()) {
-                                try {
-                                    // Read the content of each file
-                                    String filePath = file.getAbsolutePath();
-                                    String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        try {
+                            // Read the content of each file
+                            String filePath = file.getAbsolutePath();
+                            String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
 
-                                    // process file content
-                                    fileParsingService.parseFile(filePath, fileContent);
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                    log.error("File not found: " + file.getAbsolutePath());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                            // process file content
+                            fileParsingService.parseFile(filePath, fileContent);
+                            System.out.println("fileParsingService working");
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                            log.error("File not found: " + file.getAbsolutePath());
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
-                },
-                triggerContext -> {
-                    // Calculate the next execution time based on the current time and a 2-minute interval
-                    Date lastExecutionTime = triggerContext.lastActualExecutionTime();
-                    if (lastExecutionTime == null) {
-                        lastExecutionTime = new Date();
-                    }
-                    long twoMinutesInMillis = TimeUnit.MINUTES.toMillis(1);
-                    Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
-
-                    log.info("Next File Parse scheduled time -> {}", nextExecutionTime);
-                    return nextExecutionTime.toInstant();
                 }
-        );
+            }
+        }, triggerContext -> {
+            // Calculate the next execution time based on the current time and a 2-minute interval
+            Date lastExecutionTime = triggerContext.lastActualExecutionTime();
+            if (lastExecutionTime == null) {
+                lastExecutionTime = new Date();
+            }
+            long twoMinutesInMillis = TimeUnit.MINUTES.toMillis(1);
+            Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
 
-        // cron task 2:
-        // Schedule the request to fetch Prescriptions data from an FUNSOFT HMIS
-        taskRegistrar.addTriggerTask(
-                () -> {
-                    // Your logic to fetch data from the external API
-                    funsoftService.getPatientsAntibioticPrescriptions();
-                },
-                triggerContext -> {
-                    // Calculate the next execution time for the external API task
-                    Date lastExecutionTime = triggerContext.lastActualExecutionTime();
-                    if (lastExecutionTime == null) {
-                        lastExecutionTime = new Date();
-                    }
+            log.info("Next File Parse scheduled time -> {}", nextExecutionTime);
+            return nextExecutionTime.toInstant();
+        });
 
-                    long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
-                    Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
 
-                    log.info("Next Prescription Data fetch scheduled time -> {}", nextExecutionTime);
+        // Schedule the request to fetch AMU/AMC data from an FUNSOFT HMIS
+        taskRegistrar.addTriggerTask(() -> {
+            // Your logic to fetch data from the external API
+            eventProgramService.fetchAMUData();
+        }, triggerContext -> {
+            // Calculate the next execution time for the external API task
+            Date lastExecutionTime = triggerContext.lastActualExecutionTime();
+            if (lastExecutionTime == null) {
+                lastExecutionTime = new Date();
+            }
 
-                    // Return the next execution time
-                    return nextExecutionTime.toInstant();
-                }
-        );
+            long oneDayInMillis = TimeUnit.MINUTES.toMillis(1);
+            Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
 
-        // cron task 3:
-        // Schedule the request to fetch admissions data from an FUNSOFT HMIS
-        taskRegistrar.addTriggerTask(
-                () -> {
-                    // Your logic to fetch data from the external API
-                    funsoftService.getDailyAdmissions();
-                },
-                triggerContext -> {
-                    // Calculate the next execution time for the external API task
-                    Date lastExecutionTime = triggerContext.lastActualExecutionTime();
-                    if (lastExecutionTime == null) {
-                        lastExecutionTime = new Date();
-                    }
+            log.info("Next AMS Data fetch scheduled time -> {}", nextExecutionTime);
 
-                    long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
-                    Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
-                    log.info("Next Daily Admissions Data fetch scheduled time -> {}", nextExecutionTime);
-
-                    // Return the next execution time
-                    return nextExecutionTime.toInstant();
-                }
-        );
+            // Return the next execution time
+            return nextExecutionTime.toInstant();
+        });
     }
 }
