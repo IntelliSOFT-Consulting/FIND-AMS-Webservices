@@ -82,69 +82,64 @@ public class FileParsingService {
         processExcelFile(sheet);
 
         // Fetch tracked entity attributes from DHIS2 API:
-        Disposable subscription = httpClientService.fetchTrackedEntityAttributes()
-                .subscribe(
-                        attributesResponse -> {
-                            // Create a list to hold the main payload
-                            List<Map<String, Object>> trackedEntityInstances = new ArrayList<>();
+        Disposable subscription = httpClientService.fetchTrackedEntityAttributes().subscribe(attributesResponse -> {
+            // Create a list to hold the main payload
+            List<Map<String, Object>> trackedEntityInstances = new ArrayList<>();
 
-                            // Initialize attribute to columns mapping
-                            Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
+            // Initialize attribute to columns mapping
+            Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
 
-                            Map<String, String> attributeIdMapping = createAttributeIdMapping(attributesResponse);
+            Map<String, String> attributeIdMapping = createAttributeIdMapping(attributesResponse);
 
-                            // Iterate over the Excel data
-                            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                                Row excelRow = sheet.getRow(i);
+            // Iterate over the Excel data
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row excelRow = sheet.getRow(i);
 
-                                // Create a payload for the tracked entity instance
-                                Map<String, Object> trackedEntityInstance = new HashMap<>();
-                                trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
-                                trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                // Create a payload for the tracked entity instance
+                Map<String, Object> trackedEntityInstance = new HashMap<>();
+                trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
+                trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
 
-                                // Create a list to hold attributes for this instance
-                                List<Map<String, Object>> attributesList = new ArrayList<>();
+                // Create a list to hold attributes for this instance
+                List<Map<String, Object>> attributesList = new ArrayList<>();
 
-                                // Iterate over the tracked entity attributes and Excel columns
-                                for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
-                                    String attributeDisplayName = entry.getKey();
-                                    String columnMapping = entry.getValue();
-                                    int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
+                // Iterate over the tracked entity attributes and Excel columns
+                for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
+                    String attributeDisplayName = entry.getKey();
+                    String columnMapping = entry.getValue();
+                    int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
 
-                                    if (columnIndex >= 0) {
-                                        String cellValue = getCellValue(excelRow, columnIndex);
-                                        String attributeId = attributeIdMapping.get(attributeDisplayName);
-                                        Map<String, Object> attributeEntry = new HashMap<>();
-                                        attributeEntry.put("attribute", attributeId);
-                                        attributeEntry.put("value", cellValue);
+                    if (columnIndex >= 0) {
+                        String cellValue = getCellValue(excelRow, columnIndex);
+                        String attributeId = attributeIdMapping.get(attributeDisplayName);
+                        Map<String, Object> attributeEntry = new HashMap<>();
+                        attributeEntry.put("attribute", attributeId);
+                        attributeEntry.put("value", cellValue);
 
-                                        attributesList.add(attributeEntry);
-                                    }
-                                }
+                        attributesList.add(attributeEntry);
+                    }
+                }
 
-                                trackedEntityInstance.put("attributes", attributesList);
+                trackedEntityInstance.put("attributes", attributesList);
 
-                                trackedEntityInstances.add(trackedEntityInstance);
-                            }
+                trackedEntityInstances.add(trackedEntityInstance);
+            }
 
-                            Map<String, Object> trackedEntityInstancePayload = new HashMap<>();
-                            trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
+            Map<String, Object> trackedEntityInstancePayload = new HashMap<>();
+            trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
 
-                            httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload)
-                                    .doOnError(error -> {
-                                        log.error("Error occurred {}", error.getMessage());
-                                    })
-                                    .subscribe(response -> {
-                                        // Implement batching logic for processed files
-                                        // send API response to send later to datastore
-                                        processedFilePaths.add(filePath);
-                                        batchProcessedFiles(processedFilePaths, response);
-                                    });
-                        },
-                        error -> {
-                            log.error("Error occurred while fetching attributes: {}", error.getMessage());
-                        }
-                );
+            httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
+                log.error("Error occurred {}", error.getMessage());
+            }).subscribe(response -> {
+                // Implement batching logic for processed files
+                // send API response to send later to datastore
+
+                processedFilePaths.add(filePath);
+                batchProcessedFiles(processedFilePaths, response);
+            });
+        }, error -> {
+            log.error("Error occurred while fetching attributes: {}", error.getMessage());
+        });
 
         return subscription;
     }
@@ -279,7 +274,11 @@ public class FileParsingService {
                 FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse);
 
                 if (fileParseSummaryDto != null) {
-                    httpClientService.postToDhis2DataStore(fileParseSummaryDto);
+
+                    List<FileParseSummaryDto> updatedSummaryList = new ArrayList<>();
+                    updatedSummaryList.add(fileParseSummaryDto);
+
+                    httpClientService.postToDhis2DataStore(updatedSummaryList);
                 }
             } else {
                 log.error("Destination folder does not exist or is not a directory: {}", processedFilesFolderPath);
