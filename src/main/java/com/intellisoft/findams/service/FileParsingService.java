@@ -38,29 +38,31 @@ public class FileParsingService {
         Map<String, String> mapping = new HashMap<>();
         mapping.put("Organism", "ORGANISM");
         mapping.put("Organism Type", "ORG_TYPE");
-        mapping.put("Patient unique ID", "PATIENT_ID");
+        mapping.put("Patient ID", "PATIENT_ID");
         mapping.put("First Name", "FIRST_NAME");
         mapping.put("Last Name", "LAST_NAME");
         mapping.put("Middle Name", "X_MIDDLE_N");
         mapping.put("Sex", "SEX");
-        mapping.put("Age with Age Unit(Years,Months,Days)", "AGE");
+        mapping.put("Age (Years)", "AGE");
         mapping.put("County", "X_COUNTY");
         mapping.put("Sub-county", "X_S_COUNTY");
         mapping.put("Diagnosis", "X_DIAGN");
-        mapping.put("Ward", "WARD");
+        mapping.put("Patient Ward", "WARD");
         mapping.put("Department", "DEPARTMENT");
         mapping.put("Ward Type", "WARD_TYPE");
         mapping.put("Date of admission", "DATE_ADMIS");
         mapping.put("Specimen/sample Number", "SPEC_NUM");
         mapping.put("Isolate Number/Test", "ISOL_NUM");
-        mapping.put("Specimen collection date", "SPEC_DATE");
+        mapping.put("Spec collection date", "SPEC_DATE");
         mapping.put("Specimen Type", "SPEC_TYPE");
-        mapping.put("Specimen Source", "X_SOURCE");
+        mapping.put("Specimen source", "X_SOURCE");
         mapping.put("Method", "X_METHOD");
         return mapping;
     }
 
     public Disposable parseFile(String filePath, String fileContent) throws IOException {
+        System.out.println("file-path" +filePath);
+
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Sheet1");
 
