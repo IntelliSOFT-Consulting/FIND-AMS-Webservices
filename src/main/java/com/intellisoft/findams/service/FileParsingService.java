@@ -16,6 +16,7 @@ import reactor.core.Disposable;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
@@ -61,7 +62,7 @@ public class FileParsingService {
     }
 
     public Disposable parseFile(String filePath, String fileContent) throws IOException {
-        System.out.println("file-path" +filePath);
+        System.out.println("file-path" + filePath);
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Sheet1");
@@ -187,13 +188,16 @@ public class FileParsingService {
             columnToAttributeMapping.put(entry.getValue(), entry.getKey());
         }
 
+        int sexColumnIndex = -1;
         int specNumColumnIndex = -1;
         int specDateColumnIndex = -1;
 
-        // Find the columns for SPEC_NUM and SPEC_DATE
+        // Find the columns for "SEX", "SPEC_NUM", and "SPEC_DATE"
         for (Cell cell : headerRow) {
             String columnName = cell.getStringCellValue();
-            if (columnName.equals("SPEC_NUM")) {
+            if (columnName.equals("SEX")) {
+                sexColumnIndex = cell.getColumnIndex();
+            } else if (columnName.equals("SPEC_NUM")) {
                 specNumColumnIndex = cell.getColumnIndex();
             } else if (columnName.equals("SPEC_DATE")) {
                 specDateColumnIndex = cell.getColumnIndex();
@@ -209,6 +213,16 @@ public class FileParsingService {
                 Row row = sheet.getRow(i);
 
                 if (row != null) {
+
+                    Cell sexCell = row.getCell(sexColumnIndex);
+                    String sexValue = sexCell.getStringCellValue();
+
+                    if ("m".equalsIgnoreCase(sexValue)) {
+                        sexCell.setCellValue("MALE");
+                    } else if ("f".equalsIgnoreCase(sexValue)) {
+                        sexCell.setCellValue("FEMALE");
+                    }
+
                     // Process SPEC_NUM column
                     Cell specNumCell = row.getCell(specNumColumnIndex);
                     String specNum = specNumCell.getStringCellValue();
@@ -275,18 +289,15 @@ public class FileParsingService {
 
                 FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse);
 
-                if (fileParseSummaryDto != null) {
+                httpClientService.postToDhis2DataStore(fileParseSummaryDto).subscribe();
 
-                    List<FileParseSummaryDto> updatedSummaryList = new ArrayList<>();
-                    updatedSummaryList.add(fileParseSummaryDto);
-
-                    httpClientService.postToDhis2DataStore(updatedSummaryList);
-                }
             } else {
                 log.error("Destination folder does not exist or is not a directory: {}", processedFilesFolderPath);
             }
         } catch (IOException e) {
             log.error("Error while moving files: {}", e.getMessage());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -306,48 +317,34 @@ public class FileParsingService {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(apiResponse);
-            JsonNode responseNode = jsonNode.get("response");
 
-            if (responseNode != null && responseNode.isObject()) {
-                JsonNode responseTypeNode = responseNode.get("responseType");
-                JsonNode statusNode = responseNode.get("status");
-                JsonNode importedNode = responseNode.get("imported");
-                JsonNode updatedNode = responseNode.get("updated");
-                JsonNode deletedNode = responseNode.get("deleted");
-                JsonNode ignoredNode = responseNode.get("ignored");
+            FileParseSummaryDto fileParseSummaryDto = new FileParseSummaryDto();
 
-                FileParseSummaryDto fileParseSummaryDto = new FileParseSummaryDto();
+            JsonNode importSummariesNode = jsonNode.path("response").path("importSummaries");
 
-                if (responseTypeNode != null && responseTypeNode.isTextual()) {
-                    fileParseSummaryDto.setStatus(responseTypeNode.asText());
-                }
+            for (JsonNode summaryNode : importSummariesNode) {
 
-                if (statusNode != null && statusNode.isTextual()) {
-                    fileParseSummaryDto.setStatus(statusNode.asText());
-                }
+                String responseType = summaryNode.path("responseType").asText();
+                String status = summaryNode.path("status").asText();
 
-                if (importedNode != null && importedNode.isInt()) {
-                    fileParseSummaryDto.setImported(String.valueOf(importedNode.asInt()));
-                }
+                JsonNode importCountNode = summaryNode.path("importCount");
+                int imported = importCountNode.path("imported").asInt();
+                int updated = importCountNode.path("updated").asInt();
+                int ignored = importCountNode.path("ignored").asInt();
+                int deleted = importCountNode.path("deleted").asInt();
 
-                if (updatedNode != null && updatedNode.isInt()) {
-                    fileParseSummaryDto.setUpdated(String.valueOf(updatedNode.asInt()));
-                }
-
-                if (deletedNode != null && deletedNode.isInt()) {
-                    fileParseSummaryDto.setDeleted(String.valueOf(deletedNode.asInt()));
-                }
-
-                if (ignoredNode != null && ignoredNode.isInt()) {
-                    fileParseSummaryDto.setIgnored(String.valueOf(ignoredNode.asInt()));
-                }
-
-                return fileParseSummaryDto;
+                fileParseSummaryDto.setResponseType(responseType);
+                fileParseSummaryDto.setStatus(status);
+                fileParseSummaryDto.setImported(imported);
+                fileParseSummaryDto.setUpdated(updated);
+                fileParseSummaryDto.setDeleted(deleted);
+                fileParseSummaryDto.setIgnored(ignored);
             }
-        } catch (Exception e) {
-            log.error("Error while parsing the response: {}", e.getMessage());
-        }
+            return fileParseSummaryDto;
 
+        } catch (Exception e) {
+            log.error("Error while processing import summaries: {}", e.getMessage());
+        }
         return null;
     }
 }

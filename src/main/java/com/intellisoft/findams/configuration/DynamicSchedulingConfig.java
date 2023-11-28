@@ -83,7 +83,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
         // Schedule the request to fetch AMU/AMC data from an FUNSOFT HMIS
         taskRegistrar.addTriggerTask(() -> {
-            eventProgramService.fetchAMUData();
+//            eventProgramService.fetchAMUData();
         }, triggerContext -> {
             // Calculate the next execution time for the external API task
             Date lastExecutionTime = triggerContext.lastActualExecutionTime();
@@ -91,7 +91,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 lastExecutionTime = new Date();
             }
 
-            long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
+            long oneDayInMillis = TimeUnit.MINUTES.toMillis(1);
             Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
 
             log.info("Next AMS Data fetch scheduled time -> {}", nextExecutionTime);
