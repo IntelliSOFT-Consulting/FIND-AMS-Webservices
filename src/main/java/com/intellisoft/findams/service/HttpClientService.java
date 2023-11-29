@@ -51,6 +51,24 @@ public class HttpClientService {
     @Value("${ams.option-set-url}")
     private String optionSetUrl;
 
+    @Value("${ams.atc-codes-url}")
+    private String atcCodesUrl;
+
+    @Value("${ams.org-units-url}")
+    private String orgUnitsUrl;
+
+    @Value("${ams.tracked-entity-types-url}")
+    private String trackedEntityUrl;
+
+    @Value("${ams.amu-program-metadata-url}")
+    private String amuMetaDataUrl;
+
+    @Value("${ams.amc-program-metadata-url}")
+    private String amcMetaDataUrl;
+
+    @Value("${ams.enrollments-url}")
+    private String enrollmentsUrl;
+
     public HttpClientService(WebClient.Builder webClientBuilder, @Value("${ams.whonet-data-upload-url}") String whonetDataUploadUrl, @Value("${ams.dhis.username}") String username, @Value("${ams.dhis.password}") String password, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.webClient = webClientBuilder.baseUrl(whonetDataUploadUrl).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).defaultHeader(HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes())).build();
@@ -71,7 +89,6 @@ public class HttpClientService {
     public Mono<JsonNode> fetchTrackedEntityAttributes() {
         String apiUrl = trackedEntityAttributes;
         return webClient.get().uri(apiUrl).retrieve().bodyToMono(JsonNode.class).doOnNext(response -> {
-            System.out.println("Response: " + response);
         });
     }
 
@@ -82,7 +99,6 @@ public class HttpClientService {
 
         try {
             payloadJson = objectMapper.writeValueAsString(trackedEntityInstancePayload);
-            System.out.println("payloadJson" + payloadJson);
         } catch (JsonProcessingException e) {
             return Mono.just("{'error':'Failed to convert payload to JSON'}");
         }
@@ -102,53 +118,38 @@ public class HttpClientService {
     public Mono<String> postToDhis2DataStore(FileParseSummaryDto fileParseSummaryDto) throws URISyntaxException, JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
+        return getFromDhis2DataStore().flatMap(existingData -> {
+            existingData.add(fileParseSummaryDto);
+            String payloadJson = null;
+            try {
+                payloadJson = objectMapper.writeValueAsString(existingData);
 
-        return getFromDhis2DataStore()
-                .flatMap(existingData -> {
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
 
-                    log.info("existingData {}", existingData);
-                    existingData.add(fileParseSummaryDto);
-
-                    String payloadJson = null;
-                    try {
-                        payloadJson = objectMapper.writeValueAsString(existingData);
-
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    return updateDhis2DataStore(payloadJson);
-                });
+            return updateDhis2DataStore(payloadJson);
+        });
     }
 
     public Mono<List<FileParseSummaryDto>> getFromDhis2DataStore() {
-        String apiUrl = datastoreUrl + "/keyDefaultLayoutLocked";
 
-        return webClient.get()
-                .uri(apiUrl)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<FileParseSummaryDto>>() {
-                })
-                .onErrorResume(e -> {
-                    log.error("Error while getting data from DHIS2 DataStore: {}", e.getMessage());
-                    return Mono.just(Collections.emptyList());
-                });
+        String apiUrl = datastoreUrl + "/keyDefaultLayoutLocked";
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(new ParameterizedTypeReference<List<FileParseSummaryDto>>() {
+        }).onErrorResume(e -> {
+            log.error("Error while getting data from DHIS2 DataStore: {}", e.getMessage());
+            return Mono.just(Collections.emptyList());
+        });
     }
 
     public Mono<String> updateDhis2DataStore(String payloadJson) {
 
         String apiUrl = datastoreUrl + "/keyDefaultLayoutLocked";
 
-        return webClient.method(HttpMethod.PUT)
-                .uri(apiUrl)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(payloadJson))
-                .retrieve()
-                .bodyToMono(String.class)
-                .onErrorResume(e -> {
-                    log.error("Error while updating DHIS2 DataStore: {}", e.getMessage());
-                    return Mono.just("Error updating DHIS2 DataStore");
-                });
+        return webClient.method(HttpMethod.PUT).uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(payloadJson)).retrieve().bodyToMono(String.class).onErrorResume(e -> {
+            log.error("Error while updating DHIS2 DataStore: {}", e.getMessage());
+            return Mono.just("Error updating DHIS2 DataStore");
+        });
     }
 
 
@@ -182,23 +183,26 @@ public class HttpClientService {
         });
     }
 
-    public Mono<Map<String, String>> fetchOptionSets() {
+    public Mono<Map<String, Map<String, String>>> fetchOptionSets() {
         String apiUrl = optionSetUrl;
 
         return webClient.get().uri(apiUrl).retrieve().bodyToMono(JsonNode.class).map(response -> {
-            Map<String, String> optionSetsMap = new HashMap<>();
+            Map<String, Map<String, String>> optionSetsMap = new HashMap<>();
 
             JsonNode optionSets = response.path("optionSets");
             for (JsonNode optionSet : optionSets) {
                 String displayName = optionSet.path("displayName").asText();
                 JsonNode options = optionSet.path("options");
 
+                Map<String, String> optionsMap = new HashMap<>();
+
                 for (JsonNode option : options) {
                     String code = option.path("code").asText();
                     String name = option.path("name").asText();
 
-                    optionSetsMap.put(code, name);
+                    optionsMap.put(code, name);
                 }
+                optionSetsMap.put(displayName, optionsMap);
             }
 
             return optionSetsMap;
@@ -208,4 +212,90 @@ public class HttpClientService {
     }
 
 
+    public Mono<Double> fetchDddValue(String medicationName) {
+        String apiUrl = atcCodesUrl;
+
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(JsonNode.class).doOnSuccess(dataStoreResponse -> {
+            List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
+
+            for (JsonNode dddData : dddDataList) {
+                if (medicationName.equalsIgnoreCase(dddData.asText())) {
+                    double dddValue = dddData.path("DDD").asDouble();
+                    log.info("Response from DHIS2: Medication Name: {}, DDD Value: {}", medicationName, dddValue);
+                }
+            }
+        }).map(dataStoreResponse -> {
+            List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
+
+            for (JsonNode dddData : dddDataList) {
+                if (medicationName.equalsIgnoreCase(dddData.asText())) {
+                    return dddData.path("DDD").asDouble();
+                }
+            }
+            return 0.0;
+        });
+    }
+
+    public Mono<String> getOrgUnits() {
+        String apiUrl = orgUnitsUrl;
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(Map.class).map(response -> {
+            // Extract the id from organisationUnits
+            List<Map<String, Object>> organisationUnits = (List<Map<String, Object>>) response.get("organisationUnits");
+
+            if (organisationUnits != null && !organisationUnits.isEmpty()) {
+                // Assuming you want the id from the first organisation unit
+                Map<String, Object> firstOrganisationUnit = organisationUnits.get(0);
+                return firstOrganisationUnit.get("id").toString();
+            } else {
+                return "No organisation units found";
+            }
+        });
+    }
+
+    public Mono<String> getTrackedEntityTypes() {
+        String apiUrl = trackedEntityUrl;
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(String.class).map(response -> {
+            // Parse the JSON response
+            JsonNode rootNode = null;
+            try {
+                rootNode = objectMapper.readTree(response);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            JsonNode trackedEntityTypesNode = rootNode.path("trackedEntityTypes");
+
+            if (trackedEntityTypesNode.isArray()) {
+                for (JsonNode trackedEntityTypeNode : trackedEntityTypesNode) {
+                    JsonNode idNode = trackedEntityTypeNode.path("id");
+                    return idNode.asText();
+                }
+            }
+            return "Tracked entity type not found";
+        });
+    }
+
+    public Mono<String> getAmuMetaData() {
+        String apiUrl = amuMetaDataUrl;
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(String.class);
+    }
+
+    public Mono<String> getAmcMetaData() {
+        String apiUrl = amcMetaDataUrl;
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(String.class);
+    }
+
+    public Mono<String> postEnrollmentToDhis(String enrollmentReqPayload) {
+        String apiUrl = enrollmentsUrl;
+
+        return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(enrollmentReqPayload)).exchangeToMono(response -> {
+            if (response.statusCode().is2xxSuccessful()) {
+                return response.bodyToMono(String.class);
+            } else {
+                return response.bodyToMono(String.class).flatMap(body -> {
+                    log.error("Error occurred while posting enrollment for tracked entity to DHIS2: {}", body);
+                    return Mono.just(body);
+                });
+            }
+        });
+    }
 }

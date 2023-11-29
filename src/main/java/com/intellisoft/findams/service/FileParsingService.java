@@ -1,10 +1,12 @@
 package com.intellisoft.findams.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellisoft.findams.constants.Constants;
 import com.intellisoft.findams.dto.FileParseSummaryDto;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -13,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.Disposable;
+import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -62,7 +66,6 @@ public class FileParsingService {
     }
 
     public Disposable parseFile(String filePath, String fileContent) throws IOException {
-        System.out.println("file-path" + filePath);
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Sheet1");
@@ -94,51 +97,84 @@ public class FileParsingService {
 
             Map<String, String> attributeIdMapping = createAttributeIdMapping(attributesResponse);
 
-            // Iterate over the Excel data
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                Row excelRow = sheet.getRow(i);
+            // Fetch option sets
+            Mono<Map<String, Map<String, String>>> optionSetsMono = httpClientService.fetchOptionSets();
 
-                // Create a payload for the tracked entity instance
-                Map<String, Object> trackedEntityInstance = new HashMap<>();
-                trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
-                trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+            optionSetsMono.subscribe(optionSetsMap -> {
+                // Iterate over the Excel data
+                for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                    Row excelRow = sheet.getRow(i);
 
-                // Create a list to hold attributes for this instance
-                List<Map<String, Object>> attributesList = new ArrayList<>();
+                    // Create a payload for the tracked entity instance
+                    Map<String, Object> trackedEntityInstance = new HashMap<>();
+                    trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
+                    trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
 
-                // Iterate over the tracked entity attributes and Excel columns
-                for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
-                    String attributeDisplayName = entry.getKey();
-                    String columnMapping = entry.getValue();
-                    int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
+                    // Create a list to hold attributes for this instance
+                    List<Map<String, Object>> attributesList = new ArrayList<>();
 
-                    if (columnIndex >= 0) {
-                        String cellValue = getCellValue(excelRow, columnIndex);
-                        String attributeId = attributeIdMapping.get(attributeDisplayName);
-                        Map<String, Object> attributeEntry = new HashMap<>();
-                        attributeEntry.put("attribute", attributeId);
-                        attributeEntry.put("value", cellValue);
+                    // Iterate over the tracked entity attributes and Excel columns
+                    for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
+                        String attributeDisplayName = entry.getKey();
+                        String columnMapping = entry.getValue();
+                        int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
 
-                        attributesList.add(attributeEntry);
+                        if (columnIndex >= 0) {
+                            String cellValue = getCellValue(excelRow, columnIndex);
+                            String attributeId = attributeIdMapping.get(attributeDisplayName);
+
+                            // Map attribute values to option set codes
+                            if (optionSetsMap.containsKey(attributeDisplayName)) {
+                                Map<String, String> optionsMap = optionSetsMap.get(attributeDisplayName);
+
+                                if (optionsMap.containsValue(cellValue)) {
+                                    String finalCellValue = cellValue;
+                                    String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                    cellValue = code;
+                                }
+                            } else {
+
+                                // Handling for special cases where the attribute display name doesn't match exactly with OptionSet name
+                                String closestMatch = optionSetsMap.keySet().stream().min(Comparator.comparing(a -> StringUtils.getJaroWinklerDistance(a.toLowerCase(), attributeDisplayName.toLowerCase()))).orElse(attributeDisplayName);
+
+                                if ("Specimen Type".equalsIgnoreCase(attributeDisplayName)) {
+                                    Map<String, String> optionsMap = optionSetsMap.get("Specimens");
+                                    if (optionsMap.containsValue(cellValue)) {
+                                        String finalCellValue = cellValue;
+                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                        cellValue = code;
+                                    }
+                                } else if (optionSetsMap.containsKey(closestMatch)) {
+                                    Map<String, String> optionsMap = optionSetsMap.get(closestMatch);
+                                    if (optionsMap.containsValue(cellValue)) {
+                                        String finalCellValue = cellValue;
+                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                        cellValue = code;
+                                    }
+                                }
+                            }
+
+                            Map<String, Object> attributeEntry = new HashMap<>();
+                            attributeEntry.put("attribute", attributeId);
+                            attributeEntry.put("value", cellValue);
+                            attributesList.add(attributeEntry);
+                        }
                     }
+                    trackedEntityInstance.put("attributes", attributesList);
+                    trackedEntityInstances.add(trackedEntityInstance);
                 }
 
-                trackedEntityInstance.put("attributes", attributesList);
+                Map<String, Object> trackedEntityInstancePayload = new HashMap<>();
+                trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
 
-                trackedEntityInstances.add(trackedEntityInstance);
-            }
-
-            Map<String, Object> trackedEntityInstancePayload = new HashMap<>();
-            trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
-
-            httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
-                log.error("Error occurred {}", error.getMessage());
-            }).subscribe(response -> {
-                // Implement batching logic for processed files
-                // send API response to send later to datastore
-
-                processedFilePaths.add(filePath);
-                batchProcessedFiles(processedFilePaths, response);
+                httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
+                    log.error("Error occurred {}", error.getMessage());
+                }).subscribe(response -> {
+                    // Implement batching logic for processed files
+                    // send API response to send later to datastore
+                    processedFilePaths.add(filePath);
+                    batchProcessedFiles(processedFilePaths, response);
+                });
             });
         }, error -> {
             log.error("Error occurred while fetching attributes: {}", error.getMessage());
@@ -320,30 +356,66 @@ public class FileParsingService {
 
             FileParseSummaryDto fileParseSummaryDto = new FileParseSummaryDto();
 
+            JsonNode responseNode = jsonNode.path("response");
+
+            String responseType = responseNode.path("responseType").asText();
+            String status = responseNode.path("status").asText();
+            int imported = responseNode.path("imported").asInt();
+            int updated = responseNode.path("updated").asInt();
+            int ignored = responseNode.path("ignored").asInt();
+            int deleted = responseNode.path("deleted").asInt();
+
+            fileParseSummaryDto.setResponseType(responseType);
+            fileParseSummaryDto.setStatus(status);
+            fileParseSummaryDto.setImported(imported);
+            fileParseSummaryDto.setUpdated(updated);
+            fileParseSummaryDto.setDeleted(deleted);
+            fileParseSummaryDto.setIgnored(ignored);
+
+            log.info("fileParseSummaryDto {}", fileParseSummaryDto);
+
+            // formulate a payload to send to Enrollment API ON DHIS:>>>>>>
             JsonNode importSummariesNode = jsonNode.path("response").path("importSummaries");
 
             for (JsonNode summaryNode : importSummariesNode) {
+                String importSummaryStatus = summaryNode.path("status").asText();
 
-                String responseType = summaryNode.path("responseType").asText();
-                String status = summaryNode.path("status").asText();
+                if (importSummaryStatus.equals("ERROR")) {
+                    return fileParseSummaryDto;
+                } else {
+                    String reference = summaryNode.path("reference").asText();
 
-                JsonNode importCountNode = summaryNode.path("importCount");
-                int imported = importCountNode.path("imported").asInt();
-                int updated = importCountNode.path("updated").asInt();
-                int ignored = importCountNode.path("ignored").asInt();
-                int deleted = importCountNode.path("deleted").asInt();
+                    // create an enrolment payload
+                    LocalDate enrollmentDate = LocalDate.now();
+                    LocalDate incidentDate = LocalDate.now();
 
-                fileParseSummaryDto.setResponseType(responseType);
-                fileParseSummaryDto.setStatus(status);
-                fileParseSummaryDto.setImported(imported);
-                fileParseSummaryDto.setUpdated(updated);
-                fileParseSummaryDto.setDeleted(deleted);
-                fileParseSummaryDto.setIgnored(ignored);
+                    // Build the enrollment payload
+                    Map<String, Object> enrollmentPayload = new HashMap<>();
+                    enrollmentPayload.put("trackedEntityInstance", reference);
+                    enrollmentPayload.put("program", Constants.WHONET_PROGRAM_ID);
+                    enrollmentPayload.put("status", "ACTIVE");
+                    enrollmentPayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                    enrollmentPayload.put("enrollmentDate", enrollmentDate.toString());
+                    enrollmentPayload.put("incidentDate", incidentDate.toString());
+
+                    String enrollmentReqPayload = null;
+
+                    try {
+                        enrollmentReqPayload = objectMapper.writeValueAsString(enrollmentPayload);
+                        // send to DHIS2 enrollment API::
+                        httpClientService.postEnrollmentToDhis(enrollmentReqPayload).subscribe(response -> {
+
+                        });
+                    } catch (JsonProcessingException e) {
+                        log.error("Error while converting enrollment payload to JSON: {}", e.getMessage());
+                    }
+
+                }
             }
-            return fileParseSummaryDto;
 
-        } catch (Exception e) {
-            log.error("Error while processing import summaries: {}", e.getMessage());
+            return fileParseSummaryDto;
+        } catch (Exception exp) {
+            log.error("Error while processing import summaries: {}", exp.getMessage());
         }
         return null;
     }
