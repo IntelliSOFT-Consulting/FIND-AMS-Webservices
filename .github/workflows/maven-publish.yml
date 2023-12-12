@@ -40,22 +40,25 @@ jobs:
       - name: Build & push Docker image
         run: |
           echo '${{ env.DOCKER_PASSWORD }}' | docker login -u ${{ env.DOCKER_USERNAME }} --password-stdin
-          docker buildx create --use --name workflowBuilder
+          docker build create --use --name workflowBuilder
           docker buildx build --platform=linux/amd64,linux/arm64 -t ${{ env.IMAGE_NAME }} --push .
           docker logout
-
+  deploy_dev:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
       - name: Setup SSH keys
         uses: webfactory/ssh-agent@v0.7.0
         with:
-          ssh-private-key: ${{ env.SSH_PASS }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Remote ssh to server and update FIND/AMS API server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.SSH_HOST }}
-          username: ${{ env.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
           port: ${{ env.SSH_PORT }}
-          key: ${{ env.SSH_PASS }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
           script: |
             if docker ps -a --format '{{.Names}}' | grep -q ${{ env.CONTAINER_NAME }}; then
