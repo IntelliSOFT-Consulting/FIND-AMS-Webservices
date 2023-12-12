@@ -40,7 +40,7 @@ jobs:
       - name: Build & push Docker image
         run: |
           echo '${{ env.DOCKER_PASSWORD }}' | docker login -u ${{ env.DOCKER_USERNAME }} --password-stdin
-          docker build create --use --name workflowBuilder
+          # docker build create --use --name workflowBuilder
           docker buildx build --platform=linux/amd64,linux/arm64 -t ${{ env.IMAGE_NAME }} --push .
           docker logout
   deploy_dev:
