@@ -1,4 +1,4 @@
 # FIND-AMS
 
 ### Description
-Back-end services & cron tasks  for the AMS digital tool.
+Back-end services & cron tasks  for the Anti Microbial Surveillance digital tool.
