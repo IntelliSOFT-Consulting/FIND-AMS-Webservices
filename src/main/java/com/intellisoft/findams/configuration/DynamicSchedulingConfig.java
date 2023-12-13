@@ -2,7 +2,7 @@ package com.intellisoft.findams.configuration;
 
 
 import com.intellisoft.findams.constants.Constants;
-import com.intellisoft.findams.service.FileParsingService;
+import com.intellisoft.findams.service.MicrobiologyService;
 import com.intellisoft.findams.service.EventProgramService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class DynamicSchedulingConfig implements SchedulingConfigurer {
     @Autowired
-    FileParsingService fileParsingService;
+    MicrobiologyService microbiologyService;
     @Autowired
     EventProgramService eventProgramService;
 
@@ -57,7 +57,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
 
                             // process file content
-                            fileParsingService.parseFile(filePath, fileContent);
+                            microbiologyService.parseFile(filePath, fileContent);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                             log.error("File not found: " + file.getAbsolutePath());

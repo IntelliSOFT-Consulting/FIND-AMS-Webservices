@@ -29,13 +29,13 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class FileParsingService {
+public class MicrobiologyService {
     private static final List<String> processedFilePaths = new ArrayList<>();
     private final HttpClientService httpClientService;
     private final Map<String, String> attributeToColumnMapping = initializeAttributeToColumnMapping();
 
     @Autowired
-    public FileParsingService(HttpClientService httpClientService) {
+    public MicrobiologyService(HttpClientService httpClientService) {
         this.httpClientService = httpClientService;
     }
 
