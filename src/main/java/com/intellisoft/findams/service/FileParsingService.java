@@ -257,7 +257,6 @@ public class FileParsingService {
                     // AwaRe Classification:
                     Mono<List<Map<String, String>>> apiResponseMono = httpClientService.fetchAwareClassification();
 
-                    // Handle errors if any
                     apiResponseMono.subscribe(apiResponseList -> {
                         // Iterate over columns
                         for (int columnIndex = getColumnIndex(sheet.getRow(0), "PIP_ND100"); columnIndex <= getColumnIndex(sheet.getRow(0), "PEN_NE"); columnIndex++) {
@@ -351,7 +350,6 @@ public class FileParsingService {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(new File(filePath));
 
-        // Iterate over JSON array and populate the map
         for (JsonNode node : jsonNode) {
             String displayName = node.get("displayName").asText();
             String id = node.get("id").asText();
@@ -802,7 +800,7 @@ public class FileParsingService {
                     }
                 }
             }
-            // Set conflict values in the DTO
+
             fileParseSummaryDto.setConflictValues(conflictValues);
             System.out.println("conflictValue" +conflictValues);
 
