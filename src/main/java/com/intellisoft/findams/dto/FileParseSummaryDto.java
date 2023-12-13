@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,4 +19,6 @@ public class FileParseSummaryDto {
     int updated;
     int deleted;
     int ignored;
+    String batchNo;
+    private List<String> conflictValues;
 }

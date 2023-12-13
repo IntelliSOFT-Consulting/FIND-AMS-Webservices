@@ -69,6 +69,15 @@ public class HttpClientService {
     @Value("${ams.enrollments-url}")
     private String enrollmentsUrl;
 
+    @Value("${ams.program-stage-attributes-url}")
+    private String programStageAtrributesUrl;
+
+    @Value("${ams.events-api-url}")
+    private String eventsApiUrl;
+
+    @Value("${ams.aware-class-url}")
+    private String awareUrl;
+
     public HttpClientService(WebClient.Builder webClientBuilder, @Value("${ams.whonet-data-upload-url}") String whonetDataUploadUrl, @Value("${ams.dhis.username}") String username, @Value("${ams.dhis.password}") String password, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.webClient = webClientBuilder.baseUrl(whonetDataUploadUrl).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).defaultHeader(HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes())).build();
@@ -99,6 +108,7 @@ public class HttpClientService {
 
         try {
             payloadJson = objectMapper.writeValueAsString(trackedEntityInstancePayload);
+            log.info("tracker payloadJson {}", payloadJson);
         } catch (JsonProcessingException e) {
             return Mono.just("{'error':'Failed to convert payload to JSON'}");
         }
@@ -298,4 +308,45 @@ public class HttpClientService {
             }
         });
     }
+
+    public Mono<String> postEventToDhis(Map<String, List<Map<String, String>>> enrollmentReqPayload) throws JsonProcessingException {
+        String apiUrl = eventsApiUrl;
+
+        return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(enrollmentReqPayload)).exchangeToMono(response -> {
+            if (response.statusCode().is2xxSuccessful()) {
+                return response.bodyToMono(String.class);
+            } else {
+                return response.bodyToMono(String.class).flatMap(body -> {
+                    log.error("Error occurred while posting event for enrollment to DHIS2: {}", body);
+                    return Mono.just(body);
+                });
+            }
+        });
+    }
+
+    public Mono<String> updateEventOnDhis(Map<String, Object> eventUpdatePayload) throws JsonProcessingException {
+        String apiUrl = eventsApiUrl;
+
+        log.info("updated event payload {}", objectMapper.writeValueAsString(eventUpdatePayload));
+
+        return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(eventUpdatePayload)).exchangeToMono(response -> {
+            if (response.statusCode().is2xxSuccessful()) {
+                return response.bodyToMono(String.class);
+            } else {
+                return response.bodyToMono(String.class).flatMap(body -> {
+                    log.error("Error occurred while updating event for enrollment to DHIS2: {}", body);
+                    return Mono.just(body);
+                });
+            }
+        });
+    }
+
+    public Mono<List<Map<String, String>>> fetchAwareClassification() {
+        String apiUrl = awareUrl;
+        return webClient.get()
+                .uri(apiUrl)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Map<String, String>>>() {});
+    }
+
 }

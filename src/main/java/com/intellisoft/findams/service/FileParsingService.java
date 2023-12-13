@@ -62,7 +62,74 @@ public class FileParsingService {
         mapping.put("Specimen Type", "SPEC_TYPE");
         mapping.put("Specimen source", "X_SOURCE");
         mapping.put("Method", "X_METHOD");
+        mapping.put("Test Type", "TEST_TYPE");
+        mapping.put("AWaRe Classification", "AWARE");
         return mapping;
+    }
+
+    private static Map<String, String> initializeEventAttributeToColumnMapping() {
+        Map<String, String> eventMapping = new HashMap<>();
+        eventMapping.put("AMC_ND20", "AMC_ND20");
+        eventMapping.put("AMK_ND30", "AMK_ND30");
+        eventMapping.put("AMP_ND10", "AMP_ND10");
+        eventMapping.put("ATM_ND30", "ATM_ND30");
+        eventMapping.put("AZM_ND15", "AZM_ND15");
+        eventMapping.put("CAZ_ND30", "CAZ_ND30");
+        eventMapping.put("CHL_ND30", "CHL_ND30");
+        eventMapping.put("CIP_ND5", "CIP_ND5");
+        eventMapping.put("CEP_ND30", "CEP_ND30");
+        eventMapping.put("CLI_ND2", "CLI_ND2");
+        eventMapping.put("COL_ND10", "COL_ND10");
+        eventMapping.put("CRB_ND100", "CRB_ND100");
+        eventMapping.put("CRO_ND30", "CRO_ND30");
+        eventMapping.put("CTX_ND30", "CTX_ND30");
+        eventMapping.put("CTX_NM", "CTX_NM");
+        eventMapping.put("CXM_ND30", "CXM_ND30");
+        eventMapping.put("CZX_ND30", "CZX_ND30");
+        eventMapping.put("DOX_ND30", "DOX_ND30");
+        eventMapping.put("ERY_ND15", "ERY_ND15");
+        eventMapping.put("ETP_ND10", "ETP_ND10");
+        eventMapping.put("FEP_ND30", "FEP_ND30");
+        eventMapping.put("FOX_ND30", "FOX_ND30");
+        eventMapping.put("GEN_ND10", "GEN_ND10");
+        eventMapping.put("IPM_ND10", "IPM_ND10");
+        eventMapping.put("LVX_ND5", "LVX_ND5");
+        eventMapping.put("MAN_ND30", "MAN_ND30");
+        eventMapping.put("MEM_ND10", "MEM_ND10");
+        eventMapping.put("MEZ_ND75", "MEZ_ND75");
+        eventMapping.put("MNO_ND30", "MNO_ND30");
+        eventMapping.put("MTR_ND5", "MTR_ND5");
+        eventMapping.put("NAL_ND30", "NAL_ND30");
+        eventMapping.put("NIT_ND300", "NIT_ND300");
+        eventMapping.put("NOR_ND10", "NOR_ND10");
+        eventMapping.put("NOV_ND5", "NOV_ND5");
+        eventMapping.put("OFX_ND5", "OFX_ND5");
+        eventMapping.put("OXA_ND1", "OXA_ND1");
+        eventMapping.put("PEN_ND10", "PEN_ND10");
+        eventMapping.put("PEN_NE", "PEN_NE");
+        eventMapping.put("PEN_NM", "PEN_NM");
+        eventMapping.put("PIP_ND100", "PIP_ND100");
+        eventMapping.put("PNV_ND10", "PNV_ND10");
+        eventMapping.put("RIF_ND5", "RIF_ND5");
+        eventMapping.put("SSS_ND200", "SSS_ND200");
+        eventMapping.put("STR_ND10", "STR_ND10");
+        eventMapping.put("SXT_ND1_2", "SXT_ND1_2");
+        eventMapping.put("TCC_ND75", "TCC_ND75");
+        eventMapping.put("TCY_ND30", "TCY_ND30");
+        eventMapping.put("TEC_ND30", "TEC_ND30");
+        eventMapping.put("TGC_ND15", "TGC_ND15");
+        eventMapping.put("TIC_ND75", "TIC_ND75");
+        eventMapping.put("TOB_ND10", "TOB_ND10");
+        eventMapping.put("TZP_ND100", "TZP_ND100");
+        eventMapping.put("VAN_ND30", "VAN_ND30");
+        eventMapping.put("VAN_NE", "VAN_NE");
+        eventMapping.put("VAN_NM", "VAN_NM");
+        eventMapping.put("X_1_ND", "X_1_ND");
+        eventMapping.put("X_2_ND", "X_2_ND");
+        eventMapping.put("Organism", "Organism");
+        eventMapping.put("Organism type", "Organism type");
+        eventMapping.put("Isolate Number/Test", "Isolate Number/Test");
+        return eventMapping;
     }
 
     public Disposable parseFile(String filePath, String fileContent) throws IOException {
@@ -82,7 +149,15 @@ public class FileParsingService {
                 Cell cell = row.createCell(j);
                 cell.setCellValue(values[j]);
             }
+
+            // Adding new columns to hold test_types and AWARE
+            String[] newColumnNames = {"TEST_TYPE", "AWARE"};
+            for (String newColumnName : newColumnNames) {
+                Cell newColumnCell = row.createCell(row.getLastCellNum());
+                newColumnCell.setCellValue(newColumnName);
+            }
         }
+
 
         // Process the Excel file to identify duplicates and assign new unique codes
         processExcelFile(sheet);
@@ -102,6 +177,7 @@ public class FileParsingService {
 
             optionSetsMono.subscribe(optionSetsMap -> {
                 // Iterate over the Excel data
+                // Iterate over rows to determine and append "Test Type"
                 for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                     Row excelRow = sheet.getRow(i);
 
@@ -133,7 +209,6 @@ public class FileParsingService {
                                     cellValue = code;
                                 }
                             } else {
-
                                 // Handling for special cases where the attribute display name doesn't match exactly with OptionSet name
                                 String closestMatch = optionSetsMap.keySet().stream().min(Comparator.comparing(a -> StringUtils.getJaroWinklerDistance(a.toLowerCase(), attributeDisplayName.toLowerCase()))).orElse(attributeDisplayName);
 
@@ -160,7 +235,61 @@ public class FileParsingService {
                             attributesList.add(attributeEntry);
                         }
                     }
+
+                    // Determine culture type for the current row
+                    String cultureType = determineCultureType(excelRow, getColumnIndex(sheet.getRow(0), "X_AMT"));
+
+                    String testTypeAttributeName = "Test Type";
+                    String testTypeColumnMapping = attributeToColumnMapping.get(testTypeAttributeName);
+                    int testTypeColumnIndex = getColumnIndex(sheet.getRow(0), testTypeColumnMapping);
+
+                    if (testTypeColumnIndex >= 0) {
+                        String testTypeAttributeValue = attributeIdMapping.get(testTypeAttributeName);
+                        Map<String, Object> testTypeAttributeEntry = new HashMap<>();
+                        testTypeAttributeEntry.put("attribute", testTypeAttributeValue);
+                        testTypeAttributeEntry.put("value", cultureType);
+
+                        attributesList.add(testTypeAttributeEntry);
+                    }
+
+                    List<Map<String, Object>> awareAttributesList = new ArrayList<>();
+
+                    // AwaRe Classification:
+                    Mono<List<Map<String, String>>> apiResponseMono = httpClientService.fetchAwareClassification();
+
+                    // Handle errors if any
+                    apiResponseMono.subscribe(apiResponseList -> {
+                        // Iterate over columns
+                        for (int columnIndex = getColumnIndex(sheet.getRow(0), "PIP_ND100"); columnIndex <= getColumnIndex(sheet.getRow(0), "PEN_NE"); columnIndex++) {
+                            Cell headerCell = sheet.getRow(0).getCell(columnIndex);
+                            String columnName = headerCell.getStringCellValue();
+                            log.info("aware columnName {}", columnName);
+
+                            // Extract AWaRe Classification from the API response based on the column name
+                            String awareClassification = extractAwareClassification(columnName, apiResponseList);
+                            System.out.println("awareClassification" + awareClassification);
+
+                            String awareAttributeName = "AWaRe Classification";
+                            String awareColumnMapping = attributeToColumnMapping.get(awareAttributeName);
+                            int awareColumnIndex = getColumnIndex(sheet.getRow(0), awareColumnMapping);
+
+                            if (awareColumnIndex >= 0) {
+                                String awareAttributeValue = attributeIdMapping.get(awareAttributeName);
+                                Map<String, Object> awareAttributeEntry = new HashMap<>();
+                                awareAttributeEntry.put("attribute", awareAttributeValue);
+                                awareAttributeEntry.put("value", awareClassification);
+                                attributesList.add(awareAttributeEntry);
+                            }
+                        }
+                    }, Throwable::printStackTrace);
+
+                    trackedEntityInstance.put("attributes", awareAttributesList);
+                    trackedEntityInstances.add(trackedEntityInstance);
+
+                    // Add the attributesList to the trackedEntityInstance
                     trackedEntityInstance.put("attributes", attributesList);
+
+                    // Add the trackedEntityInstance to the list of instances
                     trackedEntityInstances.add(trackedEntityInstance);
                 }
 
@@ -172,8 +301,9 @@ public class FileParsingService {
                 }).subscribe(response -> {
                     // Implement batching logic for processed files
                     // send API response to send later to datastore
+                    removeColumns(sheet, "TEST_TYPE", "AWARE");
                     processedFilePaths.add(filePath);
-                    batchProcessedFiles(processedFilePaths, response);
+                    batchProcessedFiles(processedFilePaths, response, sheet);
                 });
             });
         }, error -> {
@@ -181,6 +311,24 @@ public class FileParsingService {
         });
 
         return subscription;
+    }
+
+    private void removeColumns(Sheet sheet, String... columnNames) {
+        for (String columnName : columnNames) {
+            int columnIndex = getColumnIndex(sheet.getRow(0), columnName);
+
+            if (columnIndex >= 0) {
+                for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+                    Row row = sheet.getRow(i);
+                    if (row != null) {
+                        Cell cell = row.getCell(columnIndex);
+                        if (cell != null) {
+                            row.removeCell(cell);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private Map<String, String> createAttributeIdMapping(JsonNode trackedEntityAttributesResponse) {
@@ -194,15 +342,35 @@ public class FileParsingService {
         return attributeIdMapping;
     }
 
+    private Map<String, String> createEventsAttributeIdMapping() throws IOException {
+        Map<String, String> attributeIdMapping = new HashMap<>();
+
+        String filePath = Constants.TESTS_PATH + "tests.json";
+
+        // Parse JSON file
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(new File(filePath));
+
+        // Iterate over JSON array and populate the map
+        for (JsonNode node : jsonNode) {
+            String displayName = node.get("displayName").asText();
+            String id = node.get("id").asText();
+            attributeIdMapping.put(displayName, id);
+        }
+        return attributeIdMapping;
+    }
+
+
     private int getColumnIndex(Row headerRow, String columnName) {
         for (int j = 0; j < headerRow.getLastCellNum(); j++) {
             Cell cell = headerRow.getCell(j);
-            if (cell.getStringCellValue().equalsIgnoreCase(columnName)) {
+            if (cell != null && cell.getStringCellValue().equalsIgnoreCase(columnName)) {
                 return cell.getColumnIndex();
             }
         }
         return -1;
     }
+
 
     private String getCellValue(Row row, int columnIndex) {
         if (row != null) {
@@ -254,9 +422,9 @@ public class FileParsingService {
                     String sexValue = sexCell.getStringCellValue();
 
                     if ("m".equalsIgnoreCase(sexValue)) {
-                        sexCell.setCellValue("MALE");
+                        sexCell.setCellValue("Male");
                     } else if ("f".equalsIgnoreCase(sexValue)) {
-                        sexCell.setCellValue("FEMALE");
+                        sexCell.setCellValue("Female");
                     }
 
                     // Process SPEC_NUM column
@@ -299,9 +467,44 @@ public class FileParsingService {
                             log.error(e.getMessage());
                         }
                     }
+
+                    // Determine culture type
+                    String cultureType = determineCultureType(row, getColumnIndex(sheet.getRow(0), "X_AMT"));
+                    Cell cultureTypeCell = row.createCell(headerRow.getLastCellNum());
+                    cultureTypeCell.setCellValue(cultureType);
+                    log.info("Row {}: Culture Type: {}", i, cultureType);
                 }
             }
         }
+    }
+
+    private String extractAwareClassification(String columnName, List<Map<String, String>> apiResponse) {
+        System.out.println("Column Name: " + columnName);
+        for (Map<String, String> entry : apiResponse) {
+            String drugCode = entry.get("drug_code");
+
+            if (columnName.equalsIgnoreCase(drugCode)) {
+                System.out.println("matched");
+                return entry.get("aware_classification");
+            }
+        }
+        return "Unknown";
+    }
+
+
+    private String determineCultureType(Row row, int startColumnIndex) {
+        for (int columnIndex = startColumnIndex; columnIndex < row.getLastCellNum(); columnIndex++) {
+            String cellValue = getCellValue(row, columnIndex);
+
+            if (columnIndex == startColumnIndex && !cellValue.equalsIgnoreCase("X_AMT")) {
+                continue;
+            }
+
+            if ("R".equals(cellValue) || "S".equals(cellValue) || "I".equals(cellValue)) {
+                return "Culture with AST";
+            }
+        }
+        return "Culture without AST";
     }
 
 
@@ -309,7 +512,7 @@ public class FileParsingService {
         return UUID.randomUUID().toString();
     }
 
-    private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse) {
+    private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse, Sheet sheet) {
 
         String processedFilesFolderPath = Constants.PROCESSED_FILES_PATH;
         File destinationFolder = new File(processedFilesFolderPath);
@@ -323,7 +526,7 @@ public class FileParsingService {
                 // Clear the files after batching
                 processedFilePaths.clear();
 
-                FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse);
+                FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse, sheet);
 
                 httpClientService.postToDhis2DataStore(fileParseSummaryDto).subscribe();
 
@@ -349,7 +552,7 @@ public class FileParsingService {
         }
     }
 
-    private FileParseSummaryDto parseApiResponse(String apiResponse) {
+    private FileParseSummaryDto parseApiResponse(String apiResponse, Sheet sheet) throws JsonProcessingException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(apiResponse);
@@ -371,14 +574,22 @@ public class FileParsingService {
             fileParseSummaryDto.setUpdated(updated);
             fileParseSummaryDto.setDeleted(deleted);
             fileParseSummaryDto.setIgnored(ignored);
+            fileParseSummaryDto.setBatchNo(generateUniqueCode());
 
             log.info("fileParseSummaryDto {}", fileParseSummaryDto);
 
             // formulate a payload to send to Enrollment API ON DHIS:>>>>>>
             JsonNode importSummariesNode = jsonNode.path("response").path("importSummaries");
 
+            List<String> conflictValues = new ArrayList<>();
             for (JsonNode summaryNode : importSummariesNode) {
                 String importSummaryStatus = summaryNode.path("status").asText();
+
+                JsonNode conflicts = summaryNode.path("conflicts");
+                for (JsonNode conflict : conflicts) {
+                    String conflictValue = conflict.path("value").asText();
+                    conflictValues.add(conflictValue);
+                }
 
                 if (importSummaryStatus.equals("ERROR")) {
                     return fileParseSummaryDto;
@@ -402,16 +613,198 @@ public class FileParsingService {
 
                     try {
                         enrollmentReqPayload = objectMapper.writeValueAsString(enrollmentPayload);
-                        // send to DHIS2 enrollment API::
-                        httpClientService.postEnrollmentToDhis(enrollmentReqPayload).subscribe(response -> {
 
+                        // send to DHIS2 enrollment API::
+                        Disposable subscription = httpClientService.postEnrollmentToDhis(enrollmentReqPayload).subscribe(enrollmentResponse -> {
+
+                            JsonNode enrollmentJsonNode;
+                            try {
+                                enrollmentJsonNode = objectMapper.readTree(enrollmentResponse);
+                            } catch (JsonProcessingException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            JsonNode enrollmentSummariesNode = enrollmentJsonNode.path("response").path("importSummaries");
+
+                            String enrollmentReference = null;
+                            LocalDate dueDate = null;
+
+
+                            for (JsonNode node : enrollmentSummariesNode) {
+
+                                enrollmentReference = summaryNode.path("reference").asText();
+
+                                dueDate = LocalDate.now();
+                            }
+
+                            String finalEnrollmentReference = enrollmentReference;
+                            LocalDate finalDueDate = dueDate;
+
+
+                            // Initialize attribute to columns mapping
+                            Map<String, String> attributeToColumnMapping = initializeEventAttributeToColumnMapping();
+
+                            Map<String, String> attributeIdMapping = null;
+                            try {
+                                attributeIdMapping = createEventsAttributeIdMapping();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+
+                            Mono<Map<String, Map<String, String>>> optionSetsMono = httpClientService.fetchOptionSets();
+                            List<Map<String, String>> eventsList = new ArrayList<>();
+
+                            Map<String, String> finalAttributeIdMapping = attributeIdMapping;
+                            optionSetsMono.subscribe(optionSetsMap -> {
+                                for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                                    Row excelRow = sheet.getRow(i);
+
+                                    // Create a payload for empty event
+                                    Map<String, String> eventPayload = new HashMap<>();
+
+                                    // Add fixed values to the payload
+                                    eventPayload.put("trackedEntityInstance", reference);
+                                    eventPayload.put("program", Constants.WHONET_PROGRAM_ID);
+                                    eventPayload.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
+                                    eventPayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                                    eventPayload.put("status", "SCHEDULE");
+                                    eventPayload.put("dueDate", String.valueOf(finalDueDate));
+                                    eventPayload.put("enrollment", finalEnrollmentReference);
+
+                                    // Add dynamic values from Excel to the payload
+                                    for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
+                                        String attributeName = entry.getKey();
+                                        String columnMapping = entry.getValue();
+                                        int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
+
+                                        if (columnIndex != -1) {
+                                            String cellValue = getCellValue(excelRow, columnIndex);
+                                            String attributeId = finalAttributeIdMapping.get(attributeName);
+
+                                            // Map attribute values to option set codes
+                                            if (optionSetsMap.containsKey(attributeName)) {
+                                                Map<String, String> optionsMap = optionSetsMap.get(attributeName);
+
+                                                if (optionsMap.containsValue(cellValue)) {
+                                                    String finalCellValue = cellValue;
+                                                    String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                                    cellValue = code;
+                                                }
+                                            }
+
+                                            if (attributeId != null && cellValue != null) {
+                                                eventPayload.put(attributeId, cellValue);
+                                                log.info("Attribute: {}, AttributeId: {}, CellValue: {}", attributeName, attributeId, cellValue);
+                                            }
+                                        }
+                                    }
+
+                                    // Add the event payload to the list of events
+                                    eventsList.add(eventPayload);
+                                }
+
+                                // Construct the final payload with all events
+                                Map<String, List<Map<String, String>>> finalPayload = new HashMap<>();
+                                finalPayload.put("events", eventsList);
+
+                                //send to events api:
+                                try {
+                                    List<Map<String, String>> finalEventsList = eventsList;
+                                    httpClientService.postEventToDhis(finalPayload).doOnError(error -> {
+
+                                    }).subscribe(eventCreatedResponse -> {
+
+                                        JsonNode eventJsonNode;
+                                        try {
+                                            eventJsonNode = objectMapper.readTree(eventCreatedResponse);
+                                        } catch (JsonProcessingException e) {
+                                            throw new RuntimeException(e);
+                                        }
+
+                                        JsonNode eventSummariesNode = eventJsonNode.path("response").path("importSummaries");
+                                        String eventReference = null;
+                                        for (JsonNode node : eventSummariesNode) {
+                                            eventReference = node.path("reference").asText();
+                                        }
+
+                                        String trackedEntity = reference;
+                                        Map<String, Object> eventUpdatePayload = new HashMap<>();
+                                        eventUpdatePayload.put("event", eventReference);
+                                        eventUpdatePayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                                        eventUpdatePayload.put("program", Constants.WHONET_PROGRAM_ID);
+                                        eventUpdatePayload.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
+                                        eventUpdatePayload.put("status", "ACTIVE");
+                                        eventUpdatePayload.put("trackedEntityInstance", trackedEntity);
+
+                                        List<Map<String, Object>> dataValues = new ArrayList<>();
+
+                                        assert finalEventsList != null;
+
+                                        for (Map<String, String> eventData : finalEventsList) {
+                                            for (Map.Entry<String, String> entry : eventData.entrySet()) {
+                                                Map<String, Object> dataValue = new HashMap<>();
+                                                dataValue.put("dataElement", entry.getKey());
+                                                dataValue.put("value", entry.getValue());
+
+                                                dataValue.put("providedElsewhere", false);
+
+                                                dataValues.add(dataValue);
+                                            }
+                                        }
+
+                                        // Remove unwanted entries from dataValues
+                                        String[] elementsToRemove = {"dueDate", "program", "orgUnit", "status", "trackedEntityInstance", "programStage", "enrollment"};
+                                        String additionalElementToRemove = "TEST_TYPE";
+                                        String extraElementToRemove = "AWARE";
+
+                                        Iterator<Map<String, Object>> iterator = dataValues.iterator();
+                                        while (iterator.hasNext()) {
+                                            Map<String, Object> dataValue = iterator.next();
+
+                                            String dataElement = (String) dataValue.getOrDefault("dataElement", dataValue.getOrDefault("TEST_TYPE", dataValue.get("AWARE")));
+
+                                            String valueField = (String) dataValue.get("value");
+
+                                            if (valueField != null && (Arrays.asList(elementsToRemove).contains(valueField) || additionalElementToRemove.equals(valueField) || extraElementToRemove.equals(valueField))) {
+                                                iterator.remove();
+                                            } else if (Arrays.asList(elementsToRemove).contains(dataElement) || additionalElementToRemove.equals(dataElement) || extraElementToRemove.equals(dataElement)) {
+                                                iterator.remove();
+                                            }
+                                        }
+
+
+                                        for (String element : elementsToRemove) {
+                                            dataValues.removeIf(dataValue -> element.equals(dataValue.get("dataElement")));
+                                        }
+
+                                        eventUpdatePayload.put("dataValues", dataValues);
+
+                                        try {
+                                            httpClientService.updateEventOnDhis(eventUpdatePayload).doOnError(error -> {
+                                                log.error("Error occurred {}", error.getMessage());
+                                            }).subscribe(eventUpdatedResponse -> {
+                                                log.info("eventUpdatedResponse {}", eventUpdatedResponse);
+                                            });
+                                        } catch (JsonProcessingException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    });
+                                } catch (JsonProcessingException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                            });
+                        }, error -> {
+                            log.error("Error occurred while posting enrollment to DHIS2: {}", error.getMessage());
                         });
                     } catch (JsonProcessingException e) {
                         log.error("Error while converting enrollment payload to JSON: {}", e.getMessage());
                     }
-
                 }
             }
+            // Set conflict values in the DTO
+            fileParseSummaryDto.setConflictValues(conflictValues);
+            System.out.println("conflictValue" +conflictValues);
 
             return fileParseSummaryDto;
         } catch (Exception exp) {

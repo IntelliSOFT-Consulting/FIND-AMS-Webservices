@@ -1,0 +1,270 @@
+[
+    {
+        "displayName": "AMK_ND30",
+        "id": "t5WeLiEyXdR"
+    },
+    {
+        "displayName": "AMP_ND10",
+        "id": "HSlqrOPHxAI"
+    },
+    {
+        "displayName": "ATM_ND30",
+        "id": "bUBBurstGl3"
+    },
+    {
+        "displayName": "AZM_ND15",
+        "id": "s7rORwyLk6e"
+    },
+    {
+        "displayName": "CAZ_ND30",
+        "id": "m1ZaLyNxAbB"
+    },
+    {
+        "displayName": "CHL_ND30",
+        "id": "u7BeLiJyXgJ"
+    },
+    {
+        "displayName": "CIP_ND5",
+        "id": "w1PeLoXyZbV"
+    },
+    {
+        "displayName": "CEP_ND30",
+        "id": "nMgKETu3fNN"
+    },
+    {
+        "displayName": "CLI_ND2",
+        "id": "Nus3glwsFHI"
+    },
+    {
+        "displayName": "COL_ND10",
+        "id": "n5RzLxNzPbZ"
+    },
+    {
+        "displayName": "CRB_ND100",
+        "id": "UEJDcCxxRZS"
+    },
+    {
+        "displayName": "CRO_ND30",
+        "id": "r2BaLeZpXhE"
+    },
+    {
+        "displayName": "CTX_ND30",
+        "id": "EjGC70b9fyp"
+    },
+    {
+        "displayName": "CTX_NM",
+        "id": "oHt2fRlhaCS"
+    },
+    {
+        "displayName": "CXM_ND30",
+        "id": "v3VzLyNwDcV"
+    },
+    {
+        "displayName": "CZX_ND30",
+        "id": "g5HgguaWK6t"
+    },
+    {
+        "displayName": "DOX_ND30",
+        "id": "bsN6TZQzmR3"
+    },
+    {
+        "displayName": "ERY_ND15",
+        "id": "tSaLWTlvGac"
+    },
+    {
+        "displayName": "ETP_ND10",
+        "id": "p3RzLwNwScA"
+    },
+    {
+        "displayName": "FEP_ND30",
+        "id": "QazcHjAu6Hy"
+    },
+    {
+        "displayName": "FOX_ND30",
+        "id": "uqDIItXDTZM"
+    },
+    {
+        "displayName": "GEN_ND10",
+        "id": "z1PeLiQyXdD"
+    },
+    {
+        "displayName": "IPM_ND10",
+        "id": "a7KeLoWzYcF"
+    },
+    {
+        "displayName": "LVX_ND5",
+        "id": "q3SeLzNzTcX"
+    },
+    {
+        "displayName": "MAN_ND30",
+        "id": "tlb1ILnaHGk"
+    },
+    {
+        "displayName": "MEM_ND10",
+        "id": "q1CeLuRwZfG"
+    },
+    {
+        "displayName": "MEZ_ND75",
+        "id": "gxi1PrI4QZa"
+    },
+    {
+        "displayName": "PURE_ND20",
+        "id": "jw5wLb2bf1K"
+    },
+    {
+        "displayName": "MNO_ND30",
+        "id": "r3WeLxNzUcP"
+    },
+    {
+        "displayName": "MTR_ND5",
+        "id": "e4OeLiAyXcT"
+    },
+    {
+        "displayName": "NAL_ND30",
+        "id": "g8l6kaNNz8S"
+    },
+    {
+        "displayName": "NIT_ND300",
+        "id": "y5VeLiGyXfH"
+    },
+    {
+        "displayName": "NOR_ND10",
+        "id": "f6TeLiFyXeG"
+    },
+    {
+        "displayName": "NOV_ND5",
+        "id": "yFuINNMK8AD"
+    },
+    {
+        "displayName": "OFX_ND5",
+        "id": "s1NeLiKyXhK"
+    },
+    {
+        "displayName": "OXA_ND1",
+        "id": "apP0BZ8jzHR"
+    },
+    {
+        "displayName": "PEN_ND10",
+        "id": "uPf4vky3ckk"
+    },
+    {
+        "displayName": "PEN_NE",
+        "id": "P1dyjTLkH2n"
+    },
+    {
+        "displayName": "PEN_NM",
+        "id": "sre9Eyd7Mu7"
+    },
+    {
+        "displayName": "MNO_ND30",
+        "id": "r3WeLxNzUcP"
+    },
+    {
+        "displayName": "MTR_ND5",
+        "id": "e4OeLiAyXcT"
+    },
+    {
+        "displayName": "NAL_ND30",
+        "id": "g8l6kaNNz8S"
+    },
+    {
+        "displayName": "NIT_ND300",
+        "id": "y5VeLiGyXfH"
+    },
+    {
+        "displayName": "NOR_ND10",
+        "id": "f6TeLiFyXeG"
+    },
+    {
+        "displayName": "NOV_ND5",
+        "id": "yFuINNMK8AD"
+    },
+    {
+        "displayName": "OFX_ND5",
+        "id": "s1NeLiKyXhK"
+    },
+    {
+        "displayName": "PIP_ND100",
+        "id": "v2MaLeYpWgA"
+    },
+    {
+        "displayName": "PNV_ND10",
+        "id": "vT2Rqng3Hae"
+    },
+    {
+        "displayName": "RIF_ND5",
+        "id": "XMufFtuZ17u"
+    },
+    {
+        "displayName": "SSS_ND200",
+        "id": "NXTVWFdpTPN"
+    },
+    {
+        "displayName": "STR_ND10",
+        "id": "R54hhoMdtXE"
+    },
+    {
+        "displayName": "SXT_ND1_2",
+        "id": "nWSwyjpkwSI"
+    },
+    {
+        "displayName": "TCC_ND75",
+        "id": "Z4dSfVyvwAe"
+    },
+    {
+        "displayName": "TCY_ND30",
+        "id": "IGdZMejiP0t"
+    },
+    {
+        "displayName": "TEC_ND30",
+        "id": "LJgZonVjbS4"
+    },
+    {
+        "displayName": "TGC_ND15",
+        "id": "t3ZeLxNzWcP"
+    },
+    {
+        "displayName": "TIC_ND75",
+        "id": "wHb2OKa3Q2n"
+    },
+    {
+        "displayName": "TOB_ND10",
+        "id": "e4KtSntoZiH"
+    },
+    {
+        "displayName": "TZP_ND100",
+        "id": "s3YeLzNxVdR"
+    },
+    {
+        "displayName": "VAN_ND30",
+        "id": "z4WzLzNySdG"
+    },
+    {
+        "displayName": "VAN_NE",
+        "id": "jgJVAzeTBni"
+    },
+    {
+        "displayName": "VAN_NM",
+        "id": "tUBiJON330S"
+    },
+    {
+        "displayName": "X_1_ND",
+        "id": "trTgP3rqh9q"
+    },
+    {
+        "displayName": "X_2_ND",
+        "id": "o3QzLyNqRcT"
+    },
+    {
+        "displayName": "Organism",
+        "id": "KpiSqKPHd2I"
+    },
+    {
+        "displayName": "Organism type",
+        "id": "Iarciqfb2Lq"
+    },
+    {
+        "displayName": "Isolate Number/Test",
+        "id": "O9oZi2b2Hjx"
+    }
+]

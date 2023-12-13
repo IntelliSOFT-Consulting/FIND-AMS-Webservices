@@ -25,7 +25,7 @@ public class FileImportController {
     @PostMapping("/parse-file")
     public ResponseEntity<Disposable> parseFile(@RequestParam("fileContent") MultipartFile file) throws IOException {
 
-        String filePath = "/Users/nelsonkimaiga/Documents/IntelliSoft/findams/whonet/test_data 16.58.12.txt";
+        String filePath = "/Users/nelsonkimaiga/Documents/IntelliSoft/findams/whonet/";
 
         String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
         return ResponseEntity.status(HttpStatus.OK).body(parsingService.parseFile(filePath, fileContent));
