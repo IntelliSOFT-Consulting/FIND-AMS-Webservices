@@ -1,0 +1,287 @@
+[
+  {
+    "aware_classification": "Access",
+    "drug_code": "PIP_ND100",
+    "name": "Penicillin G"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CRO_ND30",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "MEM_ND10",
+    "name": "Meropenem"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "GEN_ND10",
+    "name": "Gentamicin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "IPM_ND10",
+    "name": "Impipenem/relebactam"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CIP_ND5",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "MTR_ND5",
+    "name": "Moxifloxacin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "AMK_ND30",
+    "name": "Amoxicillin/Clavulanic acid"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "NOR_ND10",
+    "name": "Nitrofurantoin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "NIT_ND300",
+    "name": "Nitrofurantoin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CHL_ND30",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "OFX_ND5",
+    "name": "Ofloxacin"
+  },
+  {
+    "aware_classification": "Reserve",
+    "drug_code": "SXT_ND1_2",
+    "name": "Surotomycin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "ERY_ND15",
+    "name": "Erythromycin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "STR_ND10",
+    "name": "Sulopenem"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "AZM_ND15",
+    "name": "Aztreonam/Avibactam"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "NAL_ND30",
+    "name": "Nalidixic acid"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "X_1_ND",
+    "name": "Voriconazole"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "VAN_NE",
+    "name": "Vancomycin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "AMC_ND20",
+    "name": "Amoxicillin/Clavulanic acid"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "AMP_ND10",
+    "name": "Ampicillin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "ATM_ND30",
+    "name": "Ampicillin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "FEP_ND30",
+    "name": "Fidaxomicin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CTX_ND30",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CAZ_ND30",
+    "name": "Biapenem"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CXM_ND30",
+    "name": "Colistin/Polysorbate"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "VAN_ND30",
+    "name": "Vancomycin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "COL_ND10",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "X_2_ND",
+    "name": "Voriconazole"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "ETP_ND10",
+    "name": "Erythromycin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "LVX_ND5",
+    "name": "Loracarbef"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "MNO_ND30",
+    "name": "Minocycline"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "TZP_ND100",
+    "name": "Tylosin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "TGC_ND15",
+    "name": "Tigecycline"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "TOB_ND10",
+    "name": "Trimethoprim/Sulfamethoxazole"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "FOX_ND30",
+    "name": "Fosfomycin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CLI_ND2",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "OXA_ND1",
+    "name": "Oxacillin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CZX_ND30",
+    "name": "Colistin/Polysorbate"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "PEN_ND10",
+    "name": "Penicillin G"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "PNV_ND10",
+    "name": "Piperacillin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "TCY_ND30",
+    "name": "Ticarcillin/Clavulanic"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "DOX_ND30",
+    "name": "Doxycyline"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "RIF_ND5",
+    "name": "Piperacillin"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "CEP_ND30",
+    "name": "Cadazolid"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CRB_ND100",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "MAN_ND30",
+    "name": "Loracarbef"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "MEZ_ND75",
+    "name": "Meropenem"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "NOV_ND5",
+    "name": "Novobiocin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "SSS_ND200",
+    "name": "Sulopenem"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "TEC_ND30",
+    "name": "Ticarcillin/Clavulanic"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "TIC_ND75",
+    "name": "Tigecycline"
+  },
+  {
+    "aware_classification": "Watch",
+    "drug_code": "TCC_ND75",
+    "name": "Tebipenem"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "CTX_NM",
+    "name": "Ceftazidime"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "PEN_NM",
+    "name": "Penicillin G"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "VAN_NM",
+    "name": "Vancomycin"
+  },
+  {
+    "aware_classification": "Access",
+    "drug_code": "PEN_NE",
+    "name": "Penicillin G"
+  }
+]

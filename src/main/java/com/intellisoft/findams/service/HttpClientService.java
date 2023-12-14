@@ -225,26 +225,21 @@ public class HttpClientService {
     public Mono<Double> fetchDddValue(String medicationName) {
         String apiUrl = atcCodesUrl;
 
-        return webClient.get()
-                .uri(apiUrl)
-                .retrieve()
-                .bodyToMono(JsonNode.class)
-                .flatMap(dataStoreResponse -> {
-                    List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(JsonNode.class).flatMap(dataStoreResponse -> {
+            List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
 
-                    for (int i = 0; i < dddDataList.size(); i++) {
-                        JsonNode dddData = dddDataList.get(i);
-                        if (medicationName.equalsIgnoreCase(dddData.asText())) {
-                            double dddValue = dataStoreResponse.findValues("DDD").get(i).asDouble();
-                            log.info("Response from DHIS2: Medication Name: {}, DDD Value: {}", medicationName, dddValue);
-                            return Mono.just(dddValue);
-                        }
-                    }
+            for (int i = 0; i < dddDataList.size(); i++) {
+                JsonNode dddData = dddDataList.get(i);
+                if (medicationName.equalsIgnoreCase(dddData.asText())) {
+                    double dddValue = dataStoreResponse.findValues("DDD").get(i).asDouble();
+                    log.info("Response from DHIS2: Medication Name: {}, DDD Value: {}", medicationName, dddValue);
+                    return Mono.just(dddValue);
+                }
+            }
 
-                    log.warn("Medication Name not found in DHIS2 response: {}", medicationName);
-                    return Mono.empty();
-                })
-                .defaultIfEmpty(0.0);
+            log.warn("Medication Name not found in DHIS2 response: {}", medicationName);
+            return Mono.empty();
+        }).defaultIfEmpty(0.0);
     }
 
 
@@ -311,10 +306,11 @@ public class HttpClientService {
         });
     }
 
-    public Mono<String> postEventToDhis(Map<String, List<Map<String, String>>> enrollmentReqPayload) throws JsonProcessingException {
+    public Mono<String> postEventToDhis(String enrollmentReqPayload) throws JsonProcessingException {
         String apiUrl = eventsApiUrl;
 
         return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(enrollmentReqPayload)).exchangeToMono(response -> {
+            log.info("eventPayload {}", enrollmentReqPayload);
             if (response.statusCode().is2xxSuccessful()) {
                 return response.bodyToMono(String.class);
             } else {
@@ -324,31 +320,6 @@ public class HttpClientService {
                 });
             }
         });
-    }
-
-    public Mono<String> updateEventOnDhis(Map<String, Object> eventUpdatePayload) throws JsonProcessingException {
-        String apiUrl = eventsApiUrl;
-
-        log.info("updated event payload {}", objectMapper.writeValueAsString(eventUpdatePayload));
-
-        return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(eventUpdatePayload)).exchangeToMono(response -> {
-            if (response.statusCode().is2xxSuccessful()) {
-                return response.bodyToMono(String.class);
-            } else {
-                return response.bodyToMono(String.class).flatMap(body -> {
-                    log.error("Error occurred while updating event for enrollment to DHIS2: {}", body);
-                    return Mono.just(body);
-                });
-            }
-        });
-    }
-
-    public Mono<List<Map<String, String>>> fetchAwareClassification() {
-        String apiUrl = awareUrl;
-        return webClient.get()
-                .uri(apiUrl)
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Map<String, String>>>() {});
     }
 
 }
