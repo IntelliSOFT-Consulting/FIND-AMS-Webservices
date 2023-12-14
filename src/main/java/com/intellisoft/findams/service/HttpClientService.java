@@ -225,26 +225,28 @@ public class HttpClientService {
     public Mono<Double> fetchDddValue(String medicationName) {
         String apiUrl = atcCodesUrl;
 
-        return webClient.get().uri(apiUrl).retrieve().bodyToMono(JsonNode.class).doOnSuccess(dataStoreResponse -> {
-            List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
+        return webClient.get()
+                .uri(apiUrl)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .flatMap(dataStoreResponse -> {
+                    List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
 
-            for (JsonNode dddData : dddDataList) {
-                if (medicationName.equalsIgnoreCase(dddData.asText())) {
-                    double dddValue = dddData.path("DDD").asDouble();
-                    log.info("Response from DHIS2: Medication Name: {}, DDD Value: {}", medicationName, dddValue);
-                }
-            }
-        }).map(dataStoreResponse -> {
-            List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
+                    for (int i = 0; i < dddDataList.size(); i++) {
+                        JsonNode dddData = dddDataList.get(i);
+                        if (medicationName.equalsIgnoreCase(dddData.asText())) {
+                            double dddValue = dataStoreResponse.findValues("DDD").get(i).asDouble();
+                            log.info("Response from DHIS2: Medication Name: {}, DDD Value: {}", medicationName, dddValue);
+                            return Mono.just(dddValue);
+                        }
+                    }
 
-            for (JsonNode dddData : dddDataList) {
-                if (medicationName.equalsIgnoreCase(dddData.asText())) {
-                    return dddData.path("DDD").asDouble();
-                }
-            }
-            return 0.0;
-        });
+                    log.warn("Medication Name not found in DHIS2 response: {}", medicationName);
+                    return Mono.empty();
+                })
+                .defaultIfEmpty(0.0);
     }
+
 
     public Mono<String> getOrgUnits() {
         String apiUrl = orgUnitsUrl;

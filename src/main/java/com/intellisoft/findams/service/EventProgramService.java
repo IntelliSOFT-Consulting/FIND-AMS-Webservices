@@ -29,14 +29,6 @@ public class EventProgramService {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Value("${ams.funsoft.atc-ddd-index-url}")
-    private String atcDddIndexUrl;
-
-    private Disposable fetchDddValue(String medicationName) {
-        return httpClientService.fetchDddValue(medicationName).subscribe();
-    }
-
-
     public void fetchFromFunSoft() {
 
         LocalDate today = LocalDate.now();
@@ -220,7 +212,7 @@ public class EventProgramService {
                                             });
 
                                             //processAmc
-                                            processAmc(tentativeDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
+                                            processAmc(confirmatoryDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
 //                                            });
                                         } catch (JsonProcessingException e) {
                                             throw new RuntimeException(e);
@@ -241,7 +233,7 @@ public class EventProgramService {
 
     }
 
-    private void processAmc(String tentativeDiagnosis, String productName, String productId, String strength, String dosageForm, String department, String numberOfPackagesDispensed, String dateBeingDispensed, String occurredAt, String combination) {
+    private void processAmc(String confirmatoryDiagnosis, String productName, String productId, String strength, String dosageForm, String department, String numberOfPackagesDispensed, String dateBeingDispensed, String occurredAt, String combination) {
 
         LocalDate today = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -255,23 +247,23 @@ public class EventProgramService {
 
         httpClientService.fetchDailyAdmissions(patientId, startDate, endDate).subscribe(response -> {
 
-            List<Map<String, Object>> dataValuesList = new ArrayList<>();
-
             Disposable disposable = httpClientService.getAmcMetaData().subscribe(programMetaData -> {
                 JSONObject jsonResponse = new JSONObject(programMetaData);
                 JSONArray programsArray = jsonResponse.getJSONArray("programs");
                 Map<String, Object> finalPayload = new HashMap<>();
-                List<Map<String, Object>> eventsList = new ArrayList<>();
 
-                for (int i = 0; i < programsArray.length(); i++) {
-                    JSONObject programObject = programsArray.getJSONObject(i);
-                    String amcProgramId = programObject.getString("id");
-                    JSONArray programStageDataElementsArray = programObject.getJSONArray("programStages").getJSONObject(0).getJSONArray("programStageDataElements");
+                Mono<Map<String, Map<String, String>>> optionSetsMono = httpClientService.fetchOptionSets();
 
-                    // Fetch option sets
-                    Mono<Map<String, Map<String, String>>> optionSetsMono = httpClientService.fetchOptionSets();
+                optionSetsMono.flatMap(optionSets -> {
+                    List<Map<String, Object>> eventsList = new ArrayList<>();
 
-                    optionSetsMono.flatMap(optionSets -> {
+                    for (int i = 0; i < programsArray.length(); i++) {
+                        JSONObject programObject = programsArray.getJSONObject(i);
+                        String amcProgramId = programObject.getString("id");
+                        JSONArray programStageDataElementsArray = programObject.getJSONArray("programStages").getJSONObject(0).getJSONArray("programStageDataElements");
+
+                        List<Map<String, Object>> dataValuesList = new ArrayList<>();
+
                         for (int j = 0; j < programStageDataElementsArray.length(); j++) {
                             JSONObject programStageDataElementObject = programStageDataElementsArray.getJSONObject(j);
                             JSONObject dataElementObject = programStageDataElementObject.getJSONObject("dataElement");
@@ -280,122 +272,131 @@ public class EventProgramService {
                             String displayName = dataElementObject.getString("displayName");
                             String amcId = dataElementObject.getString("id");
 
-                            // Add your logic here to process data elements
+                            // DDD computation:
+                            httpClientService.fetchDddValue(productName).subscribe(dddValueResponse -> {
+                                try {
+                                    double medicalStrength = Double.parseDouble(strength);
+                                    // Converting strength to g
+                                    Double dailyDefinedDosage = ((medicalStrength / 1000) / dddValueResponse);
 
-                            Map<String, Object> payload = new HashMap<>();
-                            payload.put("occurredAt", occurredAt);
-                            payload.put("notes", new ArrayList<>());
-                            payload.put("program", amcProgramId);
-                            payload.put("programStage", amuProgramStageId);
-                            payload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                                    // Build payload
+                                    Map<String, Object> payload = new HashMap<>();
+                                    payload.put("occurredAt", occurredAt);
+                                    payload.put("notes", new ArrayList<>());
+                                    payload.put("program", amcProgramId);
+                                    payload.put("programStage", amuProgramStageId);
+                                    payload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
 
-                            Map<String, Object> productIdData = new HashMap<>();
-                            if ("Unique product identifier (code)".equals(displayName)) {
-                                productIdData.put("dataElement", amcId);
-                                productIdData.put("value", productId);
-                                dataValuesList.add(productIdData);
-                            }
-
-                            Map<String, Object> strengthData = new HashMap<>();
-                            if ("Strength".equals(displayName)) {
-                                strengthData.put("dataElement", amcId);
-                                strengthData.put("value", strength);
-                                dataValuesList.add(strengthData);
-                            }
-
-                            Map<String, Object> dosageFormData = new HashMap<>();
-                            if ("Dosage form".equals(displayName)) {
-                                dosageFormData.put("dataElement", amcId);
-                                dosageFormData.put("value", dosageForm);
-                                dataValuesList.add(dosageFormData);
-                            }
-
-
-                            Map<String, Object> departmentData = new HashMap<>();
-                            if ("Department".equalsIgnoreCase(displayName)) {
-                                departmentData.put("dataElement", amcId);
-
-                                Map<String, String> optionSet = optionSets.get("Department");
-                                if (optionSet != null) {
-                                    String currentValue = department;
-
-                                    String mappedOptionSetValue = optionSet.entrySet().stream().filter(entry -> entry.getValue().equalsIgnoreCase(currentValue)).map(Map.Entry::getKey).findFirst().orElse(currentValue);
-
-                                    departmentData.put("value", mappedOptionSetValue);
-                                } else {
-                                    departmentData.put("value", department);
-                                }
-                                dataValuesList.add(departmentData);
-                            }
-
-                            Map<String, Object> numberOfPackagesDispensedData = new HashMap<>();
-                            if ("Number of packages being dispensed".equals(displayName)) {
-                                numberOfPackagesDispensedData.put("dataElement", amcId);
-                                numberOfPackagesDispensedData.put("value", numberOfPackagesDispensed);
-                                dataValuesList.add(numberOfPackagesDispensedData);
-                            }
-
-                            if ("Date being dispensed".equals(displayName)) {
-                                Map<String, Object> dateBeingDispensedData = new HashMap<>();
-                                dateBeingDispensedData.put("dataElement", amcId);
-                                dateBeingDispensedData.put("value", dateBeingDispensed);
-                                dataValuesList.add(dateBeingDispensedData);
-                            }
-
-                            if ("Combination".equals((displayName))) {
-                                Map<String, Object> combinationData = new HashMap<>();
-                                combinationData.put("dataElement", amcId);
-                                combinationData.put("value", combination);
-                                dataValuesList.add(combinationData);
-                            }
-
-                            payload.put("dataValues", dataValuesList);
-                            eventsList.add(payload);
-                            finalPayload.put("events", eventsList);
-
-                        }
-                        String finalPayloadJson = null;
-                        try {
-
-                            finalPayloadJson = objectMapper.writeValueAsString(finalPayload);
-                            JsonNode finalPayloadNode = objectMapper.readTree(finalPayloadJson);
-
-                            JsonNode eventsNode = finalPayloadNode.path("events");
-
-                            if (eventsNode.isArray()) {
-                                Set<String> uniqueEventKeys = new HashSet<>();
-                                List<JsonNode> uniqueEvents = new ArrayList<>();
-
-                                for (JsonNode eventNode : eventsNode) {
-                                    String eventKey = eventNode.toString();
-
-                                    if (uniqueEventKeys.add(eventKey)) {
-                                        uniqueEvents.clear();
-                                        uniqueEvents.add(eventNode);
+                                    Map<String, Object> numberOfPackagesDispensedData = new HashMap<>();
+                                    if ("Number of packages being dispensed".equals(displayName)) {
+                                        numberOfPackagesDispensedData.put("dataElement", amcId);
+                                        numberOfPackagesDispensedData.put("value", numberOfPackagesDispensed);
+                                        dataValuesList.add(numberOfPackagesDispensedData);
                                     }
+
+                                    if ("Date being dispensed".equals(displayName)) {
+                                        Map<String, Object> dateBeingDispensedData = new HashMap<>();
+                                        dateBeingDispensedData.put("dataElement", amcId);
+                                        dateBeingDispensedData.put("value", dateBeingDispensed);
+                                        dataValuesList.add(dateBeingDispensedData);
+                                    }
+
+                                    if ("Combination".equals((displayName))) {
+                                        Map<String, Object> combinationData = new HashMap<>();
+                                        combinationData.put("dataElement", amcId);
+                                        combinationData.put("value", combination);
+                                        dataValuesList.add(combinationData);
+                                    }
+
+                                    if ("Daily defined dose".equals((displayName))) {
+                                        Map<String, Object> dosageData = new HashMap<>();
+                                        dosageData.put("dataElement", amcId);
+                                        dosageData.put("value", dailyDefinedDosage);
+                                        dataValuesList.add(dosageData);
+                                    }
+
+                                    if ("Dosage form".equals(displayName)) {
+                                        Map<String, Object> dosageFormData = new HashMap<>();
+                                        dosageFormData.put("dataElement", amcId);
+                                        dosageFormData.put("value", dosageForm);
+                                        dataValuesList.add(dosageFormData);
+                                    }
+
+                                    if ("Department".equals(displayName)) {
+                                        Map<String, Object> departmentData = new HashMap<>();
+                                        departmentData.put("dataElement", amcId);
+                                        departmentData.put("value", department);
+                                        dataValuesList.add(departmentData);
+                                    }
+
+                                    if ("Unique product identifier (code)".equals(displayName)) {
+                                        Map<String, Object> productIdData = new HashMap<>();
+                                        productIdData.put("dataElement", amcId);
+                                        productIdData.put("value", productId);
+                                        dataValuesList.add(productIdData);
+                                    }
+
+                                    if ("Diagnosis".equals(displayName)) {
+                                        Map<String, Object> diagnosisData = new HashMap<>();
+                                        diagnosisData.put("dataElement", amcId);
+                                        diagnosisData.put("value", confirmatoryDiagnosis);
+                                        dataValuesList.add(diagnosisData);
+                                    }
+
+                                    payload.put("dataValues", dataValuesList);
+                                    eventsList.add(payload);
+                                    finalPayload.put("events", eventsList);
+
+                                } catch (NumberFormatException e) {
+                                    System.err.println("Error parsing strength as a number: " + e.getMessage());
                                 }
 
-                                ((ArrayNode) eventsNode).removeAll();
-                                ((ArrayNode) eventsNode).addAll(uniqueEvents);
+                                String finalPayloadJson = null;
+                                try {
 
-                                // Log the modified JSON payload
-                                log.info("finalPayload amc   {}", finalPayloadNode.toPrettyString());
-                            }
-                            httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
-                                log.error("Error occurred from DHIS2: {}", error.getMessage());
-                            }).subscribe(AmuDhisResponse -> {
-                                log.info("DHIS2 response FOR AMC: {}", AmuDhisResponse);
+                                    finalPayloadJson = objectMapper.writeValueAsString(finalPayload);
+                                    JsonNode finalPayloadNode = objectMapper.readTree(finalPayloadJson);
+
+                                    JsonNode eventsNode = finalPayloadNode.path("events");
+
+                                    if (eventsNode.isArray()) {
+                                        Set<String> uniqueEventKeys = new HashSet<>();
+                                        List<JsonNode> uniqueEvents = new ArrayList<>();
+
+                                        for (JsonNode eventNode : eventsNode) {
+                                            String eventKey = eventNode.toString();
+
+                                            if (uniqueEventKeys.add(eventKey)) {
+                                                uniqueEvents.clear();
+                                                uniqueEvents.add(eventNode);
+                                            }
+                                        }
+
+                                        ((ArrayNode) eventsNode).removeAll();
+                                        ((ArrayNode) eventsNode).addAll(uniqueEvents);
+                                    }
+                                    httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
+                                        log.error("Error occurred from DHIS2: {}", error.getMessage());
+                                    }).subscribe(AmuDhisResponse -> {
+                                        log.info("DHIS2 response FOR AMC: {}", AmuDhisResponse);
+
+                                    });
+
+                                } catch (JsonProcessingException e) {
+                                    throw new RuntimeException(e);
+                                }
 
                             });
 
-                        } catch (JsonProcessingException e) {
-                            throw new RuntimeException(e);
                         }
-                        return Mono.empty();
-                    }).subscribe();
-                }
+                    }
+
+                    return Mono.empty();
+                }).subscribe();
+
             }, Throwable::printStackTrace);
 
         });
     }
+
 }

@@ -20,6 +20,5 @@ ams:
     username: ${DHIS_USERNAME}
     password: ${DHIS_PASSWORD}
   funsoft:
-    amu-url: https://funsoft.systempartners.biz:17933/FunsoftWebServices/funsoft/ArraysService/getpatientsantibioticprescriptions?
-    atc-ddd-index-url: https://www.whocc.no/atc_ddd_index/?code=
-    amc-url: https://funsoft.systempartners.biz:17933/FunsoftWebServices/funsoft/ArraysService/getadmissions?
+    amu-url: ${FUNSOFT_BASE_URL}getpatientsantibioticprescriptions?
+    amc-url: ${FUNSOFT_BASE_URL}getadmissions?
