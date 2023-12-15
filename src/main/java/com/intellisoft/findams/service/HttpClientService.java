@@ -310,7 +310,6 @@ public class HttpClientService {
         String apiUrl = eventsApiUrl;
 
         return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(enrollmentReqPayload)).exchangeToMono(response -> {
-            log.info("eventPayload {}", enrollmentReqPayload);
             if (response.statusCode().is2xxSuccessful()) {
                 return response.bodyToMono(String.class);
             } else {
