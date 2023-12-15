@@ -2,7 +2,7 @@ package com.intellisoft.findams.configuration;
 
 
 import com.intellisoft.findams.constants.Constants;
-import com.intellisoft.findams.service.FileParsingService;
+import com.intellisoft.findams.service.MicrobiologyService;
 import com.intellisoft.findams.service.EventProgramService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class DynamicSchedulingConfig implements SchedulingConfigurer {
     @Autowired
-    FileParsingService fileParsingService;
+    MicrobiologyService microbiologyService;
     @Autowired
     EventProgramService eventProgramService;
 
@@ -57,7 +57,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
 
                             // process file content
-                            fileParsingService.parseFile(filePath, fileContent);
+                            microbiologyService.parseFile(filePath, fileContent);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                             log.error("File not found: " + file.getAbsolutePath());
@@ -83,7 +83,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
         // Schedule the request to fetch AMU/AMC data from an FUNSOFT HMIS
         taskRegistrar.addTriggerTask(() -> {
-            eventProgramService.fetchAMUData();
+//            eventProgramService.fetchFromFunSoft();
         }, triggerContext -> {
             // Calculate the next execution time for the external API task
             Date lastExecutionTime = triggerContext.lastActualExecutionTime();
@@ -91,7 +91,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 lastExecutionTime = new Date();
             }
 
-            long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
+            long oneDayInMillis = TimeUnit.MINUTES.toMillis(1);
             Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
 
             log.info("Next AMS Data fetch scheduled time -> {}", nextExecutionTime);
