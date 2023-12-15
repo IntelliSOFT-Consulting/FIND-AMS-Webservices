@@ -32,3 +32,4 @@ ROW_IDX|DATE_DATA|ORGANISM|ORG_TYPE|PATIENT_ID|FIRST_NAME|LAST_NAME|X_MIDDLE_N|S
 30|21/2/2023 12:00:00 AM|xxx|o|66998|WADIA|BORANA||f|28|Makueni|Makueni|||er|124|eme|out||33952||30/9/2022 12:00:00 AM|pf|64||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 31|21/2/2023 12:00:00 AM|sau|+|66661|SILAS|MUSYOKA||m|45|Makueni|Makueni|||w1s|124|sur|in||33705||29/9/2022 12:00:00 AM|ti|36||DDA|||||S||S|||||||||||||||||||||||||||||||S|S||S|||||||||||||||||
 32|21/2/2023 12:00:00 AM|sau|+|66396|AHMED|KENYA||m|46|Makueni|Makueni|||w1s|124|sur|in||33705||29/9/2022 12:00:00 AM|ps|24||DDA|||||S||S|||||||||||||||||||||||||||||||S|S||S|||||||||||||||||
+

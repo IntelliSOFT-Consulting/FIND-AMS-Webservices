@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellisoft.findams.constants.Constants;
 import com.intellisoft.findams.dto.FileParseSummaryDto;
+import com.intellisoft.findams.dto.TestTypeValue;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.*;
@@ -26,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -440,35 +442,50 @@ public class MicrobiologyService {
                                     for (int columnIndex = getColumnIndex(sheet.getRow(0), "PIP_ND100"); columnIndex <= getColumnIndex(sheet.getRow(0), "PEN_NE"); columnIndex++) {
                                         Cell headerCell = sheet.getRow(0).getCell(columnIndex);
                                         String columnName = headerCell.getStringCellValue();
-                                        String cellValue = determineValue(headerCell);
 
-                                        String testTypeValue = determineTestTypeValue(cellValue);
+                                        Cell dataCell = excelRow.getCell(columnIndex);
+                                        String cellValue = determineValue(dataCell);
 
-                                        // Determine AWARE class:
-                                        String awareClassification = extractAwareClassification(columnName);
+                                        // If the cell value is "R", "S", or "I", determine the TestType & Culture Type
+                                        if (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I")) {
+                                            TestTypeValue testTypeValue = determineTestType(cellValue);
 
-                                        Map<String, Object> testTypeMap = new HashMap<>();
-                                        testTypeMap.put("value", testTypeValue);
-                                        testTypeMap.put("dataElement", "XjEOfOKvm3C");
-                                        dataValuesList.add(testTypeMap);
+                                            String testType = testTypeValue.getTestType();
+                                            String cultureType = testTypeValue.getCultureType();
 
-                                        Map<String, Object> antibioticsMap = new HashMap<>();
-                                        antibioticsMap.put("value", columnName);
-                                        antibioticsMap.put("dataElement", "vh0xvyy824I");
-                                        dataValuesList.add(antibioticsMap);
+                                            // Determine AWARE classification:
+                                            String awareClassification = extractAwareClassification(columnName);
 
-                                        Map<String, Object> awareMap = new HashMap<>();
-                                        awareMap.put("value", awareClassification);
-                                        awareMap.put("dataElement", "i9FSMauzfg6");
-                                        dataValuesList.add(awareMap);
+                                            Map<String, Object> testTypeMap = new HashMap<>();
+                                            testTypeMap.put("value", testType);
+                                            testTypeMap.put("dataElement", Constants.TEST_TYPE_ID);
+                                            dataValuesList.add(testTypeMap);
+
+                                            Map<String, Object> antibioticsMap = new HashMap<>();
+                                            antibioticsMap.put("value", columnName);
+                                            antibioticsMap.put("dataElement", Constants.ANTIBIOTIC_ID);
+                                            dataValuesList.add(antibioticsMap);
+
+                                            Map<String, Object> awareMap = new HashMap<>();
+                                            awareMap.put("value", awareClassification);
+                                            awareMap.put("dataElement", Constants.AWARE_CLASSIFICATION);
+                                            dataValuesList.add(awareMap);
+
+                                            Map<String, Object> resultData = new HashMap<>();
+                                            resultData.put("value", cultureType);
+                                            resultData.put("dataElement", Constants.RESULT_ID);
+                                            dataValuesList.add(resultData);
+                                        }
                                     }
                                 }
+
+                                List<Map<String, Object>> filteredDataValues = dataValuesList.stream().filter(entry -> !entry.containsValue("N/A")).collect(Collectors.toList());
 
                                 // Create the eventPayload map
                                 Map<String, Object> eventPayload = new HashMap<>();
 
                                 // Add dataValuesList to the eventPayload
-                                eventPayload.put("dataValues", dataValuesList);
+                                eventPayload.put("dataValues", filteredDataValues);
                                 eventPayload.put("program", Constants.WHONET_PROGRAM_ID);
                                 eventPayload.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
                                 eventPayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
@@ -505,11 +522,11 @@ public class MicrobiologyService {
         return null;
     }
 
-    private String determineTestTypeValue(String cellValue) {
+    public TestTypeValue determineTestType(String cellValue) {
         if (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I")) {
-            return "Culture with AST";
+            return new TestTypeValue("Culture with AST", cellValue);
         } else {
-            return "Culture without AST";
+            return new TestTypeValue("Culture without AST", "N/A");
         }
     }
 
@@ -524,7 +541,6 @@ public class MicrobiologyService {
     }
 
     private String extractAwareClassification(String columnName) {
-        // Specify the path to your JSON file
         String awareDataPath = Constants.TESTS_PATH + "aware.json";
 
         try {
