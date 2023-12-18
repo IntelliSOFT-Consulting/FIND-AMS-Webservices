@@ -209,11 +209,10 @@ public class EventProgramService {
                                                 ((ArrayNode) eventsNode).removeAll();
                                                 ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                             }
-//                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
-//                                                log.error("Error occurred from DHIS2: {}", error.getMessage());
-//                                            }).subscribe(AmuDhisResponse -> {
-//                                                log.info("DHIS2 response FOR AMU: {}", AmuDhisResponse);
-//                                            });
+                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
+                                                log.debug("Error occurred from DHIS2: {}", error.getMessage());
+                                            }).subscribe(AmuDhisResponse -> {
+                                            });
 
                                             //processAmc
                                             processAmc(confirmatoryDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
@@ -407,14 +406,13 @@ public class EventProgramService {
                                         ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                     }
 
-                                    log.info("AMC Payload: {}", finalPayloadNode.toPrettyString());
 
-//                                    httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
-//                                        log.error("Error occurred from DHIS2: {}", error.getMessage());
-//                                    }).subscribe(AmuDhisResponse -> {
-//                                        log.info("DHIS2 response FOR AMC: {}", AmuDhisResponse);
-//
-//                                    });
+
+                                    httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
+                                        log.debug("Error occurred from DHIS2: {}", error.getMessage());
+                                    }).subscribe(AmuDhisResponse -> {
+
+                                    });
 
                                 } catch (JsonProcessingException e) {
                                     throw new RuntimeException(e);

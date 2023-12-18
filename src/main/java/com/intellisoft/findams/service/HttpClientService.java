@@ -108,7 +108,6 @@ public class HttpClientService {
 
         try {
             payloadJson = objectMapper.writeValueAsString(trackedEntityInstancePayload);
-            log.info("tracker payloadJson {}", payloadJson);
         } catch (JsonProcessingException e) {
             return Mono.just("{'error':'Failed to convert payload to JSON'}");
         }
@@ -118,7 +117,7 @@ public class HttpClientService {
                 return response.bodyToMono(String.class);
             } else {
                 return response.bodyToMono(String.class).flatMap(body -> {
-                    log.error("Error occurred while posting TrackedEntityInstances to DHIS2: {}", body);
+                    log.debug("Error occurred while posting TrackedEntityInstances to DHIS2: {}", body);
                     return Mono.just(body);
                 });
             }
@@ -147,7 +146,7 @@ public class HttpClientService {
         String apiUrl = datastoreUrl + "/keyDefaultLayoutLocked";
         return webClient.get().uri(apiUrl).retrieve().bodyToMono(new ParameterizedTypeReference<List<FileParseSummaryDto>>() {
         }).onErrorResume(e -> {
-            log.error("Error while getting data from DHIS2 DataStore: {}", e.getMessage());
+            log.debug("Error while getting data from DHIS2 DataStore: {}", e.getMessage());
             return Mono.just(Collections.emptyList());
         });
     }
@@ -157,7 +156,7 @@ public class HttpClientService {
         String apiUrl = datastoreUrl + "/keyDefaultLayoutLocked";
 
         return webClient.method(HttpMethod.PUT).uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(payloadJson)).retrieve().bodyToMono(String.class).onErrorResume(e -> {
-            log.error("Error while updating DHIS2 DataStore: {}", e.getMessage());
+            log.debug("Error while updating DHIS2 DataStore: {}", e.getMessage());
             return Mono.just("Error updating DHIS2 DataStore");
         });
     }
@@ -171,7 +170,7 @@ public class HttpClientService {
                 return response.bodyToMono(String.class);
             } else {
                 return response.bodyToMono(String.class).flatMap(body -> {
-                    log.error("Error occurred while posting AMU Event Program to DHIS2: {}", body);
+                    log.debug("Error occurred while posting AMU Event Program to DHIS2: {}", body);
                     return Mono.just(body);
                 });
             }
@@ -186,7 +185,7 @@ public class HttpClientService {
                 return response.bodyToMono(String.class);
             } else {
                 return response.bodyToMono(String.class).flatMap(body -> {
-                    log.error("Error occurred while posting AMC Event Program to DHIS2: {}", body);
+                    log.debug("Error occurred while posting AMC Event Program to DHIS2: {}", body);
                     return Mono.just(body);
                 });
             }
@@ -217,7 +216,7 @@ public class HttpClientService {
 
             return optionSetsMap;
         }).doOnError(error -> {
-            log.error("Error fetching option sets: {}", error.getMessage());
+            log.debug("Error fetching option sets: {}", error.getMessage());
         });
     }
 
@@ -232,7 +231,6 @@ public class HttpClientService {
                 JsonNode dddData = dddDataList.get(i);
                 if (medicationName.equalsIgnoreCase(dddData.asText())) {
                     double dddValue = dataStoreResponse.findValues("DDD").get(i).asDouble();
-                    log.info("Response from DHIS2: Medication Name: {}, DDD Value: {}", medicationName, dddValue);
                     return Mono.just(dddValue);
                 }
             }
@@ -240,45 +238,6 @@ public class HttpClientService {
             log.warn("Medication Name not found in DHIS2 response: {}", medicationName);
             return Mono.empty();
         }).defaultIfEmpty(0.0);
-    }
-
-
-    public Mono<String> getOrgUnits() {
-        String apiUrl = orgUnitsUrl;
-        return webClient.get().uri(apiUrl).retrieve().bodyToMono(Map.class).map(response -> {
-            // Extract the id from organisationUnits
-            List<Map<String, Object>> organisationUnits = (List<Map<String, Object>>) response.get("organisationUnits");
-
-            if (organisationUnits != null && !organisationUnits.isEmpty()) {
-                // Assuming you want the id from the first organisation unit
-                Map<String, Object> firstOrganisationUnit = organisationUnits.get(0);
-                return firstOrganisationUnit.get("id").toString();
-            } else {
-                return "No organisation units found";
-            }
-        });
-    }
-
-    public Mono<String> getTrackedEntityTypes() {
-        String apiUrl = trackedEntityUrl;
-        return webClient.get().uri(apiUrl).retrieve().bodyToMono(String.class).map(response -> {
-            // Parse the JSON response
-            JsonNode rootNode = null;
-            try {
-                rootNode = objectMapper.readTree(response);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            JsonNode trackedEntityTypesNode = rootNode.path("trackedEntityTypes");
-
-            if (trackedEntityTypesNode.isArray()) {
-                for (JsonNode trackedEntityTypeNode : trackedEntityTypesNode) {
-                    JsonNode idNode = trackedEntityTypeNode.path("id");
-                    return idNode.asText();
-                }
-            }
-            return "Tracked entity type not found";
-        });
     }
 
     public Mono<String> getAmuMetaData() {
@@ -299,7 +258,7 @@ public class HttpClientService {
                 return response.bodyToMono(String.class);
             } else {
                 return response.bodyToMono(String.class).flatMap(body -> {
-                    log.error("Error occurred while posting enrollment for tracked entity to DHIS2: {}", body);
+                    log.debug("Error occurred while posting enrollment for tracked entity to DHIS2: {}", body);
                     return Mono.just(body);
                 });
             }
@@ -314,7 +273,7 @@ public class HttpClientService {
                 return response.bodyToMono(String.class);
             } else {
                 return response.bodyToMono(String.class).flatMap(body -> {
-                    log.error("Error occurred while posting event for enrollment to DHIS2: {}", body);
+                    log.debug("Error occurred while posting event for enrollment to DHIS2: {}", body);
                     return Mono.just(body);
                 });
             }

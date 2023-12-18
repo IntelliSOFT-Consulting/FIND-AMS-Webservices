@@ -173,7 +173,7 @@ public class MicrobiologyService {
                 trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
 
                 httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
-                    log.error("Error occurred {}", error.getMessage());
+                    log.debug("Error occurred {}", error.getMessage());
                 }).subscribe(response -> {
                     // Implement batching logic for processed files
                     // send API response to send later to datastore
@@ -184,7 +184,7 @@ public class MicrobiologyService {
                 });
             });
         }, error -> {
-            log.error("Error occurred while fetching attributes: {}", error.getMessage());
+            log.debug("Error occurred while fetching attributes: {}", error.getMessage());
         });
 
         return subscription;
@@ -358,7 +358,6 @@ public class MicrobiologyService {
         if (sourceFile.exists() && sourceFile.isFile()) {
             File destinationFile = new File(destinationFolder, sourceFile.getName());
             Files.move(sourceFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            log.info("Parsed Files {} moved to {}", sourceFile.getName(), destinationFolder.getAbsolutePath());
         } else {
             log.error("Source file does not exist or is not a file: {}", filePath);
         }
@@ -388,7 +387,6 @@ public class MicrobiologyService {
             fileParseSummaryDto.setIgnored(ignored);
             fileParseSummaryDto.setBatchNo(uploadBatchNo);
 
-            log.info("fileParseSummaryDto {}", fileParseSummaryDto);
 
             // formulate a payload to send to Enrollment API ON DHIS:>>>>>>
             JsonNode importSummariesNode = jsonNode.path("response").path("importSummaries");
@@ -401,7 +399,6 @@ public class MicrobiologyService {
                 for (JsonNode conflict : conflicts) {
                     String conflictValue = conflict.path("value").asText();
                     conflictValues.add(conflictValue);
-                    log.info("conflictValues {}", conflictValues);
                 }
 
                 if (importSummaryStatus.equals("ERROR")) {
@@ -505,10 +502,10 @@ public class MicrobiologyService {
                             });
 
                         }, error -> {
-                            log.error("Error occurred while posting enrollment to DHIS2: {}", error.getMessage());
+                            log.debug("Error occurred while posting enrollment to DHIS2: {}", error.getMessage());
                         });
                     } catch (JsonProcessingException e) {
-                        log.error("Error while converting enrollment payload to JSON: {}", e.getMessage());
+                        log.debug("Error while converting enrollment payload to JSON: {}", e.getMessage());
                     }
                 }
             }
@@ -517,7 +514,7 @@ public class MicrobiologyService {
 
             return fileParseSummaryDto;
         } catch (Exception exp) {
-            log.error("Error while processing import summaries: {}", exp.getMessage());
+            log.debug("Error while processing import summaries: {}", exp.getMessage());
         }
         return null;
     }
