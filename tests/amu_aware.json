@@ -1,0 +1,1046 @@
+[
+  {
+    "name": "Amikacin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Amoxicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Amoxicillin/clavulanic-acid",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Ampicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Ampicillin/sulbactam",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Arbekacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Aspoxicillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Azidocillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Azithromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Azlocillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Aztreonam",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Bacampicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Bekanamycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Benzathine-benzylpenicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Benzylpenicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Biapenem",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Brodimoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Carbenicillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Carindacillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Carumonam",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Cefacetrile",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefaclor",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefadroxil",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefalexin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefaloridine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefalotin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefamandole",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefapirin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefatrizine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefazedone",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefazolin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefbuperazone",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefcapene-pivoxil",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefdinir",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefditoren-pivoxil",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefepime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefetamet-pivoxil",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefiderocol",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Cefixime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefmenoxime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefmetazole",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefminox",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefodizime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefonicid",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefoperazone",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ceforanide",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefoselis",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefotaxime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefotetan",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefotiam",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefoxitin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefozopran",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefpiramide",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefpirome",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefpodoxime-proxetil",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefprozil",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefradine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefroxadine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Cefsulodin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ceftaroline-fosamil",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Ceftazidime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ceftazidime/avibactam",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Cefteram-pivoxil",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ceftezole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Ceftibuten",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ceftizoxime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ceftobiprole-medocaril",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Ceftolozane/tazobactam",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Ceftriaxone",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cefuroxime",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Chloramphenicol",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Chlortetracycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cinoxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ciprofloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Clarithromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Clindamycin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Clofoctol",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Clometocillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Clomocycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Cloxacillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Colistin_IV",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Colistin_oral",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Dalbavancin",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Dalfopristin/quinupristin",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Daptomycin",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Delafloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Demeclocycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Dibekacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Dicloxacillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Dirithromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Doripenem",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Doxycycline",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Enoxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Epicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Eravacycline",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Ertapenem",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Erythromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Faropenem",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Fidaxomicin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Fleroxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Flomoxef",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Flucloxacillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Flumequine",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Flurithromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Fosfomycin_IV",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Fosfomycin_oral",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Furazidin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Fusidic-acid",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Garenoxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Gatifloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Gemifloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Gentamicin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Grepafloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Hetacillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Iclaprim",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Imipenem/cilastatin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Imipenem/cilastatin/relebactam",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Isepamicin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Josamycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Kanamycin_IV",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Kanamycin_oral",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Lascufloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Latamoxef",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Lefamulin",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Levofloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Levonadifloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Lincomycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Linezolid",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Lomefloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Loracarbef",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Lymecycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Mecillinam",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Meropenem",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Meropenem/vaborbactam",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Metacycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Metampicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Meticillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Metronidazole_IV",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Metronidazole_oral",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Mezlocillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Micronomicin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Midecamycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Minocycline_IV",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Minocycline_oral",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Miocamycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Moxifloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Nafcillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Nemonoxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Neomycin_IV",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Neomycin_oral",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Netilmicin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Nifurtoinol",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Nitrofurantoin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Norfloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ofloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Oleandomycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Omadacycline",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Oritavancin",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Ornidazole_IV",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Ornidazole_oral",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Oxacillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Oxolinic-acid",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Oxytetracycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Panipenem",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Pazufloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Pefloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Penamecillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Penimepicycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Pheneticillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Phenoxymethylpenicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Pipemidic-acid",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Piperacillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Piperacillin/tazobactam",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Piromidic-acid",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Pivampicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Pivmecillinam",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Plazomicin",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Polymyxin-B_IV",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Polymyxin-B_oral",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Pristinamycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Procaine-benzylpenicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Propicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Prulifloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Ribostamycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rifabutin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rifampicin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rifamycin_IV",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rifamycin_oral",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rifaximin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rokitamycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rolitetracycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rosoxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Roxithromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Rufloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Sarecycline",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Secnidazole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sisomicin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Sitafloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Solithromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Sparfloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Spectinomycin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Spiramycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Streptoduocin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Streptomycin_IV",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Streptomycin_oral",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Sulbactam",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulbenicillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Sulfadiazine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfadiazine/tetroxoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfadiazine/trimethoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfadimethoxine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfadimidine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfadimidine/trimethoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfafurazole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfaisodimidine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfalene",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamazone",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamerazine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamerazine/trimethoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamethizole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamethoxazole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamethoxazole/trimethoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamethoxypyridazine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfametomidine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfametoxydiazine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfametrole/trimethoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamoxole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfamoxole/trimethoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfanilamide",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfaperin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfaphenazole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfapyridine",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfathiazole",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sulfathiourea",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Sultamicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Talampicillin",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Tazobactam",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Tebipenem",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Tedizolid",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Teicoplanin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Telavancin",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Telithromycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Temafloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Temocillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Tetracycline",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Thiamphenicol",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Ticarcillin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Tigecycline",
+    "aware_classification": "Reserve"
+  },
+  {
+    "name": "Tinidazole_IV",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Tinidazole_oral",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Tobramycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Tosufloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Trimethoprim",
+    "aware_classification": "Access"
+  },
+  {
+    "name": "Troleandomycin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Trovafloxacin",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Vancomycin_IV",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "Vancomycin_oral",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "DOXYCYCLINE 100MG 100MG",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "ARTANE 5MG (DOSE 14 DAYS) 5mg",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "PARACETAMOL 500MG  500mg",
+    "aware_classification": "Watch"
+  },
+  {
+    "name": "CEFTADIZIME Ig",
+    "aware_classification": "Watch"
+  }
+]

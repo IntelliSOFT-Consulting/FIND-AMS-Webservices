@@ -15,6 +15,8 @@ import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -98,10 +100,9 @@ public class EventProgramService {
                                             String displayName = dataElementObject.getString("displayName");
                                             String id = dataElementObject.getString("id");
 
-                                            // Add your logic here to process data elements
-
                                             Map<String, Object> payload = new HashMap<>();
                                             payload.put("occurredAt", visit.path("visit_date").asText());
+                                            payload.put("status", "COMPLETED");
                                             payload.put("notes", new ArrayList<>());
                                             payload.put("program", amuProgramId);
                                             payload.put("programStage", amuProgramStageId);
@@ -140,10 +141,13 @@ public class EventProgramService {
                                                 dataValuesList.add(patientIdData);
                                             }
 
+                                            //determine aware:
+                                            String awareClassification = extractAwareClassification(productName);
+
                                             Map<String, Object> categoryData = new HashMap<>();
                                             if ("Category".equalsIgnoreCase(displayName)) {
                                                 categoryData.put("dataElement", id);
-                                                categoryData.put("value", category);
+                                                categoryData.put("value", awareClassification);
                                                 dataValuesList.add(categoryData);
                                             }
 
@@ -205,15 +209,15 @@ public class EventProgramService {
                                                 ((ArrayNode) eventsNode).removeAll();
                                                 ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                             }
-                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
-                                                log.error("Error occurred from DHIS2: {}", error.getMessage());
-                                            }).subscribe(AmuDhisResponse -> {
-                                                log.info("DHIS2 response FOR AMU: {}", AmuDhisResponse);
-                                            });
+//                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
+//                                                log.error("Error occurred from DHIS2: {}", error.getMessage());
+//                                            }).subscribe(AmuDhisResponse -> {
+//                                                log.info("DHIS2 response FOR AMU: {}", AmuDhisResponse);
+//                                            });
 
                                             //processAmc
                                             processAmc(confirmatoryDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
-//                                            });
+
                                         } catch (JsonProcessingException e) {
                                             throw new RuntimeException(e);
                                         }
@@ -231,6 +235,28 @@ public class EventProgramService {
             }
         }, Throwable::printStackTrace);
 
+    }
+
+    private String extractAwareClassification(String productName) {
+        String awareDataPath = Constants.TESTS_PATH + "amu_aware.json";
+
+        try {
+            String jsonContent = new String(Files.readAllBytes(Paths.get(awareDataPath)));
+
+            JSONArray jsonArray = new JSONArray(jsonContent);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject entry = jsonArray.getJSONObject(i);
+                if (productName.equals(entry.getString("name"))) {
+                    return entry.getString("aware_classification");
+                }
+            }
+
+            return "Unknown";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "ErrorReadingJsonFile";
+        }
     }
 
     private void processAmc(String confirmatoryDiagnosis, String productName, String productId, String strength, String dosageForm, String department, String numberOfPackagesDispensed, String dateBeingDispensed, String occurredAt, String combination) {
@@ -286,6 +312,11 @@ public class EventProgramService {
                                     payload.put("program", amcProgramId);
                                     payload.put("programStage", amuProgramStageId);
                                     payload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                                    payload.put("status", "COMPLETED");
+
+
+                                    //determine aware:
+                                    String awareClassification = extractAwareClassification(productName);
 
                                     Map<String, Object> numberOfPackagesDispensedData = new HashMap<>();
                                     if ("Number of packages being dispensed".equals(displayName)) {
@@ -375,12 +406,15 @@ public class EventProgramService {
                                         ((ArrayNode) eventsNode).removeAll();
                                         ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                     }
-                                    httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
-                                        log.error("Error occurred from DHIS2: {}", error.getMessage());
-                                    }).subscribe(AmuDhisResponse -> {
-                                        log.info("DHIS2 response FOR AMC: {}", AmuDhisResponse);
 
-                                    });
+                                    log.info("AMC Payload: {}", finalPayloadNode.toPrettyString());
+
+//                                    httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
+//                                        log.error("Error occurred from DHIS2: {}", error.getMessage());
+//                                    }).subscribe(AmuDhisResponse -> {
+//                                        log.info("DHIS2 response FOR AMC: {}", AmuDhisResponse);
+//
+//                                    });
 
                                 } catch (JsonProcessingException e) {
                                     throw new RuntimeException(e);
