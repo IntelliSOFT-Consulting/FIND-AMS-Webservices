@@ -59,10 +59,8 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             // process file content
                             microbiologyService.parseFile(filePath, fileContent);
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                            log.debug("File not found: " + file.getAbsolutePath());
+                            log.error("File not found: " + file.getAbsolutePath());
                         } catch (IOException e) {
-                            e.printStackTrace();
                         }
                     }
                 }
