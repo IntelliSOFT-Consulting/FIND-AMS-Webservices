@@ -22,7 +22,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping(value = "/api/find-ams/file-import", produces = "application/json")
+@RequestMapping(value = "/find-ams/file-import", produces = "application/json")
 public class FileImportController {
     private final MicrobiologyService parsingService;
 

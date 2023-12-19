@@ -57,12 +57,10 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
 
                             // process file content
-//                            microbiologyService.parseFile(filePath, fileContent);
+                            microbiologyService.parseFile(filePath, fileContent);
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
                             log.error("File not found: " + file.getAbsolutePath());
                         } catch (IOException e) {
-                            e.printStackTrace();
                         }
                     }
                 }
@@ -75,8 +73,6 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
             }
             long twoMinutesInMillis = TimeUnit.MINUTES.toMillis(1);
             Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
-
-            log.info("Next File Parse scheduled time -> {}", nextExecutionTime);
             return nextExecutionTime.toInstant();
         });
 
@@ -93,9 +89,6 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
             long oneDayInMillis = TimeUnit.MINUTES.toMillis(1);
             Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
-
-            log.info("Next AMS Data fetch scheduled time -> {}", nextExecutionTime);
-
             // Return the next execution time
             return nextExecutionTime.toInstant();
         });
