@@ -19,4 +19,5 @@ public class Constants {
 
     // AMC:
     public static final String DAILY_DEFINED_DOSAGE="y1z4rBNFpb6";
+    public static final String AMC_PROGRAM_STAGE_UNIT = "Gtksmia6KVX";
 }

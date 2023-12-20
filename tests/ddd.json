@@ -1,0 +1,2506 @@
+[
+  {
+    "ATC Code": "J01AA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": 0.6,
+    "Name": "Demeclocycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.1,
+    "Name": "Doxycycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.1,
+    "Name": "Doxycycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Chlortetracycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.6,
+    "Name": "Lymecycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.6,
+    "Name": "Lymecycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.6,
+    "Name": "Metacycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Oxytetracycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Oxytetracycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Tetracycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Tetracycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.2,
+    "Name": "Minocycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.2,
+    "Name": "Minocycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.35,
+    "Name": "Rolitetracycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Penimepicycline",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01AA11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Clomocycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.1,
+    "Name": "Tigecycline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01AA20",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Tetracyclines, combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01AA56",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Oxytetracycline, combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01BA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 3,
+    "Name": "Chloramphenicol",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01BA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Chloramphenicol",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01BA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Thiamphenicol",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01BA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Thiamphenicol",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01BA52",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Thiamphenicol, combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01CA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Ampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 6,
+    "Name": "Ampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "R",
+    "DDD": 2,
+    "Name": "Ampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.05,
+    "Name": "Pivampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 12,
+    "Name": "Carbenicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Amoxicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Amoxicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 4,
+    "Name": "Carindacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.2,
+    "Name": "Bacampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Epicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Epicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.6,
+    "Name": "Pivmecillinam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 12,
+    "Name": "Azlocillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 6,
+    "Name": "Mezlocillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.2,
+    "Name": "Mecillinam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 14,
+    "Name": "Piperacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 15,
+    "Name": "Ticarcillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Metampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Metampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA15",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Talampicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA16",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 15,
+    "Name": "Sulbenicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA17",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Temocillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA18",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Hetacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA19",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Aspoxicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CA20",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Penicillins with extended spectrum, combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01CA51",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Ampicillin, combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01CE01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3.6,
+    "Name": "Benzylpenicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Phenoxymethylpenicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.9,
+    "Name": "Propicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Azidocillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Pheneticillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.05,
+    "Name": "Penamecillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Clometocillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3.6,
+    "Name": "Benzathine benzylpenicillin",
+    "Note": "Expressed as benzylpenicillin",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.6,
+    "Name": "Procaine benzylpenicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Benzathine phenoxymethylpenicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CE30",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Beta-lactamase sensitive penicillins, combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01CF01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Dicloxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Dicloxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Cloxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Cloxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Meticillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Oxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Oxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Flucloxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Flucloxacillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CF06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Nafcillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CG01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Sulbactam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CG02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Tazobactam",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01CR01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 6,
+    "Name": "Ampicillin and enzyme inhibitor",
+    "Note": "Refers to ampicillin",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CR02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Amoxicillin and enzyme inhibitor",
+    "Note": "Refers to amoxicillin",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CR02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Amoxicillin and enzyme inhibitor",
+    "Note": "Refers to amoxicillin",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CR03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 15,
+    "Name": "Ticarcillin and enzyme inhibitor",
+    "Note": "Refers to ticarcillin",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CR04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Sultamicillin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CR05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 14,
+    "Name": "Piperacillin and enzyme inhibitor",
+    "Note": "Refers to piperacillin",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01CR50",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Combinations of penicillins",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01DB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Cefalexin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Cefaloridine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefalotin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Cefazolin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Cefadroxil",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Cefazedone",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Cefatrizine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefapirin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Cefradine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Cefradine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Cefacetrile",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2.1,
+    "Name": "Cefroxadine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DB12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Ceftezole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 6,
+    "Name": "Cefoxitin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Cefuroxime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Cefuroxime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 6,
+    "Name": "Cefamandole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Cefaclor",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefotetan",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Cefonicide",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.2,
+    "Name": "Cefotiam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefotiam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.6,
+    "Name": "Loracarbef",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefmetazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Cefprozil",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Ceforanide",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefminox",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Cefbuperazone",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DC14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": 2,
+    "Name": "Flomoxef",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefotaxime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Ceftazidime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefsulodin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Ceftriaxone",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Cefmenoxime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Latamoxef",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Ceftizoxime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Cefixime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Cefodizime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Cefetamet",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Cefpiramide",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefoperazone",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Cefpodoxime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Ceftibuten",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD15",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.6,
+    "Name": "Cefdinir",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD16",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Cefditoren",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD17",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.45,
+    "Name": "Cefcapene",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD51",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Cefotaxime, combinations",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD52",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 6,
+    "Name": "Ceftazidime, combinations",
+    "Note": "Refers to ceftazidime",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD54",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Ceftriaxone, combinations",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DD62",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefoperazone, combinations",
+    "Note": "Refers to cefoperazone",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DE01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefepime",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DE02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefpirome",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DE03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Cefozopran",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DF01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "Inhal.solution",
+    "DDD": 0.225,
+    "Name": "Aztreonam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DF01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Aztreonam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DF02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Carumonam",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DH02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Meropenem",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DH03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Ertapenem",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DH04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Doripenem",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DH05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.2,
+    "Name": "Biapenem",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DH51",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Imipenem and enzyme inhibitor",
+    "Note": "Refers to imipenem",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DH55",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Panipenem and betamipron",
+    "Note": "Refers to panipenem",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DI01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Ceftobiprole medocaril",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DI02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.2,
+    "Name": "Ceftaroline fosamil",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DI03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.75,
+    "Name": "Faropenem",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01DI54",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Ceftolozane and enzyme inhibitor",
+    "Note": "Refers to ceftolozane",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Trimethoprim",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.4,
+    "Name": "Trimethoprim",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.2,
+    "Name": "Brodimoprim",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Iclaprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 4,
+    "Name": "Sulfaisodimidine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Sulfaisodimidine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 4,
+    "Name": "Sulfamethizole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 4,
+    "Name": "Sulfadimidine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Sulfapyridine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 4,
+    "Name": "Sulfafurazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 4,
+    "Name": "Sulfafurazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfanilamide",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EB07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfathiazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EB08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 6,
+    "Name": "Sulfathiourea",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EB20",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EC01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Sulfamethoxazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EC02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.6,
+    "Name": "Sulfadiazine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EC03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Sulfamoxole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01EC03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Combinations",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Sulfadimethoxine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.1,
+    "Name": "Sulfalene",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfametomidine",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01ED04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Sulfametoxydiazine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Sulfamethoxypyridazine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Sulfaperin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 3,
+    "Name": "Sulfamerazine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Sulfaphenazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Sulfamazon",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "R",
+    "DDD": 1.5,
+    "Name": "Sulfamazon",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01ED20",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EE01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfamethoxazole and trimethoprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EE02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfadiazine and trimethoprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EE03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfametrole and trimethoprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EE04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfamoxole and trimethoprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EE05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfadimidine and trimethoprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EE06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfadiazine and tetroxoprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01EE07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfamerazine and trimethoprim",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01FA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Erythromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Erythromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Erythromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 3,
+    "Name": "Spiramycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.2,
+    "Name": "Midecamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Midecamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Oleandomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.3,
+    "Name": "Roxithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Josamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Troleandomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Clarithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Clarithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.3,
+    "Name": "Azithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.5,
+    "Name": "Azithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.2,
+    "Name": "Miocamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.8,
+    "Name": "Rokitamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Dirithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.75,
+    "Name": "Flurithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FA15",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.8,
+    "Name": "Telithromycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FF01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.2,
+    "Name": "Clindamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FF01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.8,
+    "Name": "Clindamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FF02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.8,
+    "Name": "Lincomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FF02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.8,
+    "Name": "Lincomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FG01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Pristinamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01FG02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Quinupristin / dalfopristin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Streptomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Streptoduocin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "Inhal.powder",
+    "DDD": 0.112,
+    "Name": "Tobramycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "Inhal.solution",
+    "DDD": 0.3,
+    "Name": "Tobramycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.24,
+    "Name": "Tobramycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.24,
+    "Name": "Gentamicin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Kanamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Neomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "Inhal.solution",
+    "DDD": 0.59,
+    "Name": "Amikacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Amikacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.35,
+    "Name": "Netilmicin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.35,
+    "Name": "Netilmicin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.24,
+    "Name": "Sisomicin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.14,
+    "Name": "Dibekacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Ribostamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.4,
+    "Name": "Isepamicin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.2,
+    "Name": "Arbekacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01GB13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.6,
+    "Name": "Bekanamycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Ofloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.4,
+    "Name": "Ofloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Ciprofloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.8,
+    "Name": "Ciprofloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.8,
+    "Name": "Pefloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.8,
+    "Name": "Pefloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.8,
+    "Name": "Enoxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.8,
+    "Name": "Temafloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.8,
+    "Name": "Norfloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Lomefloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Fleroxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.4,
+    "Name": "Fleroxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.2,
+    "Name": "Sparfloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.2,
+    "Name": "Rufloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Grepafloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "Inhal.solution",
+    "DDD": 0.24,
+    "Name": "Levofloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.5,
+    "Name": "Levofloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.5,
+    "Name": "Levofloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.2,
+    "Name": "Trovafloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.2,
+    "Name": "Trovafloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Moxifloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.4,
+    "Name": "Moxifloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA15",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.32,
+    "Name": "Gemifloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA15",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.2,
+    "Name": "Gemifloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA16",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Gatifloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA16",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.4,
+    "Name": "Gatifloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA17",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.6,
+    "Name": "Prulifloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA18",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Pazufloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA19",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.4,
+    "Name": "Garenoxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MA21",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.1,
+    "Name": "Sitafloxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.3,
+    "Name": "Rosoxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 4,
+    "Name": "Nalidixic acid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Piromidic acid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.8,
+    "Name": "Pipemidic acid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Oxolinic acid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Cinoxacin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.2,
+    "Name": "Flumequine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01MB08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Nemonoxacin",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Penicillins, combinations with other antibacterials",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Sulfonamides, combinations with other antibacterials (excluding trimethoprim)",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Cefuroxime and metronidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Spiramycin and metronidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Levofloxacin and ornidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Cefepime and amikacin",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Azithromycin, fluconazole and secnidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Tetracycline and oleandomycin",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Ofloxacin and ornidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Ciprofloxacin and metronidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Ciprofloxacin and tinidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Ciprofloxacin and ornidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA13",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Norfloxacin and tinidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA14",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Norfloxacin and metronidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01RA15",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Cefixime and ornidazole",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01XA01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 2,
+    "Name": "Vancomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XA02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.4,
+    "Name": "Teicoplanin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XA03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Telavancin",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01XA04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Dalbavancin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XA05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Oritavancin",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01XB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "Inhal.powder",
+    "DDD": 3,
+    "Name": "Colistin",
+    "Note": "",
+    "U": "MU"
+  },
+  {
+    "ATC Code": "J01XB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "Inhal.solution",
+    "DDD": 3,
+    "Name": "Colistin",
+    "Note": "",
+    "U": "MU"
+  },
+  {
+    "ATC Code": "J01XB01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 9,
+    "Name": "Colistin",
+    "Note": "",
+    "U": "MU"
+  },
+  {
+    "ATC Code": "J01XB02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.15,
+    "Name": "Polymyxin B",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01XC01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.5,
+    "Name": "Fusidic acid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XC01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Fusidic acid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XD01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Metronidazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XD02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.5,
+    "Name": "Tinidazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XD03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1,
+    "Name": "Ornidazole",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XE01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.2,
+    "Name": "Nitrofurantoin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XE02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.16,
+    "Name": "Nifurtoinol",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XE03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.3,
+    "Name": "Furazidin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XE51",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Nitrofurantoin combinations",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01XX01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 3,
+    "Name": "Fosfomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX01",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 8,
+    "Name": "Fosfomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX02",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "",
+    "DDD": "",
+    "Name": "Xibornol",
+    "Note": "",
+    "U": ""
+  },
+  {
+    "ATC Code": "J01XX03",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "R",
+    "DDD": 1.5,
+    "Name": "Clofoctol",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX04",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 3,
+    "Name": "Spectinomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 2,
+    "Name": "Methenamine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX05",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 3,
+    "Name": "Methenamine",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX06",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 12,
+    "Name": "Mandelic acid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX07",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1,
+    "Name": "Nitroxoline",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 1.2,
+    "Name": "Linezolid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX08",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 1.2,
+    "Name": "Linezolid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX09",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.28,
+    "Name": "Daptomycin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX10",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "O",
+    "DDD": 0.2,
+    "Name": "Bacitracin",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX11",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.2,
+    "Name": "Tedizolid",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.2,
+    "Name": "PARACETAMOL 500MG  500mg",
+    "Note": "",
+    "U": "g"
+  },
+  {
+    "ATC Code": "J01XX12",
+    "Adm.R\nO - Oral\nP - Parenteral - Any other non-oral route that involves injection": "P",
+    "DDD": 0.89,
+    "Name": "PARACETAMOL 500MG",
+    "Note": "",
+    "U": "g"
+  }
+]

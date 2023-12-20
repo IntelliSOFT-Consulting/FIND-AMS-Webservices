@@ -173,7 +173,7 @@ public class MicrobiologyService {
                 trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
 
                 httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
-                    log.debug("Error occurred {}", error.getMessage());
+                    log.error("Error occurred {}", error.getMessage());
                 }).subscribe(response -> {
                     // Implement batching logic for processed files
                     // send API response to send later to datastore
@@ -205,6 +205,7 @@ public class MicrobiologyService {
     private int getColumnIndex(Row headerRow, String columnName) {
         for (int j = 0; j < headerRow.getLastCellNum(); j++) {
             Cell cell = headerRow.getCell(j);
+            String column = cell.getStringCellValue();
             if (cell != null && cell.getStringCellValue().equalsIgnoreCase(columnName)) {
                 return cell.getColumnIndex();
             }
@@ -436,7 +437,10 @@ public class MicrobiologyService {
                                 for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                                     Row excelRow = sheet.getRow(i);
 
-                                    for (int columnIndex = getColumnIndex(sheet.getRow(0), "PIP_ND100"); columnIndex <= getColumnIndex(sheet.getRow(0), "PEN_NE"); columnIndex++) {
+                                    int startIndex = 27;
+                                    int endIndex = 83;
+
+                                    for (int columnIndex = startIndex; columnIndex <= endIndex; columnIndex++) {
                                         Cell headerCell = sheet.getRow(0).getCell(columnIndex);
                                         String columnName = headerCell.getStringCellValue();
 
@@ -472,16 +476,15 @@ public class MicrobiologyService {
                                             resultData.put("value", cultureType);
                                             resultData.put("dataElement", Constants.RESULT_ID);
                                             dataValuesList.add(resultData);
+
                                         }
                                     }
                                 }
 
                                 List<Map<String, Object>> filteredDataValues = dataValuesList.stream().filter(entry -> !entry.containsValue("N/A")).collect(Collectors.toList());
 
-                                // Create the eventPayload map
                                 Map<String, Object> eventPayload = new HashMap<>();
 
-                                // Add dataValuesList to the eventPayload
                                 eventPayload.put("dataValues", filteredDataValues);
                                 eventPayload.put("program", Constants.WHONET_PROGRAM_ID);
                                 eventPayload.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
@@ -493,7 +496,7 @@ public class MicrobiologyService {
 
                                 try {
                                     httpClientService.postEventToDhis(objectMapper.writeValueAsString(eventPayload)).doOnError(error -> {
-
+                                        log.debug("Error occurred while posting EVENT to DHIS2: {}", error.getMessage());
                                     }).subscribe(eventCreatedResponse -> {
                                     });
                                 } catch (JsonProcessingException e) {
