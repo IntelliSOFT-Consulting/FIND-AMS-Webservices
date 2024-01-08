@@ -1,15 +1,24 @@
 server:
-  port: 8090
+  port: 8008
 
 ams:
-  datastore-url: https://findams.intellisoftkenya.com/api/29/
-  whonet-data-upload-url: https://findams.intellisoftkenya.com/api/trackedEntityInstances
-  trackedEntityAttributes-url: https://findams.intellisoftkenya.com/api/29/trackedEntityAttributes
-  event-program-url: https://findams.intellisoftkenya.com/api/40/tracker?async=false
+  datastore-url: ${AMS_BASE_URL}40/dataStore/tracker-capture
+  whonet-data-upload-url: ${AMS_BASE_URL}trackedEntityInstances
+  trackedEntityAttributes-url: ${AMS_BASE_URL}29/trackedEntityAttributes
+  event-program-url: ${AMS_BASE_URL}40/tracker?async=false
+  option-set-url: ${AMS_BASE_URL}29/optionSets?filter=name:ne:default&fields=displayName,options[name,code]&order=displayName:ASC
+  atc-codes-url: ${AMS_BASE_URL}40/dataStore/antibiotics-ddd/antibiotics-ddd
+  org-units-url: ${AMS_BASE_URL}me?fields=%3Aall%2CorganisationUnits%5Bid%5D%2CuserGroups%5Bid%5D%2CuserCredentials%5B%3Aall%2C!user%2CuserRoles%5Bid%5D
+  amu-program-metadata-url: ${AMS_BASE_URL}29/metadata?fields=:owner,displayName&programs:filter=id:eq:el15zrnA8FH&programs:fields=:owner,displayName,attributeValues[:all,attribute[id,name,displayName]],organisationUnits[id,path],dataEntryForm[:owner],programSections[id,name,displayName,renderType,program,sortOrder,lastUpdated,trackedEntityAttributes[id,name,displayName,sortOrder]],notificationTemplates[:owner],programTrackedEntityAttributes,user[id,name],publicAccess,userGroupAccesses,userAccesses,categoryCombo[id,name],programStages[:owner,%20publicAccess,%20userGroupAccesses,%20userAccesses,%20user[id,name],displayName,attributeValues[:all,attribute[id,name,displayName]],programStageDataElements[:owner,renderType,dataElement[id,displayName,valueType,optionSet,domainType]],notificationTemplates[:owner,displayName],dataEntryForm[:owner],programStageSections[:owner,displayName,dataElements[id,displayName]]]
+  amc-program-metadata-url: ${AMS_BASE_URL}29/metadata?fields=:owner,displayName&programs:filter=id:eq:xHWVrcfpJll&programs:fields=:owner,displayName,attributeValues[:all,attribute[id,name,displayName]],organisationUnits[id,path],dataEntryForm[:owner],programSections[id,name,displayName,renderType,program,sortOrder,lastUpdated,trackedEntityAttributes[id,name,displayName,sortOrder]],notificationTemplates[:owner],programTrackedEntityAttributes,user[id,name],publicAccess,userGroupAccesses,userAccesses,categoryCombo[id,name],programStages[:owner, publicAccess, userGroupAccesses, user[id,name],displayName,attributeValues[:all,attribute[id,name,displayName]],programStageDataElements[:owner,renderType,dataElement[id,displayName,valueType,optionSet,domainType]],notificationTemplates[:owner,displayName],dataEntryForm[:owner],programStageSections[:owner,displayName,dataElements[id,displayName]]]
+  tracked-entity-types-url: ${AMS_BASE_URL}trackedEntityTypes.json?paging=false&fields=id,displayName,featureType,maxTeiCountToReturn,minAttributesRequiredToSearch,trackedEntityTypeAttributes[*,trackedEntityAttribute[id,unique,displayInListNoProgram]],style,access[data[read,write]]&_=1701175761823
+  enrollments-url: ${AMS_BASE_URL}enrollments
+  program-stage-attributes-url: ${AMS_BASE_URL}29/metadata?fields=%3Aowner%2CdisplayName&programs%3Afilter=id%3Aeq%3AgximJCTJ5Kr&programs%3Afields=%3Aowner%2CdisplayName%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D%2CorganisationUnits%5Bid%2Cpath%5D%2CdataEntryForm%5B%3Aowner%5D%2CprogramSections%5Bid%2Cname%2CdisplayName%2CrenderType%2Cprogram%2CsortOrder%2ClastUpdated%2CtrackedEntityAttributes%5Bid%2Cname%2CdisplayName%2CsortOrder%5D%5D%2CnotificationTemplates%5B%3Aowner%5D%2CprogramTrackedEntityAttributes%2Cuser%5Bid%2Cname%5D%2CpublicAccess%2CuserGroupAccesses%2CuserAccesses%2CcategoryCombo%5Bid%2Cname%5D%2CprogramStages%5B%3Aowner%2C%20publicAccess%2C%20userGroupAccesses%2C%20userAccesses%2C%20user%5Bid%2Cname%5D%2CdisplayName%2CattributeValues%5B%3Aall%2Cattribute%5Bid%2Cname%2CdisplayName%5D%5D%2CprogramStageDataElements%5B%3Aowner%2CrenderType%2CdataElement%5Bid%2CdisplayName%2CvalueType%2CoptionSet%2CdomainType%5D%5D%2CnotificationTemplates%5B%3Aowner%2CdisplayName%5D%2CdataEntryForm%5B%3Aowner%5D%2CprogramStageSections%5B%3Aowner%2CdisplayName%2CdataElements%5Bid%2CdisplayName%5D%5D%5D
+  events-api-url: ${AMS_BASE_URL}events.json
+  aware-class-url: ${AMS_BASE_URL}40/dataStore/aware-classification/aware-classification
   dhis:
-    username: admin
-    password: district
+    username: ${DHIS_USERNAME}
+    password: ${DHIS_PASSWORD}
   funsoft:
-    amu-url: https://funsoft.systempartners.biz:17933/FunsoftWebServices/funsoft/ArraysService/getpatientsantibioticprescriptions?
-    atc-ddd-index-url: https://www.whocc.no/atc_ddd_index/?code=
-    amc-url: https://funsoft.systempartners.biz:17933/FunsoftWebServices/funsoft/ArraysService/getadmissions?
+    amu-url: ${FUNSOFT_BASE_URL}getpatientsantibioticprescriptions?
+    amc-url: ${FUNSOFT_BASE_URL}getadmissions?
