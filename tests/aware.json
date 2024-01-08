@@ -15,7 +15,7 @@
     "name": "Meropenem"
   },
   {
-    "aware_classification": "Watch",
+    "aware_classification": "Access",
     "drug_code": "GEN_ND10",
     "name": "Gentamicin"
   },
@@ -60,8 +60,8 @@
     "name": "Ofloxacin"
   },
   {
-    "aware_classification": "Reserve",
-    "drug_code": "SXT_ND1_2",
+    "aware_classification": "Access",
+    "drug_code": "SXT_ND1.2",
     "name": "Surotomycin"
   },
   {
@@ -95,7 +95,7 @@
     "name": "Vancomycin"
   },
   {
-    "aware_classification": "Watch",
+    "aware_classification": "Access",
     "drug_code": "AMC_ND20",
     "name": "Amoxicillin/Clavulanic acid"
   },

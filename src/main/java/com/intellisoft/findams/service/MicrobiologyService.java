@@ -175,6 +175,7 @@ public class MicrobiologyService {
                 httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
                     log.error("Error occurred {}", error.getMessage());
                 }).subscribe(response -> {
+                    log.info("response: {}", response);
                     // Implement batching logic for processed files
                     // send API response to send later to datastore
 
@@ -439,11 +440,17 @@ public class MicrobiologyService {
 
                                     int startIndex = 27;
                                     int endIndex = 83;
+                                    int columnIndexToRename = 39;
 
                                     for (int columnIndex = startIndex; columnIndex <= endIndex; columnIndex++) {
                                         Cell headerCell = sheet.getRow(0).getCell(columnIndex);
-                                        String columnName = headerCell.getStringCellValue();
 
+                                        if (columnIndex == columnIndexToRename) {
+                                            String newColumnName = "SXT_ND1.2";
+                                            headerCell.setCellValue(newColumnName);
+                                        }
+
+                                        String columnName = headerCell.getStringCellValue();
                                         Cell dataCell = excelRow.getCell(columnIndex);
                                         String cellValue = determineValue(dataCell);
 
@@ -483,24 +490,28 @@ public class MicrobiologyService {
 
                                 List<Map<String, Object>> filteredDataValues = dataValuesList.stream().filter(entry -> !entry.containsValue("N/A")).collect(Collectors.toList());
 
-                                Map<String, Object> eventPayload = new HashMap<>();
+                                int occurrences = Collections.frequency(dataValuesList, filteredDataValues.get(0));
 
-                                eventPayload.put("dataValues", filteredDataValues);
-                                eventPayload.put("program", Constants.WHONET_PROGRAM_ID);
-                                eventPayload.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
-                                eventPayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
-                                eventPayload.put("trackedEntityInstance", reference);
-                                eventPayload.put("status", "COMPLETED");
-                                eventPayload.put("eventDate", LocalDate.now().toString());
-                                eventPayload.put("completedDate", LocalDate.now().toString());
+                                for (int i = 0; i < occurrences; i++) {
+                                    Map<String, Object> eventPayload = new HashMap<>();
+                                    eventPayload.put("dataValues", filteredDataValues);
+                                    eventPayload.put("program", Constants.WHONET_PROGRAM_ID);
+                                    eventPayload.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
+                                    eventPayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                                    eventPayload.put("trackedEntityInstance", reference);
+                                    eventPayload.put("status", "COMPLETED");
+                                    eventPayload.put("eventDate", LocalDate.now().toString());
+                                    eventPayload.put("completedDate", LocalDate.now().toString());
 
-                                try {
-                                    httpClientService.postEventToDhis(objectMapper.writeValueAsString(eventPayload)).doOnError(error -> {
-                                        log.debug("Error occurred while posting EVENT to DHIS2: {}", error.getMessage());
-                                    }).subscribe(eventCreatedResponse -> {
-                                    });
-                                } catch (JsonProcessingException e) {
-                                    throw new RuntimeException(e);
+                                    try {
+                                        httpClientService.postEventToDhis(objectMapper.writeValueAsString(eventPayload)).doOnError(error -> {
+                                            log.debug("Error occurred while posting EVENT to DHIS2: {}", error.getMessage());
+                                        }).subscribe(eventCreatedResponse -> {
+                                            log.info("eventCreatedResponse: {}", eventCreatedResponse);
+                                        });
+                                    } catch (JsonProcessingException e) {
+                                        throw new RuntimeException(e);
+                                    }
                                 }
                             });
 
