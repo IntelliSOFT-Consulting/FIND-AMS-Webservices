@@ -165,16 +165,15 @@ public class EventProgramService {
                                                 if (optionSet != null) {
                                                     String currentValue = productName;
                                                     String mappedOptionSetValue = optionSet.entrySet().stream().filter(entry -> entry.getValue().equalsIgnoreCase(currentValue)).map(Map.Entry::getKey).findFirst().orElse(currentValue);
-//                                                    antiBioticDescription.put("value", mappedOptionSetValue);
-                                                    antiBioticDescription.put("value", "APL");
+                                                    antiBioticDescription.put("value", mappedOptionSetValue);
                                                 } else {
-//                                                    antiBioticDescription.put("value", productName);
-                                                    antiBioticDescription.put("value", "APL");
+                                                    antiBioticDescription.put("value", productName);
                                                 }
                                                 eventSpecificDataValuesList.add(antiBioticDescription);
                                             }
 
                                             Map<String, Object> payload = new HashMap<>();
+                                            payload.put("occurredAt", LocalDate.now().toString());
                                             payload.put("eventDate", LocalDate.now().toString());
                                             payload.put("status", "COMPLETED");
                                             payload.put("notes", new ArrayList<>());
@@ -217,11 +216,11 @@ public class EventProgramService {
                                                 ((ArrayNode) eventsNode).removeAll();
                                                 ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                             }
-//                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).subscribe(amuEventResponse -> {
-//
-//                                            }, error -> {
-//                                                log.debug("Error occurred from DHIS2: {}", error.getMessage());
-//                                            });
+                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).subscribe(amuEventResponse -> {
+
+                                            }, error -> {
+                                                log.debug("Error occurred from DHIS2: {}", error.getMessage());
+                                            });
 
                                             //processAmc
                                             processAmc(confirmatoryDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
@@ -337,8 +336,6 @@ public class EventProgramService {
 
                             if (departmentAdmissions.has(department)) {
                                 totalAdmissions = departmentAdmissions.get(department).asInt();
-                            } else {
-                                totalAdmissions = 8;
                             }
 
                             // DDD computation:
@@ -489,7 +486,7 @@ public class EventProgramService {
                         httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
                             log.debug("Error occurred from DHIS2: {}", error.getMessage());
                         }).subscribe(AmcDhisResponse -> {
-                            log.info("AmcDhisResponse {}", AmcDhisResponse);
+
                         });
 
                     } catch (JsonProcessingException e) {

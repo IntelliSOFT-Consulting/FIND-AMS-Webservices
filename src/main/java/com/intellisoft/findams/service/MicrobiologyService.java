@@ -507,7 +507,6 @@ public class MicrobiologyService {
                                         httpClientService.postEventToDhis(objectMapper.writeValueAsString(eventPayload)).doOnError(error -> {
                                             log.debug("Error occurred while posting EVENT to DHIS2: {}", error.getMessage());
                                         }).subscribe(eventCreatedResponse -> {
-                                            log.info("eventCreatedResponse: {}", eventCreatedResponse);
                                         });
                                     } catch (JsonProcessingException e) {
                                         throw new RuntimeException(e);
