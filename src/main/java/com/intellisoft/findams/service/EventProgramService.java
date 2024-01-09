@@ -157,23 +157,25 @@ public class EventProgramService {
                                             }
 
                                             Map<String, Object> antiBioticDescription = new HashMap<>();
-                                            if ("Antibiotic".equalsIgnoreCase(displayName)) {
+                                            if ("Antibiotics".equalsIgnoreCase(displayName)) {
                                                 antiBioticDescription.put("dataElement", id);
 
-                                                Map<String, String> optionSet = optionSets.get("Drugs");
+                                                Map<String, String> optionSet = optionSets.get("Antibiotics");
 
                                                 if (optionSet != null) {
                                                     String currentValue = productName;
                                                     String mappedOptionSetValue = optionSet.entrySet().stream().filter(entry -> entry.getValue().equalsIgnoreCase(currentValue)).map(Map.Entry::getKey).findFirst().orElse(currentValue);
-                                                    antiBioticDescription.put("value", mappedOptionSetValue);
+//                                                    antiBioticDescription.put("value", mappedOptionSetValue);
+                                                    antiBioticDescription.put("value", "APL");
                                                 } else {
-                                                    antiBioticDescription.put("value", productName);
+//                                                    antiBioticDescription.put("value", productName);
+                                                    antiBioticDescription.put("value", "APL");
                                                 }
                                                 eventSpecificDataValuesList.add(antiBioticDescription);
                                             }
 
                                             Map<String, Object> payload = new HashMap<>();
-                                            payload.put("occurredAt", LocalDate.now().toString());
+                                            payload.put("eventDate", LocalDate.now().toString());
                                             payload.put("status", "COMPLETED");
                                             payload.put("notes", new ArrayList<>());
                                             payload.put("program", amuProgramId);
@@ -215,12 +217,11 @@ public class EventProgramService {
                                                 ((ArrayNode) eventsNode).removeAll();
                                                 ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                             }
-
-                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).subscribe(amuEventResponse -> {
-
-                                            }, error -> {
-                                                log.debug("Error occurred from DHIS2: {}", error.getMessage());
-                                            });
+//                                            httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).subscribe(amuEventResponse -> {
+//
+//                                            }, error -> {
+//                                                log.debug("Error occurred from DHIS2: {}", error.getMessage());
+//                                            });
 
                                             //processAmc
                                             processAmc(confirmatoryDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
@@ -323,6 +324,23 @@ public class EventProgramService {
                             String displayName = dataElementObject.getString("displayName");
                             String amcId = dataElementObject.getString("id");
 
+                            // determine the number of daily admissions:
+                            JsonNode admissionsData = null;
+                            try {
+                                admissionsData = objectMapper.readTree(response);
+                            } catch (JsonProcessingException e) {
+                                throw new RuntimeException(e);
+                            }
+                            JsonNode departmentAdmissions = admissionsData.path("daily_admissions").get(0).path("department_admissions");
+
+                            int totalAdmissions = 0;
+
+                            if (departmentAdmissions.has(department)) {
+                                totalAdmissions = departmentAdmissions.get(department).asInt();
+                            } else {
+                                totalAdmissions = 8;
+                            }
+
                             // DDD computation:
                             double dddValueResponse = fetchDDD(productName);
 
@@ -419,6 +437,13 @@ public class EventProgramService {
                                 dataValuesList.add(diagnosisData);
                             }
 
+                            if ("Daily number of admissions".equals(displayName)) {
+                                Map<String, Object> totalAdmissionsData = new HashMap<>();
+                                totalAdmissionsData.put("dataElement", amcId);
+                                totalAdmissionsData.put("value", totalAdmissions);
+                                dataValuesList.add(totalAdmissionsData);
+                            }
+
                         }
 
                         Map<String, Object> payload = new HashMap<>();
@@ -461,7 +486,6 @@ public class EventProgramService {
                             ((ArrayNode) eventsNode).addAll(uniqueEvents);
                         }
 
-//                        log.info("AMC PAYLOAD {}", finalPayloadNode.toPrettyString());
                         httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
                             log.debug("Error occurred from DHIS2: {}", error.getMessage());
                         }).subscribe(AmcDhisResponse -> {

@@ -178,7 +178,7 @@ public class HttpClientService {
     }
 
     public Mono<String> postAmcEventProgram(String finalPayload) {
-        String apiUrl = eventsApiUrl;
+        String apiUrl = eventProgramUrl;
 
         return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(finalPayload)).exchangeToMono(response -> {
             if (response.statusCode().is2xxSuccessful()) {
