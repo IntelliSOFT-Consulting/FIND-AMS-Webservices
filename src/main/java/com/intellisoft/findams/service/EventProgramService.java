@@ -45,6 +45,7 @@ public class EventProgramService {
         String endDate = "2023-09-28";
 
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
+            log.info("AntibioticPrescriptions {}", response);
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(response);
@@ -217,6 +218,7 @@ public class EventProgramService {
                                                 ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                             }
                                             httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).subscribe(amuEventResponse -> {
+                                                log.info("amuEventResponse: {}", amuEventResponse);
 
                                             }, error -> {
                                                 log.debug("Error occurred from DHIS2: {}", error.getMessage());
@@ -236,7 +238,7 @@ public class EventProgramService {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("IOException Error occurred while parsing JSON");
             }
         }, Throwable::printStackTrace);
     }
@@ -344,11 +346,18 @@ public class EventProgramService {
                             Double dailyDefinedDosage = null;
 
                             try {
-                                double medicalStrength = Double.parseDouble(strength);
+
+                                double medicalStrength;
+
+                                if (strength.equals("-") || strength.equals("") || fractionChecker.isFraction(strength)) {
+                                    medicalStrength = 0;
+                                } else {
+                                    medicalStrength = Double.parseDouble(strength);
+                                }
                                 // Converting strength to g
                                 dailyDefinedDosage = ((medicalStrength / 1000) / dddValueResponse);
                             } catch (NumberFormatException e) {
-                                System.err.println("Error parsing strength as a number: " + e.getMessage());
+                                log.error("Error parsing strength as a number");
                             }
 
                             // Determine aware:
@@ -490,7 +499,7 @@ public class EventProgramService {
                         });
 
                     } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
+                        log.error("Error occurred while processing JSON");
                     }
                     return Mono.empty();
                 }).subscribe();
@@ -499,5 +508,28 @@ public class EventProgramService {
         });
 
     }
+
+    public class fractionChecker {
+        public static boolean isFraction(String input) {
+            if (input == null || input.isEmpty()) {
+                return false;
+            }
+
+            String[] parts = input.split("/");
+            if (parts.length != 2) {
+                return false;
+            }
+
+            try {
+                int numerator = Integer.parseInt(parts[0].trim());
+                int denominator = Integer.parseInt(parts[1].trim());
+
+                return denominator != 0;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+    }
+
 
 }

@@ -4,8 +4,9 @@ FROM openjdk:17-jdk-slim-buster
 EXPOSE 8090
 WORKDIR /findams_javabackend
 
-COPY target/findams-0.0.1-SNAPSHOT.jar /Configurations/application.yml ./
-COPY target/findams-0.0.1-SNAPSHOT.jar /Configurations/.env ./
+COPY target/findams-0.0.1-SNAPSHOT.jar ./
+COPY /docker/Configurations/.env ./
+COPY /docker/Configurations/application.yml ./
 
 #HEALTHCHECK --interval=25s --timeout=3s --retries=2 CMD wget --spider http://199.192.27.107:8085/actuator/health || exit 1
 ADD target/findams-0.0.1-SNAPSHOT.jar findams-0.0.1-SNAPSHOT.jar
