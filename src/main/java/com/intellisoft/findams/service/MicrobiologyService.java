@@ -146,6 +146,13 @@ public class MicrobiologyService {
                                         String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
                                         cellValue = code;
                                     }
+                                } else if ("Department".equalsIgnoreCase(attributeDisplayName)) {
+                                    Map<String, String> optionsMap = optionSetsMap.get("Wards");
+                                    if (optionsMap.containsValue(cellValue)) {
+                                        String finalCellValue = cellValue;
+                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                        cellValue = code;
+                                    }
                                 } else if (optionSetsMap.containsKey(closestMatch)) {
                                     Map<String, String> optionsMap = optionSetsMap.get(closestMatch);
                                     if (optionsMap.containsValue(cellValue)) {
