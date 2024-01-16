@@ -146,6 +146,13 @@ public class MicrobiologyService {
                                         String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
                                         cellValue = code;
                                     }
+                                } else if ("Department".equalsIgnoreCase(attributeDisplayName)) {
+                                    Map<String, String> optionsMap = optionSetsMap.get("Wards");
+                                    if (optionsMap.containsValue(cellValue)) {
+                                        String finalCellValue = cellValue;
+                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                        cellValue = code;
+                                    }
                                 } else if (optionSetsMap.containsKey(closestMatch)) {
                                     Map<String, String> optionsMap = optionSetsMap.get(closestMatch);
                                     if (optionsMap.containsValue(cellValue)) {
@@ -181,11 +188,12 @@ public class MicrobiologyService {
 
                     processedFilePaths.add(filePath);
                     String uploadBatchNo = generateUniqueCode(); //unique batch applied to an upload
-                    batchProcessedFiles(processedFilePaths, response, sheet, uploadBatchNo);
+                    String uploadDate = LocalDate.now().toString();
+                    batchProcessedFiles(processedFilePaths, response, sheet, uploadBatchNo, uploadDate);
                 });
             });
         }, error -> {
-            log.debug("Error occurred while fetching attributes: {}", error.getMessage());
+            log.error("Error occurred while fetching attributes: {}", error.getMessage());
         });
 
         return subscription;
@@ -313,7 +321,7 @@ public class MicrobiologyService {
                             Date date = inputDateFormat.parse(specDate);
                             specDateCell.setCellValue(outputDateFormat.format(date));
                         } catch (ParseException e) {
-                            log.error(e.getMessage());
+                            log.error("Error occurred while parsing date");
                         }
                     }
                 }
@@ -326,7 +334,7 @@ public class MicrobiologyService {
         return UUID.randomUUID().toString();
     }
 
-    private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse, Sheet sheet, String uploadBatchNo) {
+    private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse, Sheet sheet, String uploadBatchNo, String uploadDate) {
 
         String processedFilesFolderPath = Constants.PROCESSED_FILES_PATH;
         File destinationFolder = new File(processedFilesFolderPath);
@@ -340,7 +348,7 @@ public class MicrobiologyService {
                 // Clear the files after batching
                 processedFilePaths.clear();
 
-                FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse, sheet, uploadBatchNo);
+                FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse, sheet, uploadBatchNo, uploadDate);
 
                 httpClientService.postToDhis2DataStore(fileParseSummaryDto).subscribe();
 
@@ -348,7 +356,7 @@ public class MicrobiologyService {
                 log.error("Destination folder does not exist or is not a directory: {}", processedFilesFolderPath);
             }
         } catch (IOException e) {
-            log.error("Error while moving files: {}", e.getMessage());
+            log.error("Error while moving files");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -365,7 +373,7 @@ public class MicrobiologyService {
         }
     }
 
-    private FileParseSummaryDto parseApiResponse(String apiResponse, Sheet sheet, String uploadBatchNo) throws JsonProcessingException {
+    private FileParseSummaryDto parseApiResponse(String apiResponse, Sheet sheet, String uploadBatchNo, String uploadDate) throws JsonProcessingException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(apiResponse);
@@ -388,6 +396,7 @@ public class MicrobiologyService {
             fileParseSummaryDto.setDeleted(deleted);
             fileParseSummaryDto.setIgnored(ignored);
             fileParseSummaryDto.setBatchNo(uploadBatchNo);
+            fileParseSummaryDto.setUploadDate(uploadDate);
 
 
             // formulate a payload to send to Enrollment API ON DHIS:>>>>>>
@@ -505,9 +514,9 @@ public class MicrobiologyService {
 
                                     try {
                                         httpClientService.postEventToDhis(objectMapper.writeValueAsString(eventPayload)).doOnError(error -> {
-                                            log.debug("Error occurred while posting EVENT to DHIS2: {}", error.getMessage());
+                                            log.error("Error occurred while posting EVENT to DHIS2: {}", error.getMessage());
                                         }).subscribe(eventCreatedResponse -> {
-                                            log.info("eventCreatedResponse: {}", eventCreatedResponse);
+                                            log.info("eventCreatedResponse {}", eventCreatedResponse);
                                         });
                                     } catch (JsonProcessingException e) {
                                         throw new RuntimeException(e);
@@ -516,10 +525,10 @@ public class MicrobiologyService {
                             });
 
                         }, error -> {
-                            log.debug("Error occurred while posting enrollment to DHIS2: {}", error.getMessage());
+                            log.error("Error occurred while posting enrollment to DHIS2");
                         });
                     } catch (JsonProcessingException e) {
-                        log.debug("Error while converting enrollment payload to JSON: {}", e.getMessage());
+                        log.error("Error while converting enrollment payload to JSON");
                     }
                 }
             }
@@ -528,7 +537,7 @@ public class MicrobiologyService {
 
             return fileParseSummaryDto;
         } catch (Exception exp) {
-            log.debug("Error while processing import summaries: {}", exp.getMessage());
+            log.error("Error while processing import summaries");
         }
         return null;
     }
@@ -568,7 +577,7 @@ public class MicrobiologyService {
 
             return "Unknown";
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IO Error occurred while Reading JSON file");
             return "ErrorReadingJsonFile";
         }
     }

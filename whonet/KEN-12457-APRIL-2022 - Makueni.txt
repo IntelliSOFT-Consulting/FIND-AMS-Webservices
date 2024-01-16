@@ -1,0 +1,22 @@
+ROW_IDX|DATE_DATA|ORGANISM|ORG_TYPE|PATIENT_ID|FIRST_NAME|LAST_NAME|X_MIDDLE_N|SEX|AGE|X_COUNTY|X_S_COUNTY|X_VILLAGE|X_DIAGN|WARD|INSTITUT|DEPARTMENT|WARD_TYPE|DATE_ADMIS|SPEC_NUM|ISOL_NUM|SPEC_DATE|SPEC_TYPE|SPEC_CODE|X_SOURCE|X_METHOD|X_AMT|PIP_ND100|CRO_ND30|MEM_ND10|GEN_ND10|IPM_ND10|CIP_ND5|MTR_ND5|AMK_ND30|NOR_ND10|NIT_ND300|CHL_ND30|OFX_ND5|SXT_ND1_2|ERY_ND15|STR_ND10|AZM_ND15|NAL_ND30|X_1_ND|VAN_NE|AMC_ND20|AMP_ND10|ATM_ND30|FEP_ND30|CTX_ND30|CAZ_ND30|CXM_ND30|VAN_ND30|COL_ND10|X_2_ND|ETP_ND10|LVX_ND5|MNO_ND30|TZP_ND100|TGC_ND15|TOB_ND10|FOX_ND30|CLI_ND2|OXA_ND1|CZX_ND30|PEN_ND10|PNV_ND10|TCY_ND30|DOX_ND30|RIF_ND5|CEP_ND30|CRB_ND100|MAN_ND30|MEZ_ND75|NOV_ND5|SSS_ND200|TEC_ND30|TIC_ND75|TCC_ND75|CTX_NM|PEN_NM|VAN_NM|PEN_NE
+0|5/5/2022 12:00:00 AM|xxx|o|63411|BENEDETTA|WANZA||m|65|Makueni||||w2s|124|sur|in||12590||21/4/2022 12:00:00 AM|pf|64||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+1|5/5/2022 12:00:00 AM|xxx|o|63473|PAUL|MUSYOKI||f|42|Makueni||||w1s|124|sur|in||12872||21/4/2022 12:00:00 AM||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+2|5/5/2022 12:00:00 AM|xxx|o|10609|LUCY|MUMBUA||f|42|Makueni||||opd|124|opd|out||12503||12/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+3|5/5/2022 12:00:00 AM|xxx|o||EDITH|MWENDE||f|26|Makueni||||opd|124|opd|out||11121||13/4/2022 12:00:00 AM|ps|24||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+4|5/5/2022 12:00:00 AM|xxx|o|21875|CATHERINE|NTHENYA||f|38|Makueni|Makueni|||opd|124|opd|out||12042||13/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+5|5/5/2022 12:00:00 AM|xxx|o|63234|SAMUEL|KIMONYI||f||Makueni|Makueni|||w1s|124|sur|in||12375||16/4/2022 12:00:00 AM|pf|64||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+6|5/5/2022 12:00:00 AM|xxx|o|10537|CYRUS|MUTUKU||m||Makueni|Makueni|||opd|124|opd|out||12175||14/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+7|5/5/2022 12:00:00 AM|xxx|o||JOSEPHINE|KIVUVA||f||Makueni|Makueni|||opd|124|opd|out||12157||14/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+8|5/5/2022 12:00:00 AM|xxx|o||VERONICAH|JOHN||f||Makueni|Makueni|||opd|124|opd|out||11258||5/4/2022 12:00:00 AM|th|2||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+9|5/5/2022 12:00:00 AM|xxx|o||BONFACE|MUIA||f|16|Makueni|Makueni|||opd|124|opd|out||||5/4/2022 12:00:00 AM|sr|168||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+10|5/5/2022 12:00:00 AM|xxx|o||CATHERINE|KISILU||f||Makueni|Makueni||||||||11304||6/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+11|5/5/2022 12:00:00 AM|xxx|o|62802|EDITH|MWENDE||||Makueni|Makueni|||opd|124|opd|out||11121||6/4/2022 12:00:00 AM|ps|24||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+12|5/5/2022 12:00:00 AM|xxx|o|46812|TOM|MULI||m||Makueni|Makueni|||opd|124|opd|out||11124||6/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+13|5/5/2022 12:00:00 AM|xxx|o||GLORIA|MBESA||f||Makueni|Makueni|||opd|124|opd|out||10878||2/4/2022 12:00:00 AM|ps|24||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+14|5/5/2022 12:00:00 AM|xxx|o|59024|ZIPPORAH|KATUNGE||f||Makueni|Makueni|||opd|124|opd|out||10752||1/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+15|5/5/2022 12:00:00 AM|xxx|o||CHARITY|MUENI||f||Makueni|Makueni|||opd|124|opd|out||10702||1/4/2022 12:00:00 AM|ur|11||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+16|10/5/2022 12:00:00 AM|sau|+|62867|SAMUEL|MBITHI||m|17|Makueni|||||||||||31/3/2022 12:00:00 AM|ti|36||||||S|S|||||||S||||||||||||||||||||||||||S||||||||||||||||||||
+17|10/5/2022 12:00:00 AM|sau|+|11759|SCHOLSTICA|MUINDE||f|0|||||||opd|||63237||11/4/2022 12:00:00 AM||||DDA||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+18|11/5/2022 12:00:00 AM|sau|+|632137|scholastica|muinde||f|0|Makueni||||opd|124|opd|out||11759||11/4/2022 12:00:00 AM|ps|24|||||||S||S|||||S|||||R|||||R|||S||||||||||||||||||R|||||||||||||||
+19|11/5/2022 12:00:00 AM|sau|+||SIMON|KITEMA||m|48|Makueni||||||opd|out||11540||11/4/2022 12:00:00 AM|ur|11||DDA|||||S||S||||S||||||R|||||R||||||||||||||||||S|||R|||||||||||||||
+20|11/5/2022 12:00:00 AM|sau|+|61045|MAGDALENE|NGWIMBA||f|48|Makueni||||opd|124|opd|out||||8/4/2022 12:00:00 AM||||DDA|||||S||S||||S||||||||||||||||S|||||||||||||||||||||||||||||||
