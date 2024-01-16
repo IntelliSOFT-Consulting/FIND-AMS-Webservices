@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-@PropertySources({@PropertySource("classpath:application.yml"), @PropertySource("classpath:.env 3")})
+@PropertySources({@PropertySource("classpath:application.yml"), @PropertySource("classpath:.env")})
 public class FindamsApplication {
 
     public static void main(String[] args) {
