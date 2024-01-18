@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  findams:
+    image: intellisoftdev/findams:latest
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./findams_javabackend/tests:/findams_javabackend/tests
+      - ./findams_javabackend/whonet:/findams_javabackend/whonet
+      - ./findams_javabackend/processed:/findams_javabackend/processed
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+    command: ["java", "-jar", "findams-0.0.1-SNAPSHOT.jar"]

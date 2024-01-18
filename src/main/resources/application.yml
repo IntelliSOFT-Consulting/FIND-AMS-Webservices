@@ -1,5 +1,5 @@
 server:
-  port: 8008
+  port: 8090
 
 ams:
   datastore-url: ${AMS_BASE_URL}40/dataStore/tracker-capture
