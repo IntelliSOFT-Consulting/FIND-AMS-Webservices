@@ -246,6 +246,7 @@ public class MicrobiologyService {
         int specNumColumnIndex = -1;
         int specDateColumnIndex = -1;
         int organismColumnIndex = -1;
+        int dateAdmissionColumnIndex = 1;
 
         // Find the columns for "SEX", "SPEC_NUM", and "SPEC_DATE"
         for (Cell cell : headerRow) {
@@ -258,6 +259,8 @@ public class MicrobiologyService {
                 specDateColumnIndex = cell.getColumnIndex();
             } else if (columnName.equals("ORGANISM")) {
                 organismColumnIndex = cell.getColumnIndex();
+            } else if (columnName.equals("DATE_ADMIS")) {
+                dateAdmissionColumnIndex = cell.getColumnIndex();
             }
         }
 
@@ -288,6 +291,10 @@ public class MicrobiologyService {
                     Cell specDateCell = row.getCell(specDateColumnIndex);
                     String specDate = specDateCell.getStringCellValue();
 
+                    // Process DATE_ADMIS column
+                    Cell dateAdmissionCell = row.getCell(dateAdmissionColumnIndex);
+                    String dateAdmission = dateAdmissionCell.getStringCellValue();
+
                     // Process ORGANISM column
                     Cell organismCell = row.getCell(organismColumnIndex);
                     String organism = organismCell.getStringCellValue();
@@ -317,13 +324,59 @@ public class MicrobiologyService {
                     if (specDate != null && !specDate.isEmpty()) {
                         try {
                             SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/M/yyyy hh:mm:ss a", Locale.ENGLISH);
+                            SimpleDateFormat alternativeInputDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
                             SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            Date date = inputDateFormat.parse(specDate);
-                            specDateCell.setCellValue(outputDateFormat.format(date));
-                        } catch (ParseException e) {
-                            log.error("Error occurred while parsing date");
+
+                            Date date = null;
+
+                            try {
+                                date = inputDateFormat.parse(specDate);
+                            } catch (ParseException e1) {
+                                try {
+                                    date = alternativeInputDateFormat.parse(specDate);
+                                } catch (ParseException e2) {
+                                    log.error("Error occurred while parsing date");
+                                }
+                            }
+
+                            if (date != null) {
+                                specDateCell.setCellValue(outputDateFormat.format(date));
+                            }
+
+                        } catch (Exception e) {
+                            log.error("Error occurred while parsing date", e);
                         }
                     }
+
+
+                    // Format the DATE_ADMIS column to YYYY-MM-DD
+                    if (dateAdmission != null && !dateAdmission.isEmpty()) {
+                        try {
+                            SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/M/yyyy hh:mm:ss a", Locale.ENGLISH);
+                            SimpleDateFormat alternativeInputDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.ENGLISH);
+                            SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                            Date date = null;
+
+                            try {
+                                date = inputDateFormat.parse(dateAdmission);
+                            } catch (ParseException dateAdmissionEx) {
+                                try {
+                                    date = alternativeInputDateFormat.parse(dateAdmission);
+                                } catch (ParseException dateAdmissionEx2) {
+                                    log.error("Error occurred while parsing date");
+                                }
+                            }
+
+                            if (date != null) {
+                                dateAdmissionCell.setCellValue(outputDateFormat.format(date));
+                            }
+
+                        } catch (Exception e) {
+                            log.error("Error occurred while parsing date", e);
+                        }
+                    }
+
                 }
             }
         }
