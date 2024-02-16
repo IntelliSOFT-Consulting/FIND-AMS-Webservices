@@ -108,10 +108,67 @@ public class MicrobiologyService {
                 for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                     Row excelRow = sheet.getRow(i);
 
+                    List<String> rowValues = new ArrayList<>();
+
+                    for (int j = 0; j < excelRow.getLastCellNum(); j++) {
+                        Cell cell = excelRow.getCell(j);
+                        if (cell != null) {
+                            rowValues.add(cell.getStringCellValue());
+                        }
+                    }
+
                     // Create a payload for the tracked entity instance
                     Map<String, Object> trackedEntityInstance = new HashMap<>();
                     trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
                     trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+
+                    List<Map<String, Object>> events = new ArrayList<>();
+                    for (int j = 0; j < excelRow.getLastCellNum(); j++) {
+                        Cell cell = excelRow.getCell(j);
+                        if (cell != null) {
+                            String cellValue = cell.getStringCellValue();
+                            if (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I")) {
+                                String columnName = sheet.getRow(0).getCell(j).getStringCellValue();
+                                List<Map<String, Object>> eventDataValues = new ArrayList<>();
+
+                                Map<String, Object> eventPayload1 = new HashMap<>();
+                                eventPayload1.put("dataElement", Constants.ANTIBIOTIC_ID);
+                                eventPayload1.put("value", columnName);
+                                eventDataValues.add(eventPayload1);
+
+                                Map<String, Object> eventPayload2 = new HashMap<>();
+                                eventPayload2.put("dataElement", Constants.AWARE_CLASSIFICATION);
+                                eventPayload2.put("value", extractAwareClassification(columnName));
+                                eventDataValues.add(eventPayload2);
+
+                                Map<String, Object> eventPayload3 = new HashMap<>();
+                                eventPayload3.put("dataElement", Constants.RESULT_ID);
+                                eventPayload3.put("value", determineTestType(cellValue).getCultureType());
+                                eventDataValues.add(eventPayload3);
+
+                                Map<String, Object> event = new HashMap<>();
+                                event.put("dataValues", eventDataValues);
+                                event.put("program", Constants.WHONET_PROGRAM_ID);
+                                event.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
+                                event.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                                event.put("status", "COMPLETED");
+                                event.put("eventDate", LocalDate.now().toString());
+                                event.put("completedDate", LocalDate.now().toString());
+                                events.add(event);
+                            }
+                        }
+                    }
+
+
+                    Map<String, Object> enrollment = new HashMap<>();
+                    enrollment.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                    enrollment.put("program", Constants.WHONET_PROGRAM_ID);
+                    enrollment.put("enrollmentDate", LocalDate.now().toString());
+                    enrollment.put("incidentDate", LocalDate.now().toString());
+                    enrollment.put("status", "COMPLETED");
+                    enrollment.put("events", events);
+                    trackedEntityInstance.put("enrollments", Collections.singletonList(enrollment));
+
 
                     // Create a list to hold attributes for this instance
                     List<Map<String, Object>> attributesList = new ArrayList<>();
@@ -169,8 +226,23 @@ public class MicrobiologyService {
                             attributesList.add(attributeEntry);
                         }
                     }
+
+                    if (rowValues.contains("R") || rowValues.contains("S") || rowValues.contains("I")) {
+                        Map<String, Object> testTypeMap = new HashMap<>();
+                        testTypeMap.put("attribute", Constants.TEST_TYPE_ID);
+                        testTypeMap.put("value", "Culture with AST");
+                        attributesList.add(testTypeMap);
+                    } else {
+                        Map<String, Object> testTypeMap = new HashMap<>();
+                        testTypeMap.put("attribute", Constants.TEST_TYPE_ID);
+                        testTypeMap.put("value", "Culture without AST");
+                        attributesList.add(testTypeMap);
+                    }
+
+
                     // Add the attributesList to the trackedEntityInstance
                     trackedEntityInstance.put("attributes", attributesList);
+
 
                     // Add the trackedEntityInstance to the list of instances
                     trackedEntityInstances.add(trackedEntityInstance);
@@ -178,6 +250,7 @@ public class MicrobiologyService {
 
                 Map<String, Object> trackedEntityInstancePayload = new HashMap<>();
                 trackedEntityInstancePayload.put("trackedEntityInstances", trackedEntityInstances);
+
 
                 httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
                     log.error("Error occurred {}", error.getMessage());
@@ -464,127 +537,8 @@ public class MicrobiologyService {
                     String conflictValue = conflict.path("value").asText();
                     conflictValues.add(conflictValue);
                 }
-
-                if (importSummaryStatus.equals("ERROR")) {
-                    fileParseSummaryDto.setConflictValues(conflictValues);
-                    return fileParseSummaryDto;
-                } else {
-                    String reference = summaryNode.path("reference").asText();
-
-                    // create an enrolment payload
-                    LocalDate enrollmentDate = LocalDate.now();
-                    LocalDate incidentDate = LocalDate.now();
-
-                    // Build the enrollment payload
-                    Map<String, Object> enrollmentPayload = new HashMap<>();
-                    enrollmentPayload.put("trackedEntityInstance", reference);
-                    enrollmentPayload.put("program", Constants.WHONET_PROGRAM_ID);
-                    enrollmentPayload.put("status", "ACTIVE");
-                    enrollmentPayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
-                    enrollmentPayload.put("enrollmentDate", enrollmentDate.toString());
-                    enrollmentPayload.put("incidentDate", incidentDate.toString());
-
-                    String enrollmentReqPayload = null;
-
-                    try {
-                        enrollmentReqPayload = objectMapper.writeValueAsString(enrollmentPayload);
-
-                        // send to DHIS2 enrollment API::
-                        Disposable subscription = httpClientService.postEnrollmentToDhis(enrollmentReqPayload).subscribe(enrollmentResponse -> {
-
-                            Mono<Map<String, Map<String, String>>> optionSetsMono = httpClientService.fetchOptionSets();
-                            optionSetsMono.subscribe(optionSetsMap -> {
-
-                                List<Map<String, Object>> dataValuesList = new ArrayList<>();
-
-                                for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                                    Row excelRow = sheet.getRow(i);
-
-                                    int startIndex = 27;
-                                    int endIndex = 83;
-                                    int columnIndexToRename = 39;
-
-                                    for (int columnIndex = startIndex; columnIndex <= endIndex; columnIndex++) {
-                                        Cell headerCell = sheet.getRow(0).getCell(columnIndex);
-
-                                        if (columnIndex == columnIndexToRename) {
-                                            String newColumnName = "SXT_ND1.2";
-                                            headerCell.setCellValue(newColumnName);
-                                        }
-
-                                        String columnName = headerCell.getStringCellValue();
-                                        Cell dataCell = excelRow.getCell(columnIndex);
-                                        String cellValue = determineValue(dataCell);
-
-                                        // If the cell value is "R", "S", or "I", determine the TestType & Culture Type
-                                        if (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I")) {
-                                            TestTypeValue testTypeValue = determineTestType(cellValue);
-
-                                            String testType = testTypeValue.getTestType();
-                                            String cultureType = testTypeValue.getCultureType();
-
-                                            // Determine AWARE classification:
-                                            String awareClassification = extractAwareClassification(columnName);
-
-                                            Map<String, Object> testTypeMap = new HashMap<>();
-                                            testTypeMap.put("value", testType);
-                                            testTypeMap.put("dataElement", Constants.TEST_TYPE_ID);
-                                            dataValuesList.add(testTypeMap);
-
-                                            Map<String, Object> antibioticsMap = new HashMap<>();
-                                            antibioticsMap.put("value", columnName);
-                                            antibioticsMap.put("dataElement", Constants.ANTIBIOTIC_ID);
-                                            dataValuesList.add(antibioticsMap);
-
-                                            Map<String, Object> awareMap = new HashMap<>();
-                                            awareMap.put("value", awareClassification);
-                                            awareMap.put("dataElement", Constants.AWARE_CLASSIFICATION);
-                                            dataValuesList.add(awareMap);
-
-                                            Map<String, Object> resultData = new HashMap<>();
-                                            resultData.put("value", cultureType);
-                                            resultData.put("dataElement", Constants.RESULT_ID);
-                                            dataValuesList.add(resultData);
-
-                                        }
-                                    }
-                                }
-
-                                List<Map<String, Object>> filteredDataValues = dataValuesList.stream().filter(entry -> !entry.containsValue("N/A")).collect(Collectors.toList());
-
-                                int occurrences = Collections.frequency(dataValuesList, filteredDataValues.get(0));
-
-                                for (int i = 0; i < occurrences; i++) {
-                                    Map<String, Object> eventPayload = new HashMap<>();
-                                    eventPayload.put("dataValues", filteredDataValues);
-                                    eventPayload.put("program", Constants.WHONET_PROGRAM_ID);
-                                    eventPayload.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
-                                    eventPayload.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
-                                    eventPayload.put("trackedEntityInstance", reference);
-                                    eventPayload.put("status", "COMPLETED");
-                                    eventPayload.put("eventDate", LocalDate.now().toString());
-                                    eventPayload.put("completedDate", LocalDate.now().toString());
-
-                                    try {
-                                        httpClientService.postEventToDhis(objectMapper.writeValueAsString(eventPayload)).doOnError(error -> {
-                                            log.error("Error occurred while posting EVENT to DHIS2: {}", error.getMessage());
-                                        }).subscribe(eventCreatedResponse -> {
-                                            log.info("eventCreatedResponse {}", eventCreatedResponse);
-                                        });
-                                    } catch (JsonProcessingException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                            });
-
-                        }, error -> {
-                            log.error("Error occurred while posting enrollment to DHIS2");
-                        });
-                    } catch (JsonProcessingException e) {
-                        log.error("Error while converting enrollment payload to JSON");
-                    }
-                }
             }
+
 
             fileParseSummaryDto.setConflictValues(conflictValues);
 
