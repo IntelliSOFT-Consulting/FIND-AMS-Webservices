@@ -218,7 +218,6 @@ public class EventProgramService {
                                                 ((ArrayNode) eventsNode).addAll(uniqueEvents);
                                             }
                                             httpClientService.postAmuEventProgram(finalPayloadNode.toPrettyString()).subscribe(amuEventResponse -> {
-                                                log.info("amuEventResponse: {}", amuEventResponse);
 
                                             }, error -> {
                                                 log.debug("Error occurred from DHIS2: {}", error.getMessage());

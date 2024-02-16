@@ -22,3 +22,6 @@ ams:
   funsoft:
     amu-url: ${FUNSOFT_BASE_URL}getpatientsantibioticprescriptions?
     amc-url: ${FUNSOFT_BASE_URL}getadmissions?
+spring:
+  codec:
+    max-in-memory-size: 10MB
