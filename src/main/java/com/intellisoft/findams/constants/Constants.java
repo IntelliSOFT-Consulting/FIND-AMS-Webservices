@@ -12,7 +12,7 @@ public class Constants {
     public static  final String WHONET_PROGRAM_ID="gximJCTJ5Kr";
     public static final String WHONET_PROGRAM_STAGE_ID = "LpA542WjtBO";
     public static final String TESTS_PATH="tests/";
-    public static final String TEST_TYPE_ID="XjEOfOKvm3C";
+    public static final String TEST_TYPE_ID="ZV1oCEtczIC";
     public static final String ANTIBIOTIC_ID="tbRd9RMZfqO";
     public static final String AWARE_CLASSIFICATION="i9FSMauzfg6";
     public static final String RESULT_ID = "qt2wsY9qEOn";
