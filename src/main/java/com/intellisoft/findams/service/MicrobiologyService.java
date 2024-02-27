@@ -209,6 +209,8 @@ public class MicrobiologyService {
                                         String finalCellValue = cellValue;
                                         String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
                                         cellValue = code;
+                                    } else {
+                                        cellValue = "UKN";
                                     }
                                 } else if (optionSetsMap.containsKey(closestMatch)) {
                                     Map<String, String> optionsMap = optionSetsMap.get(closestMatch);
@@ -255,7 +257,6 @@ public class MicrobiologyService {
                 httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
                     log.error("Error occurred {}", error.getMessage());
                 }).subscribe(response -> {
-                    log.info("response: {}", response);
                     // Implement batching logic for processed files
                     // send API response to send later to datastore
 
@@ -354,6 +355,8 @@ public class MicrobiologyService {
                         sexCell.setCellValue("Male");
                     } else if ("f".equalsIgnoreCase(sexValue)) {
                         sexCell.setCellValue("Female");
+                    } else {
+                        sexCell.setCellValue("Other");
                     }
 
                     // Process SPEC_NUM column

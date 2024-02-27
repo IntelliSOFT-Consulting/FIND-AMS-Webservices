@@ -45,7 +45,6 @@ public class EventProgramService {
         String endDate = "2023-09-28";
 
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
-            log.info("AntibioticPrescriptions {}", response);
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(response);
