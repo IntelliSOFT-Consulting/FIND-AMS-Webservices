@@ -196,6 +196,21 @@ public class MicrobiologyService {
                                 // Handling for special cases where the attribute display name doesn't match exactly with OptionSet name
                                 String closestMatch = optionSetsMap.keySet().stream().min(Comparator.comparing(a -> StringUtils.getJaroWinklerDistance(a.toLowerCase(), attributeDisplayName.toLowerCase()))).orElse(attributeDisplayName);
 
+                                if ("Organism".equalsIgnoreCase(attributeDisplayName)) {
+                                    Map<String, String> optionsMap = optionSetsMap.get("Organism");
+                                    if ("Candida paratropicalis".equalsIgnoreCase(cellValue)) {
+                                        cellValue = "ctr";
+                                    } else if ("Candida ravauti".equalsIgnoreCase(cellValue)) {
+                                        cellValue = "cct";
+                                    } else if ("Candida tropicalis".equalsIgnoreCase(cellValue)) {
+                                        cellValue = "ctr";
+                                    } else if (optionsMap.containsValue(cellValue)) {
+                                        String finalCellValue = cellValue;
+                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                        cellValue = code;
+                                    }
+                                }
+
                                 if ("Specimen Type".equalsIgnoreCase(attributeDisplayName)) {
                                     Map<String, String> optionsMap = optionSetsMap.get("Specimens");
                                     if (optionsMap.containsValue(cellValue)) {
