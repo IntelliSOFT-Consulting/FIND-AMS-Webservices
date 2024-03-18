@@ -45,7 +45,6 @@ public class EventProgramService {
         String endDate = "2023-09-28";
 
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
-            log.info("AntibioticPrescriptions {}", response);
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(response);
@@ -508,7 +507,7 @@ public class EventProgramService {
 
     }
 
-    public class fractionChecker {
+    public static class fractionChecker {
         public static boolean isFraction(String input) {
             if (input == null || input.isEmpty()) {
                 return false;

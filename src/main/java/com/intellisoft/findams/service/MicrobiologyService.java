@@ -8,7 +8,10 @@ import com.intellisoft.findams.dto.FileParseSummaryDto;
 import com.intellisoft.findams.dto.TestTypeValue;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,7 +30,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -67,7 +69,7 @@ public class MicrobiologyService {
         return mapping;
     }
 
-    public Disposable parseFile(String filePath, String fileContent) throws IOException {
+    public Disposable parseFile(String filePath, String fileContent, String fileName) throws IOException {
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Sheet1");
@@ -129,6 +131,18 @@ public class MicrobiologyService {
                             String cellValue = cell.getStringCellValue();
                             if (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I")) {
                                 String columnName = sheet.getRow(0).getCell(j).getStringCellValue();
+                                log.info("Drugs columnName {}", columnName);
+                                //MNO_ND30 -> MNO_ND10
+                                //AMC_ND25 -> AMC_ND20
+                                // TIN_ND16 -> TIN_ND4
+
+                                if(columnName.contains("MNO_ND30")){
+                                    columnName = "MNO_ND10";
+                                } else if(columnName.contains("MNO_ND30")){
+                                    columnName = "MNO_ND10";
+                                } else if (columnName.contains("MNO_ND30")){
+                                    columnName = "MNO_ND10";
+                                }
                                 List<Map<String, Object>> eventDataValues = new ArrayList<>();
 
                                 Map<String, Object> eventPayload1 = new HashMap<>();
@@ -196,6 +210,21 @@ public class MicrobiologyService {
                                 // Handling for special cases where the attribute display name doesn't match exactly with OptionSet name
                                 String closestMatch = optionSetsMap.keySet().stream().min(Comparator.comparing(a -> StringUtils.getJaroWinklerDistance(a.toLowerCase(), attributeDisplayName.toLowerCase()))).orElse(attributeDisplayName);
 
+                                if ("Organism".equalsIgnoreCase(attributeDisplayName)) {
+                                    Map<String, String> optionsMap = optionSetsMap.get("Organism");
+                                    if ("Candida paratropicalis".equalsIgnoreCase(cellValue)) {
+                                        cellValue = "ctr";
+                                    } else if ("Candida ravauti".equalsIgnoreCase(cellValue)) {
+                                        cellValue = "cct";
+                                    } else if ("Candida tropicalis".equalsIgnoreCase(cellValue)) {
+                                        cellValue = "ctr";
+                                    } else if (optionsMap.containsValue(cellValue)) {
+                                        String finalCellValue = cellValue;
+                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                        cellValue = code;
+                                    }
+                                }
+
                                 if ("Specimen Type".equalsIgnoreCase(attributeDisplayName)) {
                                     Map<String, String> optionsMap = optionSetsMap.get("Specimens");
                                     if (optionsMap.containsValue(cellValue)) {
@@ -209,6 +238,8 @@ public class MicrobiologyService {
                                         String finalCellValue = cellValue;
                                         String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
                                         cellValue = code;
+                                    } else {
+                                        cellValue = "UKN";
                                     }
                                 } else if (optionSetsMap.containsKey(closestMatch)) {
                                     Map<String, String> optionsMap = optionSetsMap.get(closestMatch);
@@ -255,14 +286,14 @@ public class MicrobiologyService {
                 httpClientService.postTrackedEntityInstances(trackedEntityInstancePayload).doOnError(error -> {
                     log.error("Error occurred {}", error.getMessage());
                 }).subscribe(response -> {
-                    log.info("response: {}", response);
+                    log.info("DHIS sever response {}", response);
                     // Implement batching logic for processed files
                     // send API response to send later to datastore
 
                     processedFilePaths.add(filePath);
                     String uploadBatchNo = generateUniqueCode(); //unique batch applied to an upload
                     String uploadDate = LocalDate.now().toString();
-                    batchProcessedFiles(processedFilePaths, response, sheet, uploadBatchNo, uploadDate);
+                    batchProcessedFiles(processedFilePaths, response, sheet, uploadBatchNo, uploadDate, fileName);
                 });
             });
         }, error -> {
@@ -354,6 +385,8 @@ public class MicrobiologyService {
                         sexCell.setCellValue("Male");
                     } else if ("f".equalsIgnoreCase(sexValue)) {
                         sexCell.setCellValue("Female");
+                    } else {
+                        sexCell.setCellValue("Other");
                     }
 
                     // Process SPEC_NUM column
@@ -460,7 +493,7 @@ public class MicrobiologyService {
         return UUID.randomUUID().toString();
     }
 
-    private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse, Sheet sheet, String uploadBatchNo, String uploadDate) {
+    private void batchProcessedFiles(List<String> processedFilePaths, String apiResponse, Sheet sheet, String uploadBatchNo, String uploadDate, String fileName) {
 
         String processedFilesFolderPath = Constants.PROCESSED_FILES_PATH;
         File destinationFolder = new File(processedFilesFolderPath);
@@ -474,7 +507,7 @@ public class MicrobiologyService {
                 // Clear the files after batching
                 processedFilePaths.clear();
 
-                FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse, sheet, uploadBatchNo, uploadDate);
+                FileParseSummaryDto fileParseSummaryDto = parseApiResponse(apiResponse, sheet, uploadBatchNo, uploadDate, fileName);
 
                 httpClientService.postToDhis2DataStore(fileParseSummaryDto).subscribe();
 
@@ -499,7 +532,7 @@ public class MicrobiologyService {
         }
     }
 
-    private FileParseSummaryDto parseApiResponse(String apiResponse, Sheet sheet, String uploadBatchNo, String uploadDate) throws JsonProcessingException {
+    private FileParseSummaryDto parseApiResponse(String apiResponse, Sheet sheet, String uploadBatchNo, String uploadDate, String fileName) throws JsonProcessingException {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(apiResponse);
@@ -523,6 +556,7 @@ public class MicrobiologyService {
             fileParseSummaryDto.setIgnored(ignored);
             fileParseSummaryDto.setBatchNo(uploadBatchNo);
             fileParseSummaryDto.setUploadDate(uploadDate);
+            fileParseSummaryDto.setFileName(fileName);
 
 
             // formulate a payload to send to Enrollment API ON DHIS:>>>>>>
@@ -555,16 +589,6 @@ public class MicrobiologyService {
         } else {
             return new TestTypeValue("Culture without AST", "N/A");
         }
-    }
-
-    private String determineValue(Cell cell) {
-        if (cell != null && cell.getCellType() == CellType.STRING) {
-            String cellValue = cell.getStringCellValue();
-            if (!cellValue.isEmpty() && (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I"))) {
-                return cellValue;
-            }
-        }
-        return "";
     }
 
     private String extractAwareClassification(String columnName) {

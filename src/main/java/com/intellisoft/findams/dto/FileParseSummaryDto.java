@@ -21,5 +21,6 @@ public class FileParseSummaryDto {
     int ignored;
     String batchNo;
     String uploadDate;
+    String fileName;
     private List<String> conflictValues;
 }

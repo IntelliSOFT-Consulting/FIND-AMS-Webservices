@@ -51,9 +51,6 @@ public class HttpClientService {
     @Value("${ams.option-set-url}")
     private String optionSetUrl;
 
-    @Value("${ams.atc-codes-url}")
-    private String atcCodesUrl;
-
     @Value("${ams.org-units-url}")
     private String orgUnitsUrl;
 
@@ -66,14 +63,8 @@ public class HttpClientService {
     @Value("${ams.amc-program-metadata-url}")
     private String amcMetaDataUrl;
 
-    @Value("${ams.enrollments-url}")
-    private String enrollmentsUrl;
-
     @Value("${ams.program-stage-attributes-url}")
     private String programStageAtrributesUrl;
-
-    @Value("${ams.events-api-url}")
-    private String eventsApiUrl;
 
     @Value("${ams.aware-class-url}")
     private String awareUrl;
@@ -216,29 +207,10 @@ public class HttpClientService {
 
             return optionSetsMap;
         }).doOnError(error -> {
-            log.debug("Error fetching option sets: {}", error.getMessage());
+            log.error("Error fetching option sets.");
         });
     }
 
-
-    public Mono<Double> fetchDddValue(String medicationName) {
-        String apiUrl = atcCodesUrl;
-
-        return webClient.get().uri(apiUrl).retrieve().bodyToMono(JsonNode.class).flatMap(dataStoreResponse -> {
-            List<JsonNode> dddDataList = dataStoreResponse.findValues("Name");
-
-            for (int i = 0; i < dddDataList.size(); i++) {
-                JsonNode dddData = dddDataList.get(i);
-                if (medicationName.equalsIgnoreCase(dddData.asText())) {
-                    double dddValue = dataStoreResponse.findValues("DDD").get(i).asDouble();
-                    return Mono.just(dddValue);
-                }
-            }
-
-            log.warn("Medication Name not found in DHIS2 response: {}", medicationName);
-            return Mono.empty();
-        }).defaultIfEmpty(0.0);
-    }
 
     public Mono<String> getAmuMetaData() {
         String apiUrl = amuMetaDataUrl;
@@ -248,36 +220,6 @@ public class HttpClientService {
     public Mono<String> getAmcMetaData() {
         String apiUrl = amcMetaDataUrl;
         return webClient.get().uri(apiUrl).retrieve().bodyToMono(String.class);
-    }
-
-    public Mono<String> postEnrollmentToDhis(String enrollmentReqPayload) {
-        String apiUrl = enrollmentsUrl;
-
-        return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(enrollmentReqPayload)).exchangeToMono(response -> {
-            if (response.statusCode().is2xxSuccessful()) {
-                return response.bodyToMono(String.class);
-            } else {
-                return response.bodyToMono(String.class).flatMap(body -> {
-                    log.debug("Error occurred while posting enrollment for tracked entity to DHIS2: {}", body);
-                    return Mono.just(body);
-                });
-            }
-        });
-    }
-
-    public Mono<String> postEventToDhis(String enrollmentReqPayload) throws JsonProcessingException {
-        String apiUrl = eventsApiUrl;
-
-        return webClient.post().uri(apiUrl).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(enrollmentReqPayload)).exchangeToMono(response -> {
-            if (response.statusCode().is2xxSuccessful()) {
-                return response.bodyToMono(String.class);
-            } else {
-                return response.bodyToMono(String.class).flatMap(body -> {
-                    log.debug("Error occurred while posting event for enrollment to DHIS2: {}", body);
-                    return Mono.just(body);
-                });
-            }
-        });
     }
 
 }
