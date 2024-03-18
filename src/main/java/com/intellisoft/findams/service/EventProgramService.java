@@ -507,7 +507,7 @@ public class EventProgramService {
 
     }
 
-    public class fractionChecker {
+    public static class fractionChecker {
         public static boolean isFraction(String input) {
             if (input == null || input.isEmpty()) {
                 return false;

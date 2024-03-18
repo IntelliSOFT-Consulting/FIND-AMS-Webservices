@@ -42,7 +42,7 @@ public class FileImportController {
 
         // Process the uploaded file
         String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
-        return ResponseEntity.status(HttpStatus.OK).body(parsingService.parseFile(filePath, fileContent));
+        return ResponseEntity.status(HttpStatus.OK).body(parsingService.parseFile(filePath, fileContent, fileName));
     }
 
 
