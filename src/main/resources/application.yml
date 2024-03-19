@@ -24,4 +24,4 @@ ams:
     amc-url: ${FUNSOFT_BASE_URL}getadmissions?
 spring:
   codec:
-    max-in-memory-size: 10MB
+    max-in-memory-size: 50MB

@@ -88,7 +88,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 lastExecutionTime = new Date();
             }
 
-            long oneDayInMillis = TimeUnit.DAYS.toMillis(1);
+            long oneDayInMillis = TimeUnit.MINUTES.toMillis(2);
             Date nextExecutionTime = new Date(lastExecutionTime.getTime() + oneDayInMillis);
             // Return the next execution time
             return nextExecutionTime.toInstant();
