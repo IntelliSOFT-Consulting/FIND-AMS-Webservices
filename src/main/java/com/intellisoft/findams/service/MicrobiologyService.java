@@ -29,6 +29,8 @@ import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -292,7 +294,13 @@ public class MicrobiologyService {
 
                     processedFilePaths.add(filePath);
                     String uploadBatchNo = generateUniqueCode(); //unique batch applied to an upload
-                    String uploadDate = LocalDate.now().toString();
+
+                    // Get the current date & time
+                    LocalDateTime now = LocalDateTime.now();
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String uploadDate = now.format(formatter);
+
                     batchProcessedFiles(processedFilePaths, response, sheet, uploadBatchNo, uploadDate, fileName);
                 });
             });
