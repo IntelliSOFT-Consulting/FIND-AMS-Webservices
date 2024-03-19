@@ -34,15 +34,16 @@ public class EventProgramService {
 
     public void fetchFromFunSoft() {
 
+        String patientId = "";
+
         LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+        LocalDate dayAfterTomorrow = tomorrow.plusDays(1);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String patientId = "";
-        //        String startDate = today.format(formatter);
-        //        String endDate = today.format(formatter);
-
-        String startDate = "2022-04-28";
-        String endDate = "2023-09-28";
+        String startDate = tomorrow.format(formatter);
+        String endDate = dayAfterTomorrow.format(formatter);
 
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
             try {
@@ -286,15 +287,16 @@ public class EventProgramService {
 
     private void processAmc(String confirmatoryDiagnosis, String productName, String productId, String strength, String dosageForm, String department, String numberOfPackagesDispensed, String dateBeingDispensed, String occurredAt, String combination) {
 
+        String patientId = "";
+
         LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+        LocalDate dayAfterTomorrow = tomorrow.plusDays(1);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String patientId = "";
-        //        String startDate = today.format(formatter);
-        //        String endDate = today.format(formatter);
-
-        String startDate = "2022-04-28";
-        String endDate = "2023-09-28";
+        String startDate = tomorrow.format(formatter);
+        String endDate = dayAfterTomorrow.format(formatter);
 
         httpClientService.fetchDailyAdmissions(patientId, startDate, endDate).subscribe(response -> {
 
