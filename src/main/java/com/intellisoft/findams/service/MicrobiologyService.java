@@ -121,164 +121,170 @@ public class MicrobiologyService {
                         }
                     }
 
-                    // Create a payload for the tracked entity instance
-                    Map<String, Object> trackedEntityInstance = new HashMap<>();
-                    trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
-                    trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
-
-                    List<Map<String, Object>> events = new ArrayList<>();
-                    for (int j = 0; j < excelRow.getLastCellNum(); j++) {
-                        Cell cell = excelRow.getCell(j);
-                        if (cell != null) {
-                            String cellValue = cell.getStringCellValue();
-                            if (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I")) {
-                                String columnName = sheet.getRow(0).getCell(j).getStringCellValue();
-                                log.info("Drugs columnName {}", columnName);
-                                //MNO_ND30 -> MNO_ND10
-                                //AMC_ND25 -> AMC_ND20
-                                // TIN_ND16 -> TIN_ND4
-
-                                if(columnName.contains("MNO_ND30")){
-                                    columnName = "MNO_ND10";
-                                } else if(columnName.contains("MNO_ND30")){
-                                    columnName = "MNO_ND10";
-                                } else if (columnName.contains("MNO_ND30")){
-                                    columnName = "MNO_ND10";
-                                }
-                                List<Map<String, Object>> eventDataValues = new ArrayList<>();
-
-                                Map<String, Object> eventPayload1 = new HashMap<>();
-                                eventPayload1.put("dataElement", Constants.ANTIBIOTIC_ID);
-                                eventPayload1.put("value", columnName);
-                                eventDataValues.add(eventPayload1);
-
-                                Map<String, Object> eventPayload2 = new HashMap<>();
-                                eventPayload2.put("dataElement", Constants.AWARE_CLASSIFICATION);
-                                eventPayload2.put("value", extractAwareClassification(columnName));
-                                eventDataValues.add(eventPayload2);
-
-                                Map<String, Object> eventPayload3 = new HashMap<>();
-                                eventPayload3.put("dataElement", Constants.RESULT_ID);
-                                eventPayload3.put("value", determineTestType(cellValue).getCultureType());
-                                eventDataValues.add(eventPayload3);
-
-                                Map<String, Object> event = new HashMap<>();
-                                event.put("dataValues", eventDataValues);
-                                event.put("program", Constants.WHONET_PROGRAM_ID);
-                                event.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
-                                event.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
-                                event.put("status", "COMPLETED");
-                                event.put("eventDate", LocalDate.now().toString());
-                                event.put("completedDate", LocalDate.now().toString());
-                                events.add(event);
-                            }
+                    int specDateColumnIndex = -1;
+                    Row headerRow = sheet.getRow(0);
+                    for (int k = 0; k < headerRow.getLastCellNum(); k++) {
+                        Cell headerCell = headerRow.getCell(k);
+                        if (headerCell != null && "SPEC_DATE".equals(headerCell.getStringCellValue())) {
+                            specDateColumnIndex = k;
+                            break;
                         }
                     }
 
+                    for (int s = 1; s <= sheet.getLastRowNum(); s++) {
+                        Row excelDocRow = sheet.getRow(s);
 
-                    Map<String, Object> enrollment = new HashMap<>();
-                    enrollment.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
-                    enrollment.put("program", Constants.WHONET_PROGRAM_ID);
-                    enrollment.put("enrollmentDate", LocalDate.now().toString());
-                    enrollment.put("incidentDate", LocalDate.now().toString());
-                    enrollment.put("status", "COMPLETED");
-                    enrollment.put("events", events);
-                    trackedEntityInstance.put("enrollments", Collections.singletonList(enrollment));
+                        Cell specDateCell = excelDocRow.getCell(specDateColumnIndex);
+                        String specDateValue = specDateCell.getStringCellValue();
 
+                        // Create a payload for the tracked entity instance
+                        Map<String, Object> trackedEntityInstance = new HashMap<>();
+                        trackedEntityInstance.put("trackedEntityType", Constants.FIND_AMS_TRACKED_ENTITY_TYPE_ID);
+                        trackedEntityInstance.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
 
-                    // Create a list to hold attributes for this instance
-                    List<Map<String, Object>> attributesList = new ArrayList<>();
+                        List<Map<String, Object>> events = new ArrayList<>();
+                        for (int j = 0; j < excelRow.getLastCellNum(); j++) {
+                            Cell cell = excelRow.getCell(j);
+                            if (cell != null) {
+                                String cellValue = cell.getStringCellValue();
+                                if (cellValue.equals("R") || cellValue.equals("S") || cellValue.equals("I")) {
+                                    String columnName = sheet.getRow(0).getCell(j).getStringCellValue();
+                                    List<Map<String, Object>> eventDataValues = new ArrayList<>();
 
-                    // Iterate over the tracked entity attributes and Excel columns
-                    for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
-                        String attributeDisplayName = entry.getKey();
-                        String columnMapping = entry.getValue();
-                        int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
+                                    Map<String, Object> eventPayload1 = new HashMap<>();
+                                    eventPayload1.put("dataElement", Constants.ANTIBIOTIC_ID);
+                                    eventPayload1.put("value", columnName);
+                                    eventDataValues.add(eventPayload1);
 
-                        if (columnIndex >= 0) {
-                            String cellValue = getCellValue(excelRow, columnIndex);
-                            String attributeId = attributeIdMapping.get(attributeDisplayName);
+                                    Map<String, Object> eventPayload2 = new HashMap<>();
+                                    eventPayload2.put("dataElement", Constants.AWARE_CLASSIFICATION);
+                                    eventPayload2.put("value", extractAwareClassification(columnName));
+                                    eventDataValues.add(eventPayload2);
 
-                            // Map attribute values to option set codes
-                            if (optionSetsMap.containsKey(attributeDisplayName)) {
-                                Map<String, String> optionsMap = optionSetsMap.get(attributeDisplayName);
+                                    Map<String, Object> eventPayload3 = new HashMap<>();
+                                    eventPayload3.put("dataElement", Constants.RESULT_ID);
+                                    eventPayload3.put("value", determineTestType(cellValue).getCultureType());
+                                    eventDataValues.add(eventPayload3);
 
-                                if (optionsMap.containsValue(cellValue)) {
-                                    String finalCellValue = cellValue;
-                                    String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
-                                    cellValue = code;
-                                }
-                            } else {
-                                // Handling for special cases where the attribute display name doesn't match exactly with OptionSet name
-                                String closestMatch = optionSetsMap.keySet().stream().min(Comparator.comparing(a -> StringUtils.getJaroWinklerDistance(a.toLowerCase(), attributeDisplayName.toLowerCase()))).orElse(attributeDisplayName);
-
-                                if ("Organism".equalsIgnoreCase(attributeDisplayName)) {
-                                    Map<String, String> optionsMap = optionSetsMap.get("Organism");
-                                    if ("Candida paratropicalis".equalsIgnoreCase(cellValue)) {
-                                        cellValue = "ctr";
-                                    } else if ("Candida ravauti".equalsIgnoreCase(cellValue)) {
-                                        cellValue = "cct";
-                                    } else if ("Candida tropicalis".equalsIgnoreCase(cellValue)) {
-                                        cellValue = "ctr";
-                                    } else if (optionsMap.containsValue(cellValue)) {
-                                        String finalCellValue = cellValue;
-                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
-                                        cellValue = code;
-                                    }
-                                }
-
-                                if ("Specimen Type".equalsIgnoreCase(attributeDisplayName)) {
-                                    Map<String, String> optionsMap = optionSetsMap.get("Specimens");
-                                    if (optionsMap.containsValue(cellValue)) {
-                                        String finalCellValue = cellValue;
-                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
-                                        cellValue = code;
-                                    }
-                                } else if ("Department".equalsIgnoreCase(attributeDisplayName)) {
-                                    Map<String, String> optionsMap = optionSetsMap.get("Wards");
-                                    if (optionsMap.containsValue(cellValue)) {
-                                        String finalCellValue = cellValue;
-                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
-                                        cellValue = code;
-                                    } else {
-                                        cellValue = "UKN";
-                                    }
-                                } else if (optionSetsMap.containsKey(closestMatch)) {
-                                    Map<String, String> optionsMap = optionSetsMap.get(closestMatch);
-                                    if (optionsMap.containsValue(cellValue)) {
-                                        String finalCellValue = cellValue;
-                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
-                                        cellValue = code;
-                                    }
+                                    Map<String, Object> event = new HashMap<>();
+                                    event.put("dataValues", eventDataValues);
+                                    event.put("program", Constants.WHONET_PROGRAM_ID);
+                                    event.put("programStage", Constants.WHONET_PROGRAM_STAGE_ID);
+                                    event.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                                    event.put("status", "COMPLETED");
+                                    event.put("eventDate", specDateValue);
+                                    event.put("completedDate", specDateValue);
+                                    events.add(event);
                                 }
                             }
-
-                            Map<String, Object> attributeEntry = new HashMap<>();
-                            attributeEntry.put("attribute", attributeId);
-                            attributeEntry.put("value", cellValue);
-                            attributesList.add(attributeEntry);
                         }
+
+
+                        Map<String, Object> enrollment = new HashMap<>();
+                        enrollment.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
+                        enrollment.put("program", Constants.WHONET_PROGRAM_ID);
+                        enrollment.put("enrollmentDate", specDateValue);
+                        enrollment.put("incidentDate", specDateValue);
+                        enrollment.put("status", "COMPLETED");
+                        enrollment.put("events", events);
+                        trackedEntityInstance.put("enrollments", Collections.singletonList(enrollment));
+
+
+                        // Create a list to hold attributes for this instance
+                        List<Map<String, Object>> attributesList = new ArrayList<>();
+
+                        // Iterate over the tracked entity attributes and Excel columns
+                        for (Map.Entry<String, String> entry : attributeToColumnMapping.entrySet()) {
+                            String attributeDisplayName = entry.getKey();
+                            String columnMapping = entry.getValue();
+                            int columnIndex = getColumnIndex(sheet.getRow(0), columnMapping);
+
+                            if (columnIndex >= 0) {
+                                String cellValue = getCellValue(excelRow, columnIndex);
+                                String attributeId = attributeIdMapping.get(attributeDisplayName);
+
+                                // Map attribute values to option set codes
+                                if (optionSetsMap.containsKey(attributeDisplayName)) {
+                                    Map<String, String> optionsMap = optionSetsMap.get(attributeDisplayName);
+
+                                    if (optionsMap.containsValue(cellValue)) {
+                                        String finalCellValue = cellValue;
+                                        String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                        cellValue = code;
+                                    }
+                                } else {
+                                    // Handling for special cases where the attribute display name doesn't match exactly with OptionSet name
+                                    String closestMatch = optionSetsMap.keySet().stream().min(Comparator.comparing(a -> StringUtils.getJaroWinklerDistance(a.toLowerCase(), attributeDisplayName.toLowerCase()))).orElse(attributeDisplayName);
+
+                                    if ("Organism".equalsIgnoreCase(attributeDisplayName)) {
+                                        Map<String, String> optionsMap = optionSetsMap.get("Organism");
+                                        if ("Candida paratropicalis".equalsIgnoreCase(cellValue)) {
+                                            cellValue = "ctr";
+                                        } else if ("Candida ravauti".equalsIgnoreCase(cellValue)) {
+                                            cellValue = "cct";
+                                        } else if ("Candida tropicalis".equalsIgnoreCase(cellValue)) {
+                                            cellValue = "ctr";
+                                        } else if (optionsMap.containsValue(cellValue)) {
+                                            String finalCellValue = cellValue;
+                                            String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                            cellValue = code;
+                                        }
+                                    }
+
+                                    if ("Specimen Type".equalsIgnoreCase(attributeDisplayName)) {
+                                        Map<String, String> optionsMap = optionSetsMap.get("Specimens");
+                                        if (optionsMap.containsValue(cellValue)) {
+                                            String finalCellValue = cellValue;
+                                            String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                            cellValue = code;
+                                        }
+                                    } else if ("Department".equalsIgnoreCase(attributeDisplayName)) {
+                                        Map<String, String> optionsMap = optionSetsMap.get("Wards");
+                                        if (optionsMap.containsValue(cellValue)) {
+                                            String finalCellValue = cellValue;
+                                            String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                            cellValue = code;
+                                        } else {
+                                            cellValue = "UKN";
+                                        }
+                                    } else if (optionSetsMap.containsKey(closestMatch)) {
+                                        Map<String, String> optionsMap = optionSetsMap.get(closestMatch);
+                                        if (optionsMap.containsValue(cellValue)) {
+                                            String finalCellValue = cellValue;
+                                            String code = optionsMap.entrySet().stream().filter(optionEntry -> optionEntry.getValue().equals(finalCellValue)).map(Map.Entry::getKey).findFirst().orElse(cellValue);
+                                            cellValue = code;
+                                        }
+                                    }
+                                }
+
+                                Map<String, Object> attributeEntry = new HashMap<>();
+                                attributeEntry.put("attribute", attributeId);
+                                attributeEntry.put("value", cellValue);
+                                attributesList.add(attributeEntry);
+                            }
+                        }
+
+
+                        if (rowValues.contains("R") || rowValues.contains("S") || rowValues.contains("I")) {
+                            Map<String, Object> testTypeMap = new HashMap<>();
+                            testTypeMap.put("attribute", Constants.TEST_TYPE_ID);
+                            testTypeMap.put("value", "Culture with AST");
+                            attributesList.add(testTypeMap);
+                        } else {
+                            Map<String, Object> testTypeMap = new HashMap<>();
+                            testTypeMap.put("attribute", Constants.TEST_TYPE_ID);
+                            testTypeMap.put("value", "Culture without AST");
+                            attributesList.add(testTypeMap);
+                        }
+
+
+                        // Add the attributesList to the trackedEntityInstance
+                        trackedEntityInstance.put("attributes", attributesList);
+
+
+                        // Add the trackedEntityInstance to the list of instances
+                        trackedEntityInstances.add(trackedEntityInstance);
                     }
-
-                    if (rowValues.contains("R") || rowValues.contains("S") || rowValues.contains("I")) {
-                        Map<String, Object> testTypeMap = new HashMap<>();
-                        testTypeMap.put("attribute", Constants.TEST_TYPE_ID);
-                        testTypeMap.put("value", "Culture with AST");
-                        attributesList.add(testTypeMap);
-                    } else {
-                        Map<String, Object> testTypeMap = new HashMap<>();
-                        testTypeMap.put("attribute", Constants.TEST_TYPE_ID);
-                        testTypeMap.put("value", "Culture without AST");
-                        attributesList.add(testTypeMap);
-                    }
-
-
-                    // Add the attributesList to the trackedEntityInstance
-                    trackedEntityInstance.put("attributes", attributesList);
-
-
-                    // Add the trackedEntityInstance to the list of instances
-                    trackedEntityInstances.add(trackedEntityInstance);
                 }
 
                 Map<String, Object> trackedEntityInstancePayload = new HashMap<>();
@@ -304,6 +310,7 @@ public class MicrobiologyService {
                     batchProcessedFiles(processedFilePaths, response, sheet, uploadBatchNo, uploadDate, fileName);
                 });
             });
+
         }, error -> {
             log.error("Error occurred while fetching attributes: {}", error.getMessage());
         });
