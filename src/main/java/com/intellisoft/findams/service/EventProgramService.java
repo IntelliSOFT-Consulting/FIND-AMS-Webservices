@@ -1,12 +1,14 @@
 package com.intellisoft.findams.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.intellisoft.findams.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,6 +48,7 @@ public class EventProgramService {
 
         String startDate = tomorrow.format(formatter);
         String endDate = dayAfterTomorrow.format(formatter);
+
 
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
             try {
@@ -76,8 +81,11 @@ public class EventProgramService {
                             String department = prescription.path("department").asText(); //AMC
                             String numberOfPackagesDispensed = prescription.path("number_of_packages_being_dispensed").asText(); //AMC
                             String dateBeingDispensed = prescription.path("date_being_dispensed").asText(); //AMC
+                            String lengthOfAdministration = prescription.path("length_of_administration").asText();
                             String occurredAt = visit.path("visit_date").asText();
-
+                            String admissionDate = visit.path("admission_date").asText();
+                            String dischargeDate = visit.path("discharge_date").asText();
+                            String dispenseId = prescription.path("entry_id").asText();
 
                             Disposable disposable = httpClientService.getAmuMetaData().subscribe(programMetaData -> {
                                 JSONObject jsonResponse = new JSONObject(programMetaData);
@@ -325,20 +333,13 @@ public class EventProgramService {
                             String displayName = dataElementObject.getString("displayName");
                             String amcId = dataElementObject.getString("id");
 
-                            // determine the number of daily admissions:
                             JsonNode admissionsData = null;
                             try {
                                 admissionsData = objectMapper.readTree(response);
                             } catch (JsonProcessingException e) {
                                 throw new RuntimeException(e);
                             }
-                            JsonNode departmentAdmissions = admissionsData.path("daily_admissions").get(0).path("department_admissions");
-
-                            int totalAdmissions = 0;
-
-                            if (departmentAdmissions.has(department)) {
-                                totalAdmissions = departmentAdmissions.get(department).asInt();
-                            }
+                            int totalAdmissions = admissionsData.path("daily_admissions").get(0).path("total_admissions").asInt();
 
                             // DDD computation:
                             double dddValueResponse = fetchDDD(productName);
@@ -443,6 +444,26 @@ public class EventProgramService {
                                 dataValuesList.add(diagnosisData);
                             }
 
+                            // determine the top-infectious-condition categorization based on the diagnosis
+                            String topInfectiousCondition = getTopInfectiousCondition(confirmatoryDiagnosis);
+
+                            Map<String, Object> topTenData = new HashMap<>();
+                            if ("Top infectious conditions".equals(displayName)) {
+                                topTenData.put("dataElement", amcId);
+
+                                Map<String, String> optionSet = optionSets.get("Top infectious conditions");
+
+                                if (optionSet != null) {
+                                    String currentValue = topInfectiousCondition;
+                                    String mappedOptionSetValue = optionSet.entrySet().stream().filter(entry -> entry.getValue().equalsIgnoreCase(currentValue)).map(Map.Entry::getKey).findFirst().orElse("UKN");
+                                    topTenData.put("value", mappedOptionSetValue);
+                                } else {
+                                    topTenData.put("value", "UKN"); //Unknown
+                                }
+
+                                dataValuesList.add(topTenData);
+                            }
+
                             if ("Daily number of admissions".equals(displayName)) {
                                 Map<String, Object> totalAdmissionsData = new HashMap<>();
                                 totalAdmissionsData.put("dataElement", amcId);
@@ -495,7 +516,6 @@ public class EventProgramService {
                         httpClientService.postAmcEventProgram(finalPayloadNode.toPrettyString()).doOnError(error -> {
                             log.debug("Error occurred from DHIS2: {}", error.getMessage());
                         }).subscribe(AmcDhisResponse -> {
-
                         });
 
                     } catch (JsonProcessingException e) {
@@ -508,6 +528,28 @@ public class EventProgramService {
         });
 
     }
+
+    private String getTopInfectiousCondition(String confirmatoryDiagnosis) {
+        String topTenPath = Constants.TESTS_PATH + "topten.json";
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<Map<String, String>> jsonList = objectMapper.readValue(new File(topTenPath), new TypeReference<>() {
+            });
+
+            for (Map<String, String> map : jsonList) {
+                String icdSubClassification = map.get("icd_sub_classification");
+                if (confirmatoryDiagnosis.equals(icdSubClassification)) {
+                    return map.get("top_infectious_condition");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null; // Return null if confirmatoryDiagnosis is not found
+    }
+
 
     public static class fractionChecker {
         public static boolean isFraction(String input) {
