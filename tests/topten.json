@@ -1,0 +1,777 @@
+[
+  {
+    "icd_sub_classification": "Cholera due to Vibrio cholera 01, Biovar cholerae",
+    "icd_code": "A00.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Cholera due to Vibrio cholerae 01, biovar eltor",
+    "icd_code": "A00.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Cholera , Unspecified",
+    "icd_code": "A00.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Typhoid fever",
+    "icd_code": "A01.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Paratyphoid fever A",
+    "icd_code": "A01.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Paratyphoid fever B",
+    "icd_code": "AO1.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Paratyphoid fever C",
+    "icd_code": "A01.3",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Paratyphoid fever, unspecified",
+    "icd_code": "AO1.4",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Salmonella enteritis",
+    "icd_code": "A02.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Salmonella sepsis",
+    "icd_code": "A02.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Localized salmonella infections",
+    "icd_code": "A02.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other specified salmonella infections",
+    "icd_code": "A02.8",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Salmonella infection, unspecified",
+    "icd_code": "AO2.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Shigellosis due to Shigella dysenteriae",
+    "icd_code": "A03.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Shigellosis due to Shigella flexneri",
+    "icd_code": "AO3.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Shigellosis due to Shigella boydii",
+    "icd_code": "A03.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Shigellosis due to Shigella sonnei",
+    "icd_code": "A03.3",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other shigellosis",
+    "icd_code": "A03.8",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Shigellosis, unspecified",
+    "icd_code": "A03.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Enteropathogenic Escherichia coli infection",
+    "icd_code": "A04.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Enterotoxigenic Escherichia coli infection",
+    "icd_code": "A04.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Enteroinvasive Escherichia coli infection",
+    "icd_code": "A04.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Enterohaemorrhagic Escherichia coli infection",
+    "icd_code": "A04.3",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other intestinal Escherichia coli infections",
+    "icd_code": "A04.4",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Campylobacter enteritis",
+    "icd_code": "A04.5",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Enteritis due to Yersinia enterocolitica",
+    "icd_code": "A04.6",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Enterocolitis due to Clostridium difficile",
+    "icd_code": "A04.7",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other specified bacterial intestinal infections",
+    "icd_code": "A04.8",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Bacterial intestinal infection, unspecified",
+    "icd_code": "A04.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Foodborne staphylococcal intoxication",
+    "icd_code": "A05.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Botulism",
+    "icd_code": "A05.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Foodborne Clostridium perfringens [Clostridium welchii] intoxication",
+    "icd_code": "A05.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Foodborne Vibrio parahaemolyticus intoxication",
+    "icd_code": "A05.3",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Foodborne Bacillus cereus intoxication",
+    "icd_code": "A05.4",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other specified bacterial foodborne intoxications",
+    "icd_code": "A05.8",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Bacterial foodborne intoxication, unspecified",
+    "icd_code": "A05.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Acute amoebic dysentery",
+    "icd_code": "A06.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Chronic intestinal amoebiasis",
+    "icd_code": "A06.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Amoebic nondysenteric colitis",
+    "icd_code": "A06.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Amoeboma of intestine",
+    "icd_code": "A06.3",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Amoebic liver abscess",
+    "icd_code": "A06.4",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Amoebic lung abscess",
+    "icd_code": "A06.5",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Amoebic brain abscess",
+    "icd_code": "A06.6",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Cutaneous amoebiasis",
+    "icd_code": "A06.7",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Amoebic infection of other sites",
+    "icd_code": "A06.8",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Amoebiasis, unspecified",
+    "icd_code": "A06.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Balantidiasis",
+    "icd_code": "A07.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Giardiasis [lambliasis]",
+    "icd_code": "A07.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Cryptosporidiosis",
+    "icd_code": "A07.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Isosporiasis",
+    "icd_code": "A07.3",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other specified protozoal intestinal diseases",
+    "icd_code": "A07.8",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Protozoal intestinal disease, unspecified",
+    "icd_code": "A07.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Rotaviral enteritis",
+    "icd_code": "A08.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Acute gastroenteropathy due to Norovirus",
+    "icd_code": "A08.1",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Adenoviral enteritis",
+    "icd_code": "A08.2",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other viral enteritis",
+    "icd_code": "A08.3",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Viral intestinal infection, unspecified",
+    "icd_code": "A08.4",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other specified intestinal infections",
+    "icd_code": "A08.5",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Other and unspecified gastroenteritis and colitis of infectious origin",
+    "icd_code": "A09.0",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Gastroenteritis and colitis of unspecified origin",
+    "icd_code": "A09.9",
+    "top_infectious_condition": "Gastrointestinal Infections"
+  },
+  {
+    "icd_sub_classification": "Acute nasopharyngitis [common cold]",
+    "icd_code": "J00",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute maxillary sinusitis",
+    "icd_code": "J01.0",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute frontal sinusitis",
+    "icd_code": "JO1.1",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute ethmoidal sinusitis",
+    "icd_code": "JO1.2",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute sphenoidal sinusitis",
+    "icd_code": "JO1.3",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute pansinusitis",
+    "icd_code": "JO1.4",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other acute sinusitis",
+    "icd_code": "JO1.8",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute sinusitis, unspecified",
+    "icd_code": "JO1.9",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Streptococcal pharyngitis",
+    "icd_code": "J02.0",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute pharyngitis due to other specified organisms",
+    "icd_code": "J02.8",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute pharyngitis, unspecified",
+    "icd_code": "JO2.9",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Streptococcal tonsillitis",
+    "icd_code": "JO3.0",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute tonsillitis due to other specified organisms",
+    "icd_code": "JO3.8",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute tonsillitis, unspecified",
+    "icd_code": "JO3.9",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute laryngitis",
+    "icd_code": "JO4.0",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute tracheitis",
+    "icd_code": "JO4.1",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute laryngotracheitis",
+    "icd_code": "JO4.2",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute obstructive laryngitis [croup]",
+    "icd_code": "JO5.0",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute epiglottitis",
+    "icd_code": "JO5.1",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute laryngopharyngitis",
+    "icd_code": "JO6.0",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other acute upper respiratory infections of multiple sites",
+    "icd_code": "JO6.8",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute upper respiratory infection, unspecified",
+    "icd_code": "JO6.9",
+    "top_infectious_condition": "Upper Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Influenza due to identified zoonotic or pandemic influenza virus",
+    "icd_code": "J09",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Influenza with pneumonia, seasonal influenza virus identified",
+    "icd_code": "J10.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Influenza with other respiratory manifestations, seasonal influenza virus identified",
+    "icd_code": "J10.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Influenza with other manifestations, seasonal influenza virus identified",
+    "icd_code": "J10.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Influenza with pneumonia, virus not identified",
+    "icd_code": "J11.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Influenza with other respiratory manifestations, virus not identified",
+    "icd_code": "J11.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Influenza with other manifestations, virus not identified",
+    "icd_code": "J11.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Adenoviral pneumonia",
+    "icd_code": "J12.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Respiratory syncytial virus pneumonia",
+    "icd_code": "J12.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Parainfluenza virus pneumonia",
+    "icd_code": "J12.2",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Human metapneumovirus pneumonia",
+    "icd_code": "J12.3",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other viral pneumonia",
+    "icd_code": "J12.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Viral pneumonia, unspecified",
+    "icd_code": "J12.9",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to Streptococcus pneumoniae",
+    "icd_code": "J13",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to Haemophilus influenzae",
+    "icd_code": "J14",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to Klebsiella pneumoniae",
+    "icd_code": "J15.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to Pseudomonas",
+    "icd_code": "J15.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to staphylococcus",
+    "icd_code": "J15.2",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to streptococcus, group B",
+    "icd_code": "J15.3",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to other streptococci",
+    "icd_code": "J15.4",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to Escherichia coli",
+    "icd_code": "J15.5",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to other Gram-negative bacteria",
+    "icd_code": "J15.6",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to Mycoplasma pneumoniae",
+    "icd_code": "J15.7",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other bacterial pneumonia",
+    "icd_code": "J15.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Bacterial pneumonia, unspecified",
+    "icd_code": "J15.9",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Chlamydial pneumonia",
+    "icd_code": "J16.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia due to other specified infectious organisms",
+    "icd_code": "J16.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia in bacterial diseases classified elsewhere",
+    "icd_code": "J17.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia in viral diseases classified elsewhere",
+    "icd_code": "J17.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia in mycoses",
+    "icd_code": "J17.2",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia in parasitic diseases",
+    "icd_code": "J17.3",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia in other diseases classified elsewhere",
+    "icd_code": "J17.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Bronchopneumonia, unspecified",
+    "icd_code": "J18.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Lobar pneumonia, unspecified",
+    "icd_code": "J18.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Hypostatic pneumonia, unspecified",
+    "icd_code": "J18.2",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other pneumonia, organism unspecified",
+    "icd_code": "J18.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Pneumonia, unspecified",
+    "icd_code": "J18.9",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to Mycoplasma pneumoniae",
+    "icd_code": "J20.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to Haemophilus influenzae",
+    "icd_code": "J20.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to streptococcus",
+    "icd_code": "J20.2",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to coxsackievirus",
+    "icd_code": "J20.3",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to parainfluenza virus",
+    "icd_code": "J20.4",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to respiratory syncytial virus",
+    "icd_code": "J20.5",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to rhinovirus",
+    "icd_code": "J20.6",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to echovirus",
+    "icd_code": "J20.7",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis due to other specified organisms",
+    "icd_code": "J20.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchitis, unspecified",
+    "icd_code": "J20.9",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchiolitis due to respiratory syncytial virus",
+    "icd_code": "J21.0",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchiolitis due to human metapneumovirus",
+    "icd_code": "J21.1",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchiolitis due to other specified organisms",
+    "icd_code": "J21.8",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute bronchiolitis, unspecified",
+    "icd_code": "J21.9",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Unspecified acute lower respiratory infection",
+    "icd_code": "J22",
+    "top_infectious_condition": "Lower Respiratory Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Acute cystitis",
+    "icd_code": "N30.0",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Interstitial cystitis (chronic)",
+    "icd_code": "N30.1",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other chronic cystitis",
+    "icd_code": "N30.2",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Trigonitis",
+    "icd_code": "N30.3",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Irradiation cystitis",
+    "icd_code": "N30.4",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other cystitis",
+    "icd_code": "N30.8",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Cystitis, unspecified",
+    "icd_code": "N30.9",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Urethral abscess",
+    "icd_code": "N34.0",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Nonspecific urethritis",
+    "icd_code": "N34.1",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other urethritis",
+    "icd_code": "N34.2",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Urethral syndrome, unspecified",
+    "icd_code": "N34.3",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Urinary tract infection, site not specified",
+    "icd_code": "N39.0",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Persistent proteinuria, unspecified",
+    "icd_code": "N39.1",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Orthostatic proteinuria, unspecified",
+    "icd_code": "N39.2",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Stress incontinence",
+    "icd_code": "N39.3",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other specified urinary incontinence",
+    "icd_code": "N39.4",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Other specified disorders of urinary system",
+    "icd_code": "N39.8",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Disorder of urinary system, unspecified",
+    "icd_code": "N39.9",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "PLASMODIUM FALCIPARUM MALARIA",
+    "icd_code": "N39.9",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "PRIMARY GENITAL SYPHILIS",
+    "icd_code": "N39.9",
+    "top_infectious_condition": "Urinary Tract Infection"
+  },
+  {
+    "icd_sub_classification": "Chlamydial conjunctivitis",
+    "icd_code": "N39.9",
+    "top_infectious_condition": "Urinary Tract Infection"
+  }
+]
