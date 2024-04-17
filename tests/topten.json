@@ -758,20 +758,5 @@
     "icd_sub_classification": "Disorder of urinary system, unspecified",
     "icd_code": "N39.9",
     "top_infectious_condition": "Urinary Tract Infection"
-  },
-  {
-    "icd_sub_classification": "PLASMODIUM FALCIPARUM MALARIA",
-    "icd_code": "N39.9",
-    "top_infectious_condition": "Urinary Tract Infection"
-  },
-  {
-    "icd_sub_classification": "PRIMARY GENITAL SYPHILIS",
-    "icd_code": "N39.9",
-    "top_infectious_condition": "Urinary Tract Infection"
-  },
-  {
-    "icd_sub_classification": "Chlamydial conjunctivitis",
-    "icd_code": "N39.9",
-    "top_infectious_condition": "Urinary Tract Infection"
   }
 ]

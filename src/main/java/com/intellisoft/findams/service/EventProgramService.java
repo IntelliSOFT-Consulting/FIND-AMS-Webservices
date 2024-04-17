@@ -49,7 +49,6 @@ public class EventProgramService {
         String startDate = tomorrow.format(formatter);
         String endDate = dayAfterTomorrow.format(formatter);
 
-
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -183,7 +182,7 @@ public class EventProgramService {
 
                                             Map<String, Object> payload = new HashMap<>();
                                             payload.put("occurredAt", LocalDate.now().toString());
-                                            payload.put("eventDate", LocalDate.now().toString());
+                                            payload.put("completedAt", LocalDate.now().toString());
                                             payload.put("status", "COMPLETED");
                                             payload.put("notes", new ArrayList<>());
                                             payload.put("program", amuProgramId);
@@ -396,7 +395,7 @@ public class EventProgramService {
                                 Map<String, Object> dosageData = new HashMap<>();
                                 dosageData.put("dataElement", amcId);
                                 if (dailyDefinedDosage != null && !Double.isInfinite(dailyDefinedDosage)) {
-                                    dosageData.put("value", dailyDefinedDosage);
+                                    dosageData.put("value", dailyDefinedDosage.intValue());
                                 } else {
                                     dosageData.put("value", 0.0);
                                 }
@@ -469,6 +468,22 @@ public class EventProgramService {
                                 totalAdmissionsData.put("dataElement", amcId);
                                 totalAdmissionsData.put("value", totalAdmissions);
                                 dataValuesList.add(totalAdmissionsData);
+                            }
+
+                            Map<String, Object> productNameMap = new HashMap<>();
+                            if ("Product name".equalsIgnoreCase(displayName)) {
+                                productNameMap.put("dataElement", amcId);
+
+                                Map<String, String> optionSet = optionSets.get("Antibiotics");
+
+                                if (optionSet != null) {
+                                    String currentValue = productName;
+                                    String mappedOptionSetValue = optionSet.entrySet().stream().filter(entry -> entry.getValue().equalsIgnoreCase(currentValue)).map(Map.Entry::getKey).findFirst().orElse(currentValue);
+                                    productNameMap.put("value", mappedOptionSetValue);
+                                } else {
+                                    productNameMap.put("value", productName);
+                                }
+                                dataValuesList.add(productNameMap);
                             }
 
                         }
@@ -547,7 +562,7 @@ public class EventProgramService {
             e.printStackTrace();
         }
 
-        return null; // Return null if confirmatoryDiagnosis is not found
+        return null;
     }
 
 
