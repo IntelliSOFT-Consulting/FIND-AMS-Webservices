@@ -22,7 +22,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -36,18 +38,22 @@ public class EventProgramService {
     @Autowired
     ObjectMapper objectMapper;
 
-    public void fetchFromFunSoft() {
+    public void fetchFromFunSoftBasedOnExecutionTime(Instant lastExecutionTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneId.systemDefault());
+
+        LocalDate lastExecutionDate = lastExecutionTime.atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate nextExecutionDate = lastExecutionDate.plusDays(1);
+        LocalDate oneWeekLater = nextExecutionDate.plusDays(7);
+
+        String startDate = nextExecutionDate.format(formatter);
+        String endDate = oneWeekLater.format(formatter);
+
+        fetchFromFunSoft(startDate, endDate);
+    }
+
+    public void fetchFromFunSoft(String startDate, String endDate) {
 
         String patientId = "";
-
-        LocalDate today = LocalDate.now();
-        LocalDate tomorrow = today.plusDays(1);
-        LocalDate dayAfterTomorrow = tomorrow.plusDays(1);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        String startDate = tomorrow.format(formatter);
-        String endDate = dayAfterTomorrow.format(formatter);
 
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
             try {
