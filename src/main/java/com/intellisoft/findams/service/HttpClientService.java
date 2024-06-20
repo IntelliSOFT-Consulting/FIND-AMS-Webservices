@@ -69,6 +69,9 @@ public class HttpClientService {
     @Value("${ams.aware-class-url}")
     private String awareUrl;
 
+    @Value("${ams.last-event-created-url}")
+    private String lastEventCreatedUrl;
+
     public HttpClientService(WebClient.Builder webClientBuilder, @Value("${whonet-data-upload-url}") String whonetDataUploadUrl, @Value("${ams.dhis.username}") String username, @Value("${ams.dhis.password}") String password, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         this.webClient = webClientBuilder.baseUrl(whonetDataUploadUrl).defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).defaultHeader(HttpHeaders.AUTHORIZATION, "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes())).build();
@@ -219,6 +222,11 @@ public class HttpClientService {
 
     public Mono<String> getAmcMetaData() {
         String apiUrl = amcMetaDataUrl;
+        return webClient.get().uri(apiUrl).retrieve().bodyToMono(String.class);
+    }
+
+    public Mono<String> fetchLastCreatedEvent() {
+        String apiUrl = lastEventCreatedUrl;
         return webClient.get().uri(apiUrl).retrieve().bodyToMono(String.class);
     }
 
