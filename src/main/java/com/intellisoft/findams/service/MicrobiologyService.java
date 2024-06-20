@@ -73,6 +73,10 @@ public class MicrobiologyService {
 
     public Disposable parseFile(String filePath, String fileContent, String fileName) throws IOException {
 
+        // convert txt to a list of Maps
+        // Process the list of maps -> validation checks, date formatting
+        // reference the list for payload building
+
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Sheet1");
 
@@ -173,7 +177,7 @@ public class MicrobiologyService {
                                     event.put("orgUnit", Constants.FIND_AMS_ORG_UNIT);
                                     event.put("status", "COMPLETED");
                                     event.put("eventDate", specDateValue);
-                                    event.put("completedDate", specDateValue);
+                                    event.put("completedDate", LocalDate.now().toString());
                                     events.add(event);
                                 }
                             }

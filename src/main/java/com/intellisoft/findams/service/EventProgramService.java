@@ -2,13 +2,11 @@ package com.intellisoft.findams.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.intellisoft.findams.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +15,10 @@ import reactor.core.Disposable;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Slf4j
@@ -36,18 +31,9 @@ public class EventProgramService {
     @Autowired
     ObjectMapper objectMapper;
 
-    public void fetchFromFunSoft() {
+    public void fetchFromFunSoft(String startDate, String endDate) {
 
         String patientId = "";
-
-        LocalDate today = LocalDate.now();
-        LocalDate tomorrow = today.plusDays(1);
-        LocalDate dayAfterTomorrow = tomorrow.plusDays(1);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        String startDate = tomorrow.format(formatter);
-        String endDate = dayAfterTomorrow.format(formatter);
 
         httpClientService.getPatientsAntibioticPrescriptions(patientId, startDate, endDate).subscribe(response -> {
             try {
@@ -181,7 +167,7 @@ public class EventProgramService {
                                             }
 
                                             Map<String, Object> payload = new HashMap<>();
-                                            payload.put("occurredAt", LocalDate.now().toString());
+                                            payload.put("occurredAt", occurredAt);
                                             payload.put("completedAt", LocalDate.now().toString());
                                             payload.put("status", "COMPLETED");
                                             payload.put("notes", new ArrayList<>());
@@ -231,7 +217,7 @@ public class EventProgramService {
                                             });
 
                                             //processAmc
-                                            processAmc(confirmatoryDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
+                                            processAmc(startDate, endDate, confirmatoryDiagnosis, productName, productId, strength, dosageForm, department, numberOfPackagesDispensed, dateBeingDispensed, occurredAt, combination);
 
                                         } catch (JsonProcessingException e) {
                                             throw new RuntimeException(e);
@@ -292,21 +278,11 @@ public class EventProgramService {
         return 0.0;
     }
 
-    private void processAmc(String confirmatoryDiagnosis, String productName, String productId, String strength, String dosageForm, String department, String numberOfPackagesDispensed, String dateBeingDispensed, String occurredAt, String combination) {
+    private void processAmc(String startDate, String endDate, String confirmatoryDiagnosis, String productName, String productId, String strength, String dosageForm, String department, String numberOfPackagesDispensed, String dateBeingDispensed, String occurredAt, String combination) {
 
         String patientId = "";
 
-        LocalDate today = LocalDate.now();
-        LocalDate tomorrow = today.plusDays(1);
-        LocalDate dayAfterTomorrow = tomorrow.plusDays(1);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        String startDate = tomorrow.format(formatter);
-        String endDate = dayAfterTomorrow.format(formatter);
-
         httpClientService.fetchDailyAdmissions(patientId, startDate, endDate).subscribe(response -> {
-
 
             Disposable disposable = httpClientService.getAmcMetaData().subscribe(programMetaData -> {
                 JSONObject jsonResponse = new JSONObject(programMetaData);
@@ -316,6 +292,7 @@ public class EventProgramService {
 
                 optionSetsMono.flatMap(optionSets -> {
                     List<Map<String, Object>> eventsList = new ArrayList<>();
+                    int totalAdmissions = 0;
 
                     for (int i = 0; i < programsArray.length(); i++) {
                         JSONObject programObject = programsArray.getJSONObject(i);
@@ -338,8 +315,20 @@ public class EventProgramService {
                             } catch (JsonProcessingException e) {
                                 throw new RuntimeException(e);
                             }
-                            int totalAdmissions = admissionsData.path("daily_admissions").get(0).path("total_admissions").asInt();
 
+                            if (admissionsData != null && admissionsData.has("daily_admissions")) {
+                                JsonNode dailyAdmissions = admissionsData.path("daily_admissions");
+                                if (dailyAdmissions.isArray() && dailyAdmissions.size() > 0) {
+                                    for (int k = 0; k < dailyAdmissions.size(); k++) {
+                                        JsonNode admission = dailyAdmissions.get(k);
+                                        if (admission != null && admission.has("total_admissions")) {
+                                            totalAdmissions += admission.path("total_admissions").asInt();
+                                        } else {
+                                            log.error("Admission [{}] does not contain 'total_admissions'", k);
+                                        }
+                                    }
+                                }
+                            }
                             // DDD computation:
                             double dddValueResponse = fetchDDD(productName);
 
@@ -489,7 +478,7 @@ public class EventProgramService {
                         }
 
                         Map<String, Object> payload = new HashMap<>();
-                        payload.put("occurredAt", LocalDate.now().toString());
+                        payload.put("occurredAt", occurredAt);
                         payload.put("status", "COMPLETED");
                         payload.put("notes", new ArrayList<>());
                         payload.put("completedAt", LocalDate.now().toString());
