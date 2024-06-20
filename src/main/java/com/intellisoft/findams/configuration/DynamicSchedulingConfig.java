@@ -26,10 +26,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Configuration
@@ -82,8 +84,8 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
                             String fileName = file.getName();
 
-                            // process file content
                             microbiologyService.parseFile(filePath, fileContent, fileName);
+
                         } catch (FileNotFoundException e) {
                             log.error("File not found: " + file.getAbsolutePath());
                         } catch (IOException e) {
@@ -97,15 +99,20 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
             if (lastExecutionTime == null) {
                 lastExecutionTime = new Date();
             }
-            long twoMinutesInMillis = TimeUnit.MINUTES.toMillis(10080);
-            Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
+
+            LocalDateTime midnight = LocalDateTime.now().with(LocalTime.MIDNIGHT);
+            ZonedDateTime nextExecutionTime;
+
+            if (lastExecutionTime.before(Date.from(midnight.atZone(ZoneId.systemDefault()).toInstant()))) {
+                nextExecutionTime = midnight.atZone(ZoneId.systemDefault());
+            } else {
+                nextExecutionTime = midnight.plusDays(1).atZone(ZoneId.systemDefault());
+            }
             return nextExecutionTime.toInstant();
         });
 
         // Schedule a task to fetch AMU/AMC data from FUNSOFT HMIS
         taskRegistrar.addTriggerTask(() -> {
-
-            // step 1 - check events
             httpClientService.fetchLastCreatedEvent().doOnError(error -> {
                 log.debug("Error occurred {}", error.getMessage());
             }).subscribe(response -> {
@@ -126,7 +133,6 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             String startDate = date.format(outputFormatter);
                             String endDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-                            // Fetch data based on the last execution time
                             eventProgramService.fetchFromFunSoft(startDate, endDate);
                         }
                     } else {
@@ -145,8 +151,15 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
             if (lastExecutionTime == null) {
                 lastExecutionTime = new Date();
             }
-            long twoMinutesInMillis = TimeUnit.MINUTES.toMillis(1);
-            Date nextExecutionTime = new Date(lastExecutionTime.getTime() + twoMinutesInMillis);
+
+            LocalDateTime midnight = LocalDateTime.now().with(LocalTime.MIDNIGHT);
+            ZonedDateTime nextExecutionTime;
+
+            if (lastExecutionTime.before(Date.from(midnight.atZone(ZoneId.systemDefault()).toInstant()))) {
+                nextExecutionTime = midnight.atZone(ZoneId.systemDefault());
+            } else {
+                nextExecutionTime = midnight.plusDays(1).atZone(ZoneId.systemDefault());
+            }
             return nextExecutionTime.toInstant();
         });
     }
