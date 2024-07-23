@@ -52,6 +52,22 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     private String username;
     @Value("${ams.dhis.password}")
     private String password;
+    
+    @Value("${ams.funsoft.defaultStartDate}")
+    private String defaultCronStartDate;
+    
+    @Value("${ams.funsoft.delayMinutes}")
+    private int delayMinutes;
+    
+    @Value("${ams.funsoft.delayHours}")
+    private int delayHours;
+    
+    @Value("${ams.funsoft.delayDays}")
+    private int delayDays;
+    
+    @Value("${ams.funsoft.delayMonths}")
+    private int delayMonths;
+    
 
     public DynamicSchedulingConfig(WebClient.Builder webClientBuilder, @Value("${ams.last-event-created-url}") String lastEventCreatedUrl, @Value("${ams.dhis.username}") String username, @Value("${ams.dhis.password}") String password, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -99,15 +115,14 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
             if (lastExecutionTime == null) {
                 lastExecutionTime = new Date();
             }
-
-            LocalDateTime midnight = LocalDateTime.now().with(LocalTime.MIDNIGHT);
-            ZonedDateTime nextExecutionTime;
-
-            if (lastExecutionTime.before(Date.from(midnight.atZone(ZoneId.systemDefault()).toInstant()))) {
-                nextExecutionTime = midnight.atZone(ZoneId.systemDefault());
-            } else {
-                nextExecutionTime = midnight.plusDays(1).atZone(ZoneId.systemDefault());
-            }
+            
+            ZonedDateTime lastExecutionZDT = lastExecutionTime.toInstant().atZone(ZoneId.systemDefault());
+            ZonedDateTime nextExecutionTime = lastExecutionZDT
+                    .plusMinutes(delayMinutes)
+                    .plusHours(delayHours)
+                    .plusDays(delayDays)
+                    .plusMonths(delayMonths);
+            
             return nextExecutionTime.toInstant();
         });
 
@@ -136,7 +151,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             eventProgramService.fetchFromFunSoft(startDate, endDate);
                         }
                     } else {
-                        String startDate = "2022-04-28";
+                        String startDate = defaultCronStartDate;
                         String endDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                         eventProgramService.fetchFromFunSoft(startDate, endDate);
@@ -151,15 +166,14 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
             if (lastExecutionTime == null) {
                 lastExecutionTime = new Date();
             }
-
-            LocalDateTime midnight = LocalDateTime.now().with(LocalTime.MIDNIGHT);
-            ZonedDateTime nextExecutionTime;
-
-            if (lastExecutionTime.before(Date.from(midnight.atZone(ZoneId.systemDefault()).toInstant()))) {
-                nextExecutionTime = midnight.atZone(ZoneId.systemDefault());
-            } else {
-                nextExecutionTime = midnight.plusDays(1).atZone(ZoneId.systemDefault());
-            }
+            
+            ZonedDateTime lastExecutionZDT = lastExecutionTime.toInstant().atZone(ZoneId.systemDefault());
+            ZonedDateTime nextExecutionTime = lastExecutionZDT
+                    .plusMinutes(delayMinutes)
+                    .plusHours(delayHours)
+                    .plusDays(delayDays)
+                    .plusMonths(delayMonths);
+            
             return nextExecutionTime.toInstant();
         });
     }

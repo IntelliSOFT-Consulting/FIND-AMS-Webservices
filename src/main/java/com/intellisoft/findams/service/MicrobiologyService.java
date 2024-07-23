@@ -73,9 +73,6 @@ public class MicrobiologyService {
 
     public Disposable parseFile(String filePath, String fileContent, String fileName) throws IOException {
 
-        // convert txt to a list of Maps
-        // Process the list of maps -> validation checks, date formatting
-        // reference the list for payload building
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Sheet1");
