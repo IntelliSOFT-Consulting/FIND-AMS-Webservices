@@ -23,6 +23,11 @@ ams:
   funsoft:
     amu-url: ${FUNSOFT_BASE_URL}getpatientsantibioticprescriptions?
     amc-url: ${FUNSOFT_BASE_URL}getadmissions?
+    defaultStartDate: ${DEFAULT_START_DATE}
+    delayMinutes: ${DELAY_MINUTES}
+    delayHours: ${DELAY_HOURS}
+    delayDays: ${DELAY_DAYS}
+    delayMonths: ${DELAY_MONTHS}
 spring:
   codec:
     max-in-memory-size: 50MB
